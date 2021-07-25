@@ -1,0 +1,1430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNMM_MIRO">
+ <CLAS CLSNAME="ZCL_IM_MRM_HEADER_CHECK" VERSION="1" LANGU="E" DESCRIPT="Imp. class for BAdI imp. ZMRM_HEADER_CHECK" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_IM_MRM_HEADER_CHECK" REFCLSNAME="IF_EX_MRM_HEADER_CHECK" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_IM_MRM_HEADER_CHECK" CPDNAME="IF_EX_MRM_HEADER_CHECK~HEADERDATA_CHECK">
+   <source>METHOD if_ex_mrm_header_check~headerdata_check.
+
+    &quot;2020(HQ_TTa) DEV_MM_93 Incoming Invoice: default Document Type from Vendor Type
+    me-&gt;default_blart( EXPORTING i_rbkpv  = i_rbkpv
+                                 ti_drseg = ti_drseg ).
+
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <method CLSNAME="ZCL_IM_MRM_HEADER_CHECK" CMPNAME="DEFAULT_BLART" VERSION="1" LANGU="E" DESCRIPT="HCVN: set default DocType from VendorType" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_IM_MRM_HEADER_CHECK" CMPNAME="DEFAULT_BLART" SCONAME="I_RBKPV" VERSION="1" LANGU="E" DESCRIPT="Invoice Document Header" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="MRM_RBKPV"/>
+   <parameter CLSNAME="ZCL_IM_MRM_HEADER_CHECK" CMPNAME="DEFAULT_BLART" SCONAME="TI_DRSEG" VERSION="1" LANGU="E" DESCRIPT="Invoice items" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="MMCR_TDRSEG"/>
+   <source>METHOD default_blart.
+
+    &quot;2020(HQ_TTa) DEV_MM_93 Incoming Invoice: default Document Type from Vendor Type
+
+    CHECK: i_rbkpv-lifnr IS NOT INITIAL,  &quot;document already with Vendor
+           i_rbkpv-belnr IS     INITIAL.  &quot;document not yet posted/parked (initial entry only)
+
+    &quot;? first run in MIRO (to allow user change the doc-type after defaulting
+    &quot;                     ..and not overwrite it repeatedly                 )
+    DATA:  lx_run TYPE xflag.
+    IMPORT lx_run TO   lx_run FROM MEMORY ID &apos;ZZHCVNMIRO_DEF_BLART&apos;.
+    CHECK: lx_run IS INITIAL.
+
+    &quot;get customizing
+    SELECT SINGLE c000~ktokk,
+                  c000~blart INTO @DATA(ls_c000)
+      FROM            zvnmm_xmiro_c000 AS c000
+           INNER JOIN lfa1             AS lfa1 ON lfa1~ktokk = c000~ktokk
+      WHERE lfa1~lifnr = @i_rbkpv-lifnr.
+
+    CHECK: sy-subrc EQ 0.
+
+    &quot;change doc-type
+    ASSIGN: (&apos;(SAPLMR1M)RBKPV-BLART&apos;) TO FIELD-SYMBOL(&lt;rbkpv_blart&gt;).
+    CHECK: sy-subrc EQ 0,
+           ls_c000-blart NE &lt;rbkpv_blart&gt;.
+    MOVE:  ls_c000-blart TO &lt;rbkpv_blart&gt;.
+
+    &quot;notify user
+    SELECT SINGLE: txt30 FROM t077y INTO @DATA(lv_ktokk_tx) WHERE ktokk = @ls_c000-ktokk AND spras = @sy-langu,
+                   ltext FROM t003t INTO @DATA(lv_blart_tx) WHERE blart = @ls_c000-blart AND spras = @sy-langu.
+    MESSAGE s001(zvnmm_miro) WITH ls_c000-ktokk lv_ktokk_tx
+                                  ls_c000-blart lv_blart_tx . &quot;msg{Vendor of Account Group &amp; &quot;&amp;&quot;: Document Type defaulted to &amp; &quot;&amp;&quot;.}
+
+    &quot;pass flag run, indicates pre-population already affected
+    MOVE: &apos;X&apos; TO lx_run.
+    EXPORT lx_run FROM lx_run   TO MEMORY ID &apos;ZZHCVNMIRO_DEF_BLART&apos;.
+
+  ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_IM__BADI_FDCB_SUBBAS01" VERSION="1" LANGU="E" DESCRIPT="Imp. Class for BAdI Imp. FI_FDCB_SUBBAS01_EX" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_IM__BADI_FDCB_SUBBAS01" REFCLSNAME="IF_EX_BADI_FDCB_SUBBAS01" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation></localImplementation>
+  <localTypes></localTypes>
+  <localMacros></localMacros>
+  <interfaceMethod CLSNAME="ZCL_IM__BADI_FDCB_SUBBAS01" CPDNAME="IF_EX_BADI_FDCB_SUBBAS01~GET_DATA_FROM_SCREEN_OBJECT">
+   <source>METHOD if_ex_badi_fdcb_subbas01~get_data_from_screen_object .
+
+  &quot;2020-06 DEV_MM_91 (HQ_TTa) Incoming Invoice: custom fields Form/Serial into Text
+
+
+* fill export parameters from interface attributes
+  ex_invfo  = me-&gt;if_ex_badi_fdcb_subbas01~invfo.
+
+ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_IM__BADI_FDCB_SUBBAS01" CPDNAME="IF_EX_BADI_FDCB_SUBBAS01~PUT_DATA_TO_SCREEN_OBJECT">
+   <source>METHOD if_ex_badi_fdcb_subbas01~put_data_to_screen_object .
+
+  &quot;2020-06 DEV_MM_91 (HQ_TTa) Incoming Invoice: custom fields Form/Serial into Text
+
+
+* fill interface attributes from importing paramters
+  me-&gt;if_ex_badi_fdcb_subbas01~invfo  = im_invfo.
+
+
+ENDMETHOD.</source>
+  </interfaceMethod>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_INVOICE_UPDATE" VERSION="1" LANGU="E" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_INVOICE_UPDATE" REFCLSNAME="IF_EX_INVOICE_UPDATE" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_INVOICE_UPDATE" CPDNAME="IF_EX_INVOICE_UPDATE~CHANGE_AT_SAVE">
+   <source>METHOD if_ex_invoice_update~change_at_save.
+
+    &quot;+SAP-3663(HQ_TTa): LIV w-msg price difference
+    DATA(lo_wfrl) = NEW zvnmm_wfrl_miro( iv_belnr = s_rbkp_new-belnr
+                                         iv_gjahr = s_rbkp_new-gjahr    ).
+    lo_wfrl-&gt;from_badi_invoice_update2( EXPORTING s_rbkp_new            = s_rbkp_new
+                                                  ti_rseg_new           = ti_rseg_new
+                                                  ti_rbve_new           = ti_rbve_new
+                                        IMPORTING ex_error_with_message = DATA(lx_error_with_message) ).
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_INVOICE_UPDATE" CPDNAME="IF_EX_INVOICE_UPDATE~CHANGE_BEFORE_UPDATE">
+   <source>METHOD if_ex_invoice_update~change_before_update.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_INVOICE_UPDATE" CPDNAME="IF_EX_INVOICE_UPDATE~CHANGE_IN_UPDATE">
+   <source>METHOD if_ex_invoice_update~change_in_update.
+
+    &quot;WF_MM_04(HQ_TTa) appr: Invoice with Differences
+    &quot; sets wf-status, raise event
+
+    DATA(lo_wfrl) = NEW zvnmm_wfrl_miro( iv_belnr = s_rbkp_new-belnr
+                                         iv_gjahr = s_rbkp_new-gjahr    ).
+    lo_wfrl-&gt;from_badi_invoice_update( s_rbkp_new = s_rbkp_new ).
+
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+ </CLAS>
+ <DEVC DEVCLASS="ZVNMM_MIRO" CTEXT="MM: Logistics Invoice Verification" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="MM-PUR" COMPONENT="HLA0009512" NAMESPACE="/0CUST/" PARENTCL="ZVNMM" CREATED_BY="HQ_TTA" CREATED_ON="20200617" CHANGED_BY="HQ_TTA" CHANGED_ON="20200728" PROJECT_GUID="00000000000000000000000000000000"/>
+ <DOMA DOMNAME="ZVNMM_MIRO_WFSTA" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZVNMM_MIRO_WFSTA" DDLANGUAGE="E" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" VALEXI="X" MASKLEN="0000" DDTEXT="MM: Incoming Invoice workflow status" AUTHCLASS="00" OUTPUTSTYLE="00"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0001" DDLANGUAGE="E" DOMVALUE_L="0P1P" DDTEXT="parked"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0002" DDLANGUAGE="E" DOMVALUE_L="0P2C" DDTEXT="parked &amp; completed"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0003" DDLANGUAGE="E" DOMVALUE_L="1D1A" DDTEXT="difference in-approval"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0004" DDLANGUAGE="E" DOMVALUE_L="1D1R" DDTEXT="difference rejection"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0005" DDLANGUAGE="E" DOMVALUE_L="2A1A" DDTEXT="acc-Check in-approval"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0006" DDLANGUAGE="E" DOMVALUE_L="2A1R" DDTEXT="acc-Check rejection"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0007" DDLANGUAGE="E" DOMVALUE_L="2A2A" DDTEXT="acc-Verify in-approval"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0008" DDLANGUAGE="E" DOMVALUE_L="2A2R" DDTEXT="acc-Verify rejection"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0009" DDLANGUAGE="E" DOMVALUE_L="2A3A" DDTEXT="acc-Auth&amp;Post in-approval"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0010" DDLANGUAGE="E" DOMVALUE_L="2A3R" DDTEXT="acc-Auth&amp;Post rejection"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0011" DDLANGUAGE="E" DOMVALUE_L="3N1A" DDTEXT="nonDedTax in-approval"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0012" DDLANGUAGE="E" DOMVALUE_L="3N1R" DDTEXT="nonDedTax rejection"/>
+   <DD07V DOMNAME="ZVNMM_MIRO_WFSTA" VALPOS="0013" DDLANGUAGE="E" DOMVALUE_L="5P00" DDTEXT="Posted"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DTEL ROLLNAME="ZVNMM_XMIRO_DFPRC" DDLANGUAGE="E" DOMNAME="NUMC2" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="16" DDTEXT="MM: Incoming Invoice difference-wf: in Percents %" REPTEXT="Incoming Invoice difference-wf: in Percents %" SCRTEXT_S="diff %" SCRTEXT_M="difference-wf: %" SCRTEXT_L="difference-wf: %" AUTHCLASS="00" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" DECIMALS="000000" OUTPUTLEN="000002" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_XMIRO_DFPRC" DDLANGUAGE="E" DOMNAME="NUMC2" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="16" DDTEXT="MM: Incoming Invoice difference-wf: in Percents %" REPTEXT="Incoming Invoice difference-wf: in Percents %" SCRTEXT_S="diff %" SCRTEXT_M="difference-wf: %" SCRTEXT_L="difference-wf: %" AUTHCLASS="00" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" DECIMALS="000000" OUTPUTLEN="000002" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_XMIRO_DFAMT" DDLANGUAGE="E" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="40" DDTEXT="MM: Incoming Invoice difference-wf: as Amount" REPTEXT="Incoming Invoice difference-wf: Amount" SCRTEXT_S="diff đ" SCRTEXT_M="difference-wf: đ" SCRTEXT_L="difference-wf: Amount" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CURR" LENG="000015" DECIMALS="000002" OUTPUTLEN="000020" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_XMIRO_DFAMT" DDLANGUAGE="E" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="40" DDTEXT="MM: Incoming Invoice difference-wf: as Amount" REPTEXT="Incoming Invoice difference-wf: Amount" SCRTEXT_S="diff đ" SCRTEXT_M="difference-wf: đ" SCRTEXT_L="difference-wf: Amount" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CURR" LENG="000015" DECIMALS="000002" OUTPUTLEN="000020" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_WFSTA_XWFND" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow nonDeducTax started" REPTEXT="Invoice: workflow nonDeducTax started" SCRTEXT_S="wfNDTStart" SCRTEXT_M="wf nonDeducTax start" SCRTEXT_L="wf nonDeducTax started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_WFSTA_XWFND" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow nonDeducTax started" REPTEXT="Invoice: workflow nonDeducTax started" SCRTEXT_S="wfNDTStart" SCRTEXT_M="wf nonDeducTax start" SCRTEXT_L="wf nonDeducTax started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_WFSTA_XWFDF" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow Differences started" REPTEXT="Invoice: workflow Differences started" SCRTEXT_S="wfDffStart" SCRTEXT_M="wf Differences start" SCRTEXT_L="wf Differences started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_WFSTA_XWFDF" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow Differences started" REPTEXT="Invoice: workflow Differences started" SCRTEXT_S="wfDffStart" SCRTEXT_M="wf Differences start" SCRTEXT_L="wf Differences started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_WFSTA_XWFAC" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow Accounting started" REPTEXT="Invoice: workflow Accounting started" SCRTEXT_S="wfAccStart" SCRTEXT_M="wf Accounting start" SCRTEXT_L="wf Accounting started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_WFSTA_XWFAC" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Invoice: workflow Accounting started" REPTEXT="Invoice: workflow Accounting started" SCRTEXT_S="wfAccStart" SCRTEXT_M="wf Accounting start" SCRTEXT_L="wf Accounting started" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_WFSTA_D" DDLANGUAGE="E" DOMNAME="ZVNMM_MIRO_WFSTA" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Incoming Invoice workflow status" REPTEXT="Incoming Invoice workflow status" SCRTEXT_S="wf-status" SCRTEXT_M="workflow status" SCRTEXT_L="workflow status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000004" DECIMALS="000000" OUTPUTLEN="000004" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_WFSTA_D" DDLANGUAGE="E" DOMNAME="ZVNMM_MIRO_WFSTA" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: Incoming Invoice workflow status" REPTEXT="Incoming Invoice workflow status" SCRTEXT_S="wf-status" SCRTEXT_M="workflow status" SCRTEXT_L="workflow status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000004" DECIMALS="000000" OUTPUTLEN="000004" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_NDTAX_VALUE" DDLANGUAGE="E" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM-WF: Invoice-NonDeductTax: tax value" REPTEXT="Invoice-NonDeductTax value ≥" SCRTEXT_S="value ≥" SCRTEXT_M="value ≥" SCRTEXT_L="value ≥" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CURR" LENG="000015" DECIMALS="000002" OUTPUTLEN="000020" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_NDTAX_VALUE" DDLANGUAGE="E" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM-WF: Invoice-NonDeductTax: tax value" REPTEXT="Invoice-NonDeductTax value ≥" SCRTEXT_S="value ≥" SCRTEXT_M="value ≥" SCRTEXT_L="value ≥" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CURR" LENG="000015" DECIMALS="000002" OUTPUTLEN="000020" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_NDTAX_STEPN" DDLANGUAGE="E" DOMNAME="NUMC2" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM-WF: Invoice-NonDeductTax: release step" REPTEXT="Invoice-NonDeductTax release step" SCRTEXT_S="step" SCRTEXT_M="release step" SCRTEXT_L="release step" AUTHCLASS="00" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" DECIMALS="000000" OUTPUTLEN="000002" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_NDTAX_STEPN" DDLANGUAGE="E" DOMNAME="NUMC2" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM-WF: Invoice-NonDeductTax: release step" REPTEXT="Invoice-NonDeductTax release step" SCRTEXT_S="step" SCRTEXT_M="release step" SCRTEXT_L="release step" AUTHCLASS="00" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" DECIMALS="000000" OUTPUTLEN="000002" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_INV_SERI" DDLANGUAGE="E" DOMNAME="CHAR8" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="08" SCRLEN2="20" SCRLEN3="40" DDTEXT="MIRO: (Incoming Invoice) Invoice Serial" REPTEXT="Invoice Serial" SCRTEXT_S="Serial" SCRTEXT_M="Serial" SCRTEXT_L="Invoice Serial" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000008" DECIMALS="000000" OUTPUTLEN="000008" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_INV_SERI" DDLANGUAGE="E" DOMNAME="CHAR8" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="08" SCRLEN2="20" SCRLEN3="40" DDTEXT="MIRO: (Incoming Invoice) Invoice Serial" REPTEXT="Invoice Serial" SCRTEXT_S="Serial" SCRTEXT_M="Serial" SCRTEXT_L="Invoice Serial" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000008" DECIMALS="000000" OUTPUTLEN="000008" REFKIND="D"/>
+  </DDLANGUAGE>
+  <DDLANGUAGE LANGU="쁩">
+   <DD04V ROLLNAME="ZVNMM_MIRO_INV_SERI" DDLANGUAGE="쁩" DOMNAME="CHAR8" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="08" SCRLEN2="20" SCRLEN3="40" DDTEXT="MIRO: (Incoming Invoice) Invoice Serial" REPTEXT="Ký hiệu" SCRTEXT_S="Ký hiệu" SCRTEXT_M="Ký hiệu" SCRTEXT_L="Ký hiệu" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000008" DECIMALS="000000" OUTPUTLEN="000008" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_MIRO_INV_FORM" DDLANGUAGE="E" DOMNAME="CHAR11" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="12" SCRLEN1="10" SCRLEN2="10" SCRLEN3="12" DDTEXT="MIRO: (Incoming Invoice) Invoice Form" REPTEXT="Invoice Form" SCRTEXT_S="Form" SCRTEXT_M="Form" SCRTEXT_L="Invoice Form" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000011" DECIMALS="000000" OUTPUTLEN="000011" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_MIRO_INV_FORM" DDLANGUAGE="E" DOMNAME="CHAR11" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="12" SCRLEN1="10" SCRLEN2="10" SCRLEN3="12" DDTEXT="MIRO: (Incoming Invoice) Invoice Form" REPTEXT="Invoice Form" SCRTEXT_S="Form" SCRTEXT_M="Form" SCRTEXT_L="Invoice Form" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000011" DECIMALS="000000" OUTPUTLEN="000011" REFKIND="D"/>
+  </DDLANGUAGE>
+  <DDLANGUAGE LANGU="쁩">
+   <DD04V ROLLNAME="ZVNMM_MIRO_INV_FORM" DDLANGUAGE="쁩" DOMNAME="CHAR11" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="12" SCRLEN1="10" SCRLEN2="10" SCRLEN3="12" DDTEXT="MIRO: (Incoming Invoice) Invoice Form" REPTEXT="Mẫu số" SCRTEXT_S="Mẫu số" SCRTEXT_M="Mẫu số" SCRTEXT_L="Mẫu số" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000011" DECIMALS="000000" OUTPUTLEN="000011" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <ENHO enhancement_id="ZINVOICE_UPDATE" shorttext="ZINVOICE_UPDATE" tooltype_id="BADI_IMPL" spot_name="INVOICE_UPDATE">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS>
+     <ENH_BADI_IMPL_DATA>
+      <SPOT_NAME>INVOICE_UPDATE</SPOT_NAME>
+      <BADI_NAME>INVOICE_UPDATE</BADI_NAME>
+      <IMPL_NAME>ZINVOICE_UPDATE</IMPL_NAME>
+      <IMPL_CLASS>ZCL_INVOICE_UPDATE</IMPL_CLASS>
+      <ACTIVE>X</ACTIVE>
+      <IS_DEFAULT/>
+      <FILTER_ROOT/>
+      <FILTER_TREE/>
+      <FILTER_VALUES/>
+      <FILTERS/>
+      <FCODE_EXTENSIONS/>
+      <SCREEN_EXTENSIONS/>
+      <IMPL_SHORTTEXT>Implementation: Business Add In Logistik Rechnungsprüfung</IMPL_SHORTTEXT>
+      <IMPL_SHORTTEXT_ID>0050569B84631EEAB9E0A7EF8BF5E732</IMPL_SHORTTEXT_ID>
+      <IMPL_LONGTEXT_ID/>
+      <MIG_BADI_IMPL/>
+      <SORTER_DATA/>
+      <IS_EXAMPLE_IMPLEMENTATION/>
+      <LOCKED_IN_CUSTOMIZING/>
+     </ENH_BADI_IMPL_DATA>
+    </IMPLS>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <FUGR AREA="ZVNMM_XMIRO_C002" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNMM_XMIRO_C002" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNMM_XMIRO_C002" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNMM_XMIRO_C002">
+     <dynprofield FNAM="TCTRL_ZVNMM_XMIRO_C002" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-BLART" DIDX="0006" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Type" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-STEPN" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="step" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-VALUE" DIDX="0014" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="value ≥" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-WAERS" DIDX="0005" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Crcy" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-FRGGR" DIDX="0003" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Grp" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_XMIRO_C002-FRGCO" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Code" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-BLART" DIDX="0006" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="02" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BAR" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-STEPN" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="02" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="NUMC" GRP1="KEY" ITYP="N" AGLT="04" ADEZ="00" STXT="__" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-VALUE" DIDX="0014" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="14" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CURR" WNAM="ZVNMM_XMIRO_C002-WAERS" ITYP="P" AGLT="0F" ADEZ="02" STXT="____________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-WAERS" DIDX="0005" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="05" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="FWS" TYPE="CUKY" ITYP="C" AGLT="0A" ADEZ="00" STXT="_____" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-FRGGR" DIDX="0003" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="02" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_XMIRO_C002-FRGCO" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="02" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="FAB" TYPE="CHAR" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNMM_XMIRO_C002 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNMM_XMIRO_C002-BUKRS .
+    FIELD ZVNMM_XMIRO_C002-BLART .
+    FIELD ZVNMM_XMIRO_C002-STEPN .
+    FIELD ZVNMM_XMIRO_C002-VALUE .
+    FIELD ZVNMM_XMIRO_C002-WAERS .
+    FIELD ZVNMM_XMIRO_C002-FRGGR .
+    FIELD ZVNMM_XMIRO_C002-FRGCO .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNMM_XMIRO_C002-BUKRS .
+    FIELD ZVNMM_XMIRO_C002-BLART .
+    FIELD ZVNMM_XMIRO_C002-STEPN .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-09-19 10:46:44
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNMM_XMIRO_C002TOP.              &quot; Global Declarations
+  INCLUDE LZVNMM_XMIRO_C002UXX.              &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNMM_XMIRO_C002F...              &quot; Subroutines
+* INCLUDE LZVNMM_XMIRO_C002O...              &quot; PBO-Modules
+* INCLUDE LZVNMM_XMIRO_C002I...              &quot; PAI-Modules
+* INCLUDE LZVNMM_XMIRO_C002E...              &quot; Events
+* INCLUDE LZVNMM_XMIRO_C002P...              &quot; Local class implement.
+* INCLUDE LZVNMM_XMIRO_C002T99.              &quot; ABAP Unit tests
+  INCLUDE LZVNMM_XMIRO_C002F00                    . &quot; subprograms
+  INCLUDE LZVNMM_XMIRO_C002I00                    . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNMM_XMIRO_C002F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-09-19 at 10:46:44
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNMM_XMIRO_C002I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-09-19 at 10:46:44
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNMM_XMIRO_C002I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-09-19 at 10:46:44
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNMM_XMIRO_C002TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-09-19 10:46:44
+FUNCTION-POOL ZVNMM_XMIRO_C002           MESSAGE-ID SV.
+
+* INCLUDE LZVNMM_XMIRO_C002D...              &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNMM_XMIRO_C002T00                    . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNMM_XMIRO_C002" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNMM_XMIRO_C002
+*   generation date: 2020-09-19 at 10:46:44
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNMM_XMIRO_C002" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNMM_XMIRO_C002
+*   generation date: 2020-09-19 at 10:46:44
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNMM_MIRO_WFSTA" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNMM_MIRO_WFSTA" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNMM_MIRO_WFSTA" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNMM_MIRO_WFSTA">
+     <dynprofield FNAM="TCTRL_ZVNMM_MIRO_WFSTA" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-BELNR" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Inv. Doc. No." RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-GJAHR" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Year" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-WFSTA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wf-status" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-XWFDF" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wfDffStart" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-XWFAC" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wfAccStart" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNMM_MIRO_WFSTA-XWFND" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wfNDTStart" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-BELNR" DIDX="000F" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="RBN" UCNV="ALPHA" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-GJAHR" DIDX="0004" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="04" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="GJR" UCNV="GJAHR" TYPE="NUMC" GRP1="KEY" ITYP="N" AGLT="08" ADEZ="00" STXT="____" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-WFSTA" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-XWFDF" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-XWFAC" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="104" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-XWFND" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="105" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="106" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNMM_MIRO_WFSTA CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNMM_MIRO_WFSTA-BELNR .
+    FIELD ZVNMM_MIRO_WFSTA-GJAHR .
+    FIELD ZVNMM_MIRO_WFSTA-WFSTA .
+    FIELD ZVNMM_MIRO_WFSTA-XWFDF .
+    FIELD ZVNMM_MIRO_WFSTA-XWFAC .
+    FIELD ZVNMM_MIRO_WFSTA-XWFND .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNMM_MIRO_WFSTA-BELNR .
+    FIELD ZVNMM_MIRO_WFSTA-GJAHR .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-08-25 23:07:57
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNMM_MIRO_WFSTATOP.              &quot; Global Declarations
+  INCLUDE LZVNMM_MIRO_WFSTAUXX.              &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNMM_MIRO_WFSTAF...              &quot; Subroutines
+* INCLUDE LZVNMM_MIRO_WFSTAO...              &quot; PBO-Modules
+* INCLUDE LZVNMM_MIRO_WFSTAI...              &quot; PAI-Modules
+* INCLUDE LZVNMM_MIRO_WFSTAE...              &quot; Events
+* INCLUDE LZVNMM_MIRO_WFSTAP...              &quot; Local class implement.
+* INCLUDE LZVNMM_MIRO_WFSTAT99.              &quot; ABAP Unit tests
+  INCLUDE LZVNMM_MIRO_WFSTAF00                    . &quot; subprograms
+  INCLUDE LZVNMM_MIRO_WFSTAI00                    . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNMM_MIRO_WFSTAF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-11-29 at 18:47:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNMM_MIRO_WFSTAI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-29 at 18:47:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNMM_MIRO_WFSTAI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-29 at 18:47:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNMM_MIRO_WFSTATOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-08-25 23:07:57
+FUNCTION-POOL ZVNMM_MIRO_WFSTA           MESSAGE-ID SV.
+
+* INCLUDE LZVNMM_MIRO_WFSTAD...              &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNMM_MIRO_WFSTAT00                    . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNMM_MIRO_WFSTA" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNMM_MIRO_WFSTA
+*   generation date: 2020-08-25 at 23:07:57
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNMM_MIRO_WFSTA" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNMM_MIRO_WFSTA
+*   generation date: 2020-08-25 at 23:07:57
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNMM_BADI_FDCB_SUBBAS01" SPRAS="E" AREAT="BAdI FDCB_SUBBAS01 MIRO header fields">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNMM_BADI_FDCB_SUBBAS01" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="000" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool>
+    <language SPRAS="E"/>
+   </textPool>
+   <dynpros>
+    <dynpro PROG="SAPLZVNMM_BADI_FDCB_SUBBAS01" DNUM="9001" TYPE="I" FNUM="9001" BZMX="2 " BZBR="51 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="20 " NOCO="120 " VALP="0 " CUAN="G" SPRA="E" DTEXT="VN Subscreen for BADI in FDCB Basic Data">
+     <dynprofield FNAM="ZVNMM_MIRO_INV-ZZFORM" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="0F" LINE="01" COLN="02" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Form" RES1="                                                                                                                                                                                                                                                        X"/>
+     <dynprofield FNAM="ZVNMM_MIRO_INV-ZZFORM" DIDX="0000" FLG1="A0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="0B" LINE="01" COLN="12" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="16" ADEZ="00" STXT="___________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_INV-ZZSERI" DIDX="0000" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="08" LINE="01" COLN="1F" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Serial" RES1="                                                                                                                                                                                                                                                        X"/>
+     <dynprofield FNAM="ZVNMM_MIRO_INV-ZZSERI" DIDX="0008" FLG1="A1" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="08" LINE="01" COLN="28" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="10" ADEZ="00" STXT="________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-WFSTA" DIDX="0000" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="0A" LINE="02" COLN="02" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wf-status" RES1="                                                                                                                                                                                                                                                        X"/>
+     <dynprofield FNAM="ZVNMM_MIRO_WFSTA-WFSTA" DIDX="0023" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="21" LINE="02" COLN="12" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="_________________________________" RES1="XDL K                                  00"/>
+     <dynprofield DIDX="0000" FLG1="80" FLG2="10" FLG3="00" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+* MODULE STATUS_0100.
+  MODULE field_status.  &quot;no-input Form/Serial fields in display mode
+  MODULE receive_data.
+*
+PROCESS AFTER INPUT.
+* get again actual data from main screen
+  MODULE receive_actual_data.
+*
+* implement from here on customer coding
+* enumerate ALL fields on the screen because of field transportation
+* with or within a module
+  FIELD:
+*   invfo-lotkz.
+    zvnmm_miro_inv-zzform,
+    zvnmm_miro_inv-zzseri,
+    zvnmm_miro_wfsta-wfsta.
+*    invfo-zzform,
+*    invfo-zzseri.
+
+
+* send data back to main screen
+  MODULE user_command_9001.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNMM_BADI_FDCB_SUBBAS01TOP.         &quot; Global Data
+  INCLUDE LZVNMM_BADI_FDCB_SUBBAS01UXX.         &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LBADI_EXAMPLE_FDCB_BASF...         &quot; Subprograms
+* INCLUDE LBADI_EXAMPLE_FDCB_BASO...         &quot; PBO-Modules
+* INCLUDE LBADI_EXAMPLE_FDCB_BASI...         &quot; PAI-Modules
+
+INCLUDE LZVNMM_BADI_FDCB_SUBBAS01O01.
+*INCLUDE LBADI_EXAMPLE_FDCB_BASO01.
+
+INCLUDE LZVNMM_BADI_FDCB_SUBBAS01I01.
+*INCLUDE LBADI_EXAMPLE_FDCB_BASI01.</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNMM_BADI_FDCB_SUBBAS01I01" VARCL="X" SUBC="I" APPL="S" LEVL="754" RMAND="000" RLOAD="D" UCCHECK="X">
+    <include_source>*----------------------------------------------------------------------*
+***INCLUDE LBADI_EXAMPLE_FDCB_BASI01 .
+*----------------------------------------------------------------------*
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  receive_actual_data  INPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE receive_actual_data INPUT.
+
+*  object created  ?
+  CHECK NOT o_badi_fdcb_subbas01 IS INITIAL.
+
+* get data from main screen
+  CALL METHOD o_badi_fdcb_subbas01-&gt;get_data_from_screen_object
+    IMPORTING
+      ex_invfo = invfo.
+
+
+ENDMODULE.                 &quot; receive_actual_data  INPUT
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  USER_COMMAND_9001  INPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE user_command_9001 INPUT.
+
+  CHECK NOT o_badi_fdcb_subbas01 IS INITIAL.
+
+  &quot;2020-06 DEV_MM_91 (HQ_TTa) Incoming Invoice: custom fields Form/Serial into Text
+
+  &quot;synchro from z-struc to standard InvFo
+  &quot;(bit useless, as InvFo is ovewritten later by other BAdIs)
+  MOVE: zvnmm_miro_inv-zzform TO invfo-zzform,
+        zvnmm_miro_inv-zzseri TO invfo-zzseri.
+
+  &quot;put Template+Serial into MM-HeaderTx (= FI-Vendor ItemTx)
+  &quot;note: yes, the approach wich field-symbols is nasty..
+  &quot;      ..but the S4 with conficting BADI_FDCB_SUBBAS** is a mess :(
+
+  IF zvnmm_miro_inv-zzform IS NOT INITIAL AND
+     zvnmm_miro_inv-zzseri IS NOT INITIAL    .
+
+    CONCATENATE invfo-zzform &apos;**&apos; invfo-zzseri INTO invfo-bktxt RESPECTING BLANKS.
+    ASSIGN: (&apos;(SAPLFDCB)BKPF-BKTXT&apos;) TO FIELD-SYMBOL(&lt;bkpf_bktxt&gt;).
+    &quot;(not: BKPF-BkTxt works both for MIRO &amp; FB60)
+    IF &lt;bkpf_bktxt&gt; IS ASSIGNED.
+      MOVE: invfo-bktxt TO &lt;bkpf_bktxt&gt;.
+    ENDIF.
+  ENDIF.
+
+
+* put data to main screen
+  CALL METHOD o_badi_fdcb_subbas01-&gt;put_data_to_screen_object
+    EXPORTING
+      im_invfo = invfo.
+
+ENDMODULE.                 &quot; USER_COMMAND_9001  INPUT</include_source>
+   </include>
+   <include NAME="LZVNMM_BADI_FDCB_SUBBAS01O01" VARCL="X" SUBC="I" APPL="S" LEVL="754" RMAND="000" RLOAD="D" UCCHECK="X">
+    <include_source>*----------------------------------------------------------------------*
+***INCLUDE LBADI_EXAMPLE_FDCB_BASO01 .
+*----------------------------------------------------------------------*
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  receive_data  OUTPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE receive_data OUTPUT.
+
+  IF o_badi_fdcb_subbas01 IS INITIAL.
+
+    CALL METHOD cl_exithandler=&gt;get_instance_for_subscreens
+      CHANGING
+        instance                      = o_badi_fdcb_subbas01
+      EXCEPTIONS
+        no_reference                  = 1
+        no_interface_reference        = 2
+        no_exit_interface             = 3
+        data_incons_in_exit_managem   = 4
+        class_not_implement_interface = 5
+        OTHERS                        = 6.
+    IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4. ENDIF.
+
+  ENDIF.
+
+* object created  ?
+  CHECK NOT o_badi_fdcb_subbas01 IS INITIAL.
+
+* get data from main screen
+
+  CALL METHOD o_badi_fdcb_subbas01-&gt;get_data_from_screen_object
+    IMPORTING
+      ex_invfo = invfo.
+
+  &quot;parse text -&gt; form/serial (this is only for Parked/Held documents, as ZZForm/Serial are not db-persistent..
+  &quot;                           ..so we need to derrive them from text = form+**+serial                         )
+  IF zvnmm_miro_inv-zzform IS     INITIAL AND
+     zvnmm_miro_inv-zzseri IS     INITIAL AND
+     invfo-bktxt           IS NOT INITIAL AND
+     invfo-bktxt+11(2)     EQ     &apos;**&apos;        .
+
+    MOVE: invfo-bktxt(11)   TO zvnmm_miro_inv-zzform,
+          invfo-bktxt+13(8) TO zvnmm_miro_inv-zzseri.
+
+  ENDIF.
+
+  &quot;wf-status: just display
+  &quot;(this is weird to do select on screen, but something is wrong with INVFO &amp; RBKP_V updates)
+  IF invfo-belnr NE zvnmm_miro_wfsta-belnr AND
+     invfo-gjahr NE zvnmm_miro_wfsta-gjahr    .
+    SELECT SINGLE * INTO @zvnmm_miro_wfsta FROM zvnmm_miro_wfsta WHERE belnr = @invfo-belnr
+                                                                   AND gjahr = @invfo-gjahr.
+  ENDIF.
+
+ENDMODULE.                 &quot; receive_data  OUTPUT
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Module FIELD_STATUS OUTPUT
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+MODULE field_status OUTPUT.
+
+
+  &quot;2020-06 DEV_MM_91 (HQ_TTa) Incoming Invoice: custom fields Form/Serial into Text
+
+  IF sy-cprog = &apos;SAPMF05A&apos;. ASSIGN (&apos;(SAPMF05A)AKT-TYP&apos;) TO FIELD-SYMBOL(&lt;fi_akt_typ&gt;). ENDIF. &quot;FI call
+  IF sy-cprog = &apos;SAPLMR1M&apos;. ASSIGN (&apos;(SAPLMR1M)AKT_TYP&apos;) TO FIELD-SYMBOL(&lt;mm_akt_typ&gt;). ENDIF. &quot;MM call
+
+  IF ( &lt;fi_akt_typ&gt; IS ASSIGNED AND &lt;fi_akt_typ&gt; = &apos;A&apos;) OR
+     ( &lt;mm_akt_typ&gt; IS ASSIGNED AND &lt;mm_akt_typ&gt; = &apos;A&apos;)   .
+
+    LOOP AT SCREEN.
+      IF screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos;  .
+        screen-input = 0.
+        MODIFY SCREEN.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+  &quot;WF_MM_04(HQ_TTa) appr: Invoice with Differences
+  &quot;wf-status only for only display..
+  LOOP AT SCREEN.
+    IF screen-name = &apos;ZVNMM_MIRO_WFSTA-WFSTA&apos;.
+      screen-input = 0.
+      &quot;..and for MIRO onlu
+      IF sy-cprog NE &apos;SAPLMR1M&apos;.
+        screen-active = 0.
+      ENDIF.
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+  &quot;not for Customers (tcodes F*7*)
+  IF sy-tcode(1)   = &apos;F&apos; AND
+     sy-tcode+2(1) = &apos;7&apos;    .
+    LOOP AT SCREEN.
+      IF screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_WFSTA-WFSTA&apos; .
+        screen-active    = 0.
+        screen-invisible = 0.
+        MODIFY SCREEN.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+  &quot;otherwise, whenever is the field open, then also mandatory
+  LOOP AT SCREEN.
+    IF ( screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos;   ) AND
+       ( screen-input = 1 ).
+      screen-required = 1.
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+ENDMODULE.</include_source>
+   </include>
+   <include NAME="LZVNMM_BADI_FDCB_SUBBAS01O01" VARCL="X" SUBC="I" APPL="S" LEVL="754" RMAND="000" RLOAD="D" UCCHECK="X">
+    <include_source>*----------------------------------------------------------------------*
+***INCLUDE LBADI_EXAMPLE_FDCB_BASO01 .
+*----------------------------------------------------------------------*
+*&amp;---------------------------------------------------------------------*
+*&amp;      Module  receive_data  OUTPUT
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+MODULE receive_data OUTPUT.
+
+  IF o_badi_fdcb_subbas01 IS INITIAL.
+
+    CALL METHOD cl_exithandler=&gt;get_instance_for_subscreens
+      CHANGING
+        instance                      = o_badi_fdcb_subbas01
+      EXCEPTIONS
+        no_reference                  = 1
+        no_interface_reference        = 2
+        no_exit_interface             = 3
+        data_incons_in_exit_managem   = 4
+        class_not_implement_interface = 5
+        OTHERS                        = 6.
+    IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4. ENDIF.
+
+  ENDIF.
+
+* object created  ?
+  CHECK NOT o_badi_fdcb_subbas01 IS INITIAL.
+
+* get data from main screen
+
+  CALL METHOD o_badi_fdcb_subbas01-&gt;get_data_from_screen_object
+    IMPORTING
+      ex_invfo = invfo.
+
+  &quot;parse text -&gt; form/serial (this is only for Parked/Held documents, as ZZForm/Serial are not db-persistent..
+  &quot;                           ..so we need to derrive them from text = form+**+serial                         )
+  IF zvnmm_miro_inv-zzform IS     INITIAL AND
+     zvnmm_miro_inv-zzseri IS     INITIAL AND
+     invfo-bktxt           IS NOT INITIAL AND
+     invfo-bktxt+11(2)     EQ     &apos;**&apos;        .
+
+    MOVE: invfo-bktxt(11)   TO zvnmm_miro_inv-zzform,
+          invfo-bktxt+13(8) TO zvnmm_miro_inv-zzseri.
+
+  ENDIF.
+
+  &quot;wf-status: just display
+  &quot;(this is weird to do select on screen, but something is wrong with INVFO &amp; RBKP_V updates)
+  IF invfo-belnr NE zvnmm_miro_wfsta-belnr AND
+     invfo-gjahr NE zvnmm_miro_wfsta-gjahr    .
+    SELECT SINGLE * INTO @zvnmm_miro_wfsta FROM zvnmm_miro_wfsta WHERE belnr = @invfo-belnr
+                                                                   AND gjahr = @invfo-gjahr.
+  ENDIF.
+
+ENDMODULE.                 &quot; receive_data  OUTPUT
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Module FIELD_STATUS OUTPUT
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+MODULE field_status OUTPUT.
+
+
+  &quot;2020-06 DEV_MM_91 (HQ_TTa) Incoming Invoice: custom fields Form/Serial into Text
+
+  IF sy-cprog = &apos;SAPMF05A&apos;. ASSIGN (&apos;(SAPMF05A)AKT-TYP&apos;) TO FIELD-SYMBOL(&lt;fi_akt_typ&gt;). ENDIF. &quot;FI call
+  IF sy-cprog = &apos;SAPLMR1M&apos;. ASSIGN (&apos;(SAPLMR1M)AKT_TYP&apos;) TO FIELD-SYMBOL(&lt;mm_akt_typ&gt;). ENDIF. &quot;MM call
+
+  IF ( &lt;fi_akt_typ&gt; IS ASSIGNED AND &lt;fi_akt_typ&gt; = &apos;A&apos;) OR
+     ( &lt;mm_akt_typ&gt; IS ASSIGNED AND &lt;mm_akt_typ&gt; = &apos;A&apos;)   .
+
+    LOOP AT SCREEN.
+      IF screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos;  .
+        screen-input = 0.
+        MODIFY SCREEN.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+  &quot;WF_MM_04(HQ_TTa) appr: Invoice with Differences
+  &quot;wf-status only for only display..
+  LOOP AT SCREEN.
+    IF screen-name = &apos;ZVNMM_MIRO_WFSTA-WFSTA&apos;.
+      screen-input = 0.
+      &quot;..and for MIRO onlu
+      IF sy-cprog NE &apos;SAPLMR1M&apos;.
+        screen-active = 0.
+      ENDIF.
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+  &quot;not for Customers (tcodes F*7*)
+  IF sy-tcode(1)   = &apos;F&apos; AND
+     sy-tcode+2(1) = &apos;7&apos;    .
+    LOOP AT SCREEN.
+      IF screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_WFSTA-WFSTA&apos; .
+        screen-active    = 0.
+        screen-invisible = 0.
+        MODIFY SCREEN.
+      ENDIF.
+    ENDLOOP.
+  ENDIF.
+
+  &quot;otherwise, whenever is the field open, then also mandatory
+  LOOP AT SCREEN.
+    IF ( screen-name = &apos;ZVNMM_MIRO_INV-ZZFORM&apos; OR
+         screen-name = &apos;ZVNMM_MIRO_INV-ZZSERI&apos;   ) AND
+       ( screen-input = 1 ).
+      screen-required = 1.
+      MODIFY SCREEN.
+    ENDIF.
+  ENDLOOP.
+
+ENDMODULE.</include_source>
+   </include>
+   <include NAME="LZVNMM_BADI_FDCB_SUBBAS01TOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL zvnmm_badi_fdcb_subbas01.        &quot;MESSAGE-ID ..
+
+TABLES: invfo.&quot;(contains append with fields ZZForm/ZZSerial)
+
+TABLES: zvnmm_miro_inv, &quot;para to infvo, flds ZZForm/ZZSerial
+        zvnmm_miro_wfsta. &quot;invoice wf-status
+
+DATA: o_badi_fdcb_subbas01  TYPE REF TO if_ex_badi_fdcb_subbas01.
+
+CONSTANTS:
+      exit_name_fdcb_subbas01 TYPE exit_def  VALUE &apos;BADI_FDCB_SUBBAS01&apos;.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules/>
+ </FUGR>
+ <FUGR AREA="ZVNMMMIRO_WFSTA_CD" SPRAS="E" AREAT="CHDO ZVNMMMIRO_WFSTA =&gt; Gen. by RSSCD000">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNMMMIRO_WFSTA_CD" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNMMMIRO_WFSTA_CDTOP.            &quot; Global Declarations
+  INCLUDE LZVNMMMIRO_WFSTA_CDUXX.            &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNMMMIRO_WFSTA_CDF...            &quot; Subroutines
+* INCLUDE LZVNMMMIRO_WFSTA_CDO...            &quot; PBO-Modules
+* INCLUDE LZVNMMMIRO_WFSTA_CDI...            &quot; PAI-Modules
+* INCLUDE LZVNMMMIRO_WFSTA_CDE...            &quot; Events
+* INCLUDE LZVNMMMIRO_WFSTA_CDP...            &quot; Local class implement.
+* INCLUDE LZVNMMMIRO_WFSTA_CDT99.            &quot; ABAP Unit tests</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNMMMIRO_WFSTA_CDTOP" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source></include_source>
+   </include>
+   <include NAME="LZVNMMMIRO_WFSTA_CDTOP" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL ZVNMMMIRO_WFSTA_CD
+   MESSAGE-ID CD                  .
+*===&gt; Generated by program RSSCD000
+*===&gt; This module is not to be changed.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="ZVNMMMIRO_WFSTA_WRITE_DOCUMENT" UTASK="1" STEXT="CHDO ZVNMMMIRO_WFSTA =&gt; Gen. by RSSCD000">
+    <importing PARAMETER="OBJECTID" TYP="CDHDR-OBJECTID"/>
+    <importing PARAMETER="TCODE" TYP="CDHDR-TCODE"/>
+    <importing PARAMETER="UTIME" TYP="CDHDR-UTIME"/>
+    <importing PARAMETER="UDATE" TYP="CDHDR-UDATE"/>
+    <importing PARAMETER="USERNAME" TYP="CDHDR-USERNAME"/>
+    <importing PARAMETER="PLANNED_CHANGE_NUMBER" DEFAULT="SPACE" OPTIONAL="X" TYP="CDHDR-PLANCHNGNR"/>
+    <importing PARAMETER="OBJECT_CHANGE_INDICATOR" DEFAULT="&apos;U&apos;" OPTIONAL="X" TYP="CDHDR-CHANGE_IND"/>
+    <importing PARAMETER="PLANNED_OR_REAL_CHANGES" DEFAULT="SPACE" OPTIONAL="X" TYP="CDHDR-CHANGE_IND"/>
+    <importing PARAMETER="NO_CHANGE_POINTERS" DEFAULT="SPACE" OPTIONAL="X" TYP="CDHDR-CHANGE_IND"/>
+    <importing PARAMETER="N_ZVNMM_MIRO_WFSTA" OPTIONAL="X" TYP="ZVNMM_MIRO_WFSTA"/>
+    <importing PARAMETER="O_ZVNMM_MIRO_WFSTA" OPTIONAL="X" TYP="ZVNMM_MIRO_WFSTA"/>
+    <importing PARAMETER="UPD_ZVNMM_MIRO_WFSTA" DEFAULT="SPACE" OPTIONAL="X" TYP="CDPOS-CHNGIND"/>
+    <documentation PARAMETER="OBJECTID" KIND="P" INDEX=" 001"/>
+    <documentation PARAMETER="TCODE" KIND="P" INDEX=" 002"/>
+    <documentation PARAMETER="UTIME" KIND="P" INDEX=" 003"/>
+    <documentation PARAMETER="UDATE" KIND="P" INDEX=" 004"/>
+    <documentation PARAMETER="USERNAME" KIND="P" INDEX=" 005"/>
+    <documentation PARAMETER="PLANNED_CHANGE_NUMBER" KIND="P" INDEX=" 006"/>
+    <documentation PARAMETER="OBJECT_CHANGE_INDICATOR" KIND="P" INDEX=" 007"/>
+    <documentation PARAMETER="PLANNED_OR_REAL_CHANGES" KIND="P" INDEX=" 008"/>
+    <documentation PARAMETER="NO_CHANGE_POINTERS" KIND="P" INDEX=" 009"/>
+    <documentation PARAMETER="N_ZVNMM_MIRO_WFSTA" KIND="P" INDEX=" 010"/>
+    <documentation PARAMETER="O_ZVNMM_MIRO_WFSTA" KIND="P" INDEX=" 011"/>
+    <documentation PARAMETER="UPD_ZVNMM_MIRO_WFSTA" KIND="P" INDEX=" 012"/>
+    <fm_source>* THIS FILE IS GENERATED. NEVER CHANGE IT MANUALLY, PLEASE!
+
+  CALL FUNCTION &apos;CHANGEDOCUMENT_OPEN&apos;
+    EXPORTING
+      OBJECTCLASS             = &apos;ZVNMMMIRO_WFSTA&apos;
+      OBJECTID                = OBJECTID
+      PLANNED_CHANGE_NUMBER   = PLANNED_CHANGE_NUMBER
+      PLANNED_OR_REAL_CHANGES = PLANNED_OR_REAL_CHANGES
+    EXCEPTIONS
+      SEQUENCE_INVALID        = 1
+      OTHERS                  = 2.
+
+  CASE SY-SUBRC.
+    WHEN 0.                                   &quot;OK.
+    WHEN 1. MESSAGE A600 WITH &apos;SEQUENCE INVALID&apos;.
+    WHEN 2. MESSAGE A600 WITH &apos;OPEN ERROR&apos;.
+  ENDCASE.
+
+  IF UPD_ZVNMM_MIRO_WFSTA NE SPACE.
+    IF ( O_ZVNMM_MIRO_WFSTA IS INITIAL ) AND
+       (  N_ZVNMM_MIRO_WFSTA IS INITIAL ).
+      UPD_ZVNMM_MIRO_WFSTA = SPACE.
+    ENDIF.
+  ENDIF.
+
+  IF UPD_ZVNMM_MIRO_WFSTA NE SPACE.
+    CALL FUNCTION &apos;CHANGEDOCUMENT_SINGLE_CASE&apos;
+      EXPORTING
+        TABLENAME              = &apos;ZVNMM_MIRO_WFSTA&apos;
+        WORKAREA_OLD           = O_ZVNMM_MIRO_WFSTA
+        WORKAREA_NEW           = N_ZVNMM_MIRO_WFSTA
+        CHANGE_INDICATOR       = UPD_ZVNMM_MIRO_WFSTA
+        DOCU_DELETE            = &apos;&apos;
+        DOCU_INSERT            = &apos;&apos;
+        DOCU_DELETE_IF         = &apos;&apos;
+        DOCU_INSERT_IF         = &apos;&apos;
+      EXCEPTIONS
+        NAMETAB_ERROR          = 1
+        OPEN_MISSING           = 2
+        POSITION_INSERT_FAILED = 3
+        OTHERS                 = 4.
+
+    CASE SY-SUBRC.
+      WHEN 0.                                &quot;OK.
+      WHEN 1. MESSAGE A600 WITH &apos;NAMETAB-ERROR&apos;.
+      WHEN 2. MESSAGE A600 WITH &apos;OPEN MISSING&apos;.
+      WHEN 3. MESSAGE A600 WITH &apos;INSERT ERROR&apos;.
+      WHEN 4. MESSAGE A600 WITH &apos;SINGLE ERROR&apos;.
+    ENDCASE.
+  ENDIF.
+
+  CALL FUNCTION &apos;CHANGEDOCUMENT_CLOSE&apos;
+    EXPORTING
+      OBJECTCLASS             = &apos;ZVNMMMIRO_WFSTA&apos;
+      OBJECTID                = OBJECTID
+      DATE_OF_CHANGE          = UDATE
+      TIME_OF_CHANGE          = UTIME
+      TCODE                   = TCODE
+      USERNAME                = USERNAME
+      OBJECT_CHANGE_INDICATOR = OBJECT_CHANGE_INDICATOR
+      NO_CHANGE_POINTERS      = NO_CHANGE_POINTERS
+    EXCEPTIONS
+      HEADER_INSERT_FAILED    = 1
+      OBJECT_INVALID          = 2
+      OPEN_MISSING            = 3
+      NO_POSITION_INSERTED    = 4
+      OTHERS                  = 5.
+
+  CASE SY-SUBRC.
+    WHEN 0.                                   &quot;OK.
+    WHEN 1. MESSAGE A600 WITH sy-msgv1.
+    WHEN 2. MESSAGE A600 WITH &apos;OBJECT INVALID&apos;.
+    WHEN 3. MESSAGE A600 WITH &apos;OPEN MISSING&apos;.
+*    WHEN 4. MESSAGE A600 WITH &apos;NO_POSITION_INSERTED&apos;.
+* do not abort, if positions are not inserted!!!
+    WHEN 5. MESSAGE A600 WITH &apos;CLOSE ERROR&apos;.
+  ENDCASE.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <MSAG ARBGB="ZVNMM_MIRO" MASTERLANG="E" RESPUSER="HQ_TTA" STEXT="HCVN: MIRO Logistics Invoice Verification">
+  <t100 SPRSL="E" ARBGB="ZVNMM_MIRO" MSGNR="001" TEXT='Vendor of Account Group &amp;1 &quot;&amp;2&quot; -&gt; Document Type defaulted to &amp;3 &quot;&amp;4&quot;.'/>
+  <t100 SPRSL="E" ARBGB="ZVNMM_MIRO" MSGNR="000" TEXT="&amp; &amp; &amp; &amp;"/>
+  <t100 SPRSL="E" ARBGB="ZVNMM_MIRO" MSGNR="002" TEXT="Item &amp;1: Price Difference: PO &amp;2  Invoice &amp;3 &amp;4"/>
+  <t100t SPRSL="E" ARBGB="ZVNMM_MIRO" STEXT="HCVN: MIRO Logistics Invoice Verification"/>
+ </MSAG>
+ <PROG NAME="ZXM08U30" VARCL="X" SUBC="I" APPL="S" RSTAT="T" RMAND="700" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZXM08U30" LENGTH="16 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Include          ZXM08U30
+*&amp;---------------------------------------------------------------------*
+** function exit_saplmrmc_002.
+*&quot;----------------------------------------------------------------------
+*&quot;*&quot;Lokale Schnittstelle:
+*&quot;  IMPORTING
+*&quot;     VALUE(I_RBKPV) TYPE  MRM_RBKPV
+*&quot;     VALUE(TI_DRSEG) TYPE  MMCR_TDRSEG
+*&quot;  EXPORTING
+*&quot;     VALUE(E_RELEASE_YN) TYPE  C
+*&quot;----------------------------------------------------------------------
+
+&quot;WF_MM_04(HQ_TTa) appr: Invoice with Differences
+
+DATA(lo_wfrl) = NEW zvnmm_wfrl_miro( iv_belnr = i_rbkpv-belnr
+                                     iv_gjahr = i_rbkpv-gjahr    ).
+
+&quot;determine need for release
+e_release_yn = lo_wfrl-&gt;from_exit_lmr1m005( is_rbkpv = i_rbkpv
+                                            it_drseg = ti_drseg ).</source>
+ </PROG>
+ <PROG NAME="ZXM08U29" VARCL="X" SUBC="I" APPL="S" RSTAT="T" RMAND="700" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZXM08U29" LENGTH="16 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Include          ZXM08U29
+*&amp;---------------------------------------------------------------------*
+*&quot;----------------------------------------------------------------------
+*&quot;*&quot;Lokale Schnittstelle:
+*&quot;  EXPORTING
+*&quot;     VALUE(E_SGTXT) LIKE  DRSEG-SGTXT
+*&quot;  TABLES
+*&quot;      TAB_DRSEG TYPE  MMCR_TDRSEG
+*&quot;----------------------------------------------------------------------
+
+&quot;2020-07 DEV_MM_91 (HQ_TTa) Incoming Invoice: item text MM-invoice » FI-invoice
+IF tab_drseg-sgtxt IS INITIAL.                &quot;SgTxt can be filled manually in MIRO; when empty..
+  MOVE: tab_drseg-txz01 TO e_sgtxt.           &quot;..use POrd-item text
+ENDIF.
+IF tab_drseg-sgtxt IS NOT INITIAL.
+  MOVE: tab_drseg-sgtxt TO e_sgtxt.
+ENDIF.</source>
+ </PROG>
+ <PROG NAME="FZVNMMMIRO_WFSTACDC" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <source>FORM CD_CALL_ZVNMMMIRO_WFSTA.
+  IF   ( UPD_ZVNMM_MIRO_WFSTA NE SPACE )
+  .
+    CALL FUNCTION &apos;SWE_REQUESTER_TO_UPDATE&apos;.
+    CALL FUNCTION &apos;ZVNMMMIRO_WFSTA_WRITE_DOCUMENT&apos; IN UPDATE TASK
+        EXPORTING
+          OBJECTID                = OBJECTID
+          TCODE                   = TCODE
+          UTIME                   = UTIME
+          UDATE                   = UDATE
+          USERNAME                = USERNAME
+          PLANNED_CHANGE_NUMBER   = PLANNED_CHANGE_NUMBER
+          OBJECT_CHANGE_INDICATOR = CDOC_UPD_OBJECT
+          PLANNED_OR_REAL_CHANGES = CDOC_PLANNED_OR_REAL
+          NO_CHANGE_POINTERS      = CDOC_NO_CHANGE_POINTERS
+* workarea_old of ZVNMM_MIRO_WFSTA
+          O_ZVNMM_MIRO_WFSTA
+                      = OS_ZVNMM_MIRO_WFSTA
+* workarea_new of ZVNMM_MIRO_WFSTA
+          N_ZVNMM_MIRO_WFSTA
+                      = NS_ZVNMM_MIRO_WFSTA
+* updateflag of ZVNMM_MIRO_WFSTA
+          UPD_ZVNMM_MIRO_WFSTA
+                      = UPD_ZVNMM_MIRO_WFSTA
+    .
+  ENDIF.
+  CLEAR PLANNED_CHANGE_NUMBER.
+ENDFORM.</source>
+ </PROG>
+ <PROG NAME="FZVNMMMIRO_WFSTACDT" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <source>INCLUDE FZVNMMMIRO_WFSTACDF.
+INCLUDE FZVNMMMIRO_WFSTACDV.</source>
+ </PROG>
+ <PROG NAME="FZVNMMMIRO_WFSTACDF" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <source>DATA: OBJECTID                TYPE CDHDR-OBJECTID,
+      TCODE                   TYPE CDHDR-TCODE,
+      PLANNED_CHANGE_NUMBER   TYPE CDHDR-PLANCHNGNR,
+      UTIME                   TYPE CDHDR-UTIME,
+      UDATE                   TYPE CDHDR-UDATE,
+      USERNAME                TYPE CDHDR-USERNAME,
+      CDOC_PLANNED_OR_REAL    TYPE CDHDR-CHANGE_IND,
+      CDOC_UPD_OBJECT         TYPE CDHDR-CHANGE_IND VALUE &apos;U&apos;,
+      CDOC_NO_CHANGE_POINTERS TYPE CDHDR-CHANGE_IND.</source>
+ </PROG>
+ <PROG NAME="FZVNMMMIRO_WFSTACDV" SQLX="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RSTAT="T" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <source>* workaera_old of ZVNMM_MIRO_WFSTA
+DATA: OS_ZVNMM_MIRO_WFSTA
+            TYPE ZVNMM_MIRO_WFSTA
+* workaera_new of ZVNMM_MIRO_WFSTA
+     ,NS_ZVNMM_MIRO_WFSTA
+            TYPE ZVNMM_MIRO_WFSTA.
+DATA: UPD_ZVNMM_MIRO_WFSTA TYPE C.</source>
+ </PROG>
+ <SOTR PACKET="ZVNMM_MIRO">
+  <SOTR_HEAD CONCEPT="0050569B84631EEAB9E0A5392B486712" PAKET="ZVNMM_MIRO" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEAB9E0A5392B486712" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="025" TEXT="ZINVOICE_UPDATE"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEAB9E0A7EF8BF5E732" PAKET="ZVNMM_MIRO" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEAB9E0A7EF8BF5E732" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="086" TEXT="Implementation: Business Add In Logistik Rechnungsprüfung"/>
+  </SOTR_HEAD>
+ </SOTR>
+ <TABL TABNAME="ZVNMM_XMIRO_C001" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="MM: Incoming Invoice difference-wf treshold" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XMIRO_C001" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BUKRS" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BUKRS" CHECKTABLE="T001" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BUKRS" ROUTPUTLEN="000000" MEMORYID="BUK" LOGFLAG="X" HEADLEN="04" SCRLEN1="06" SCRLEN2="15" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T001" MASK="  CHARE" MASKLEN="0000" DDTEXT="Company Code" REPTEXT="CoCd" SCRTEXT_S="CoCode" SCRTEXT_M="Company Code" SCRTEXT_L="Company Code" DOMNAME3L="BUKRS" SHLPORIGIN="P" SHLPNAME="C_T001" SHLPFIELD="BUKRS" DEPTH="00" COMPTYPE="E" DEFFDNAME="COMP_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="DFPRC" DDLANGUAGE="E" POSITION="0004" ROLLNAME="ZVNMM_XMIRO_DFPRC" ADMINFIELD="0" INTTYPE="N" INTLEN="000004" DOMNAME="NUMC2" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="16" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" MASK="  NUMCE" MASKLEN="0000" DDTEXT="MM: Incoming Invoice difference-wf: in Percents %" REPTEXT="Incoming Invoice difference-wf: in Percents %" SCRTEXT_S="diff %" SCRTEXT_M="difference-wf: %" SCRTEXT_L="difference-wf: %" DOMNAME3L="NUMC2" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="DFAMT" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZVNMM_XMIRO_DFAMT" ADMINFIELD="0" INTTYPE="P" INTLEN="000008" REFTABLE="ZVNMM_XMIRO_C001" REFFIELD="WAERS" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="06" SCRLEN2="16" SCRLEN3="40" DTELMASTER="E" DATATYPE="CURR" LENG="000015" OUTPUTLEN="000020" DECIMALS="000002" MASK="  CURRE" MASKLEN="0000" DDTEXT="MM: Incoming Invoice difference-wf: as Amount" REPTEXT="Incoming Invoice difference-wf: Amount" SCRTEXT_S="diff đ" SCRTEXT_M="difference-wf: đ" SCRTEXT_L="difference-wf: Amount" DOMNAME3L="WERT15" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="WAERS" DDLANGUAGE="E" POSITION="0006" ROLLNAME="WAERS" ADMINFIELD="0" INTTYPE="C" INTLEN="000010" DOMNAME="WAERS" ROUTPUTLEN="000000" MEMORYID="FWS" LOGFLAG="X" HEADLEN="05" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CUKY" LENG="000005" OUTPUTLEN="000005" DECIMALS="000000" ENTITYTAB="TCURC" MASK="  CUKYE" MASKLEN="0000" DDTEXT="Currency Key" REPTEXT="Crcy" SCRTEXT_S="Currency" SCRTEXT_M="Currency" SCRTEXT_L="Currency" DOMNAME3L="WAERS" DEPTH="00" COMPTYPE="E" DEFFDNAME="CURRENCY" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C001" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C001" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C001" FORKEY="MANDT" CHECKTABLE="T001" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C001" FORKEY="BUKRS" CHECKTABLE="T001" CHECKFIELD="BUKRS" PRIMPOS="0002" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="MANDT" FORTABLE="ZVNMM_XMIRO_C001" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="BUKRS" DDLANGUAGE="E" CHECKTABLE="T001" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C001" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_XMIRO_C002" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="MM-WF: Invoice-difference Release Code determination" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XMIRO_C002" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BUKRS" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BUKRS" CHECKTABLE="T001" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BUKRS" ROUTPUTLEN="000000" MEMORYID="BUK" LOGFLAG="X" HEADLEN="04" SCRLEN1="06" SCRLEN2="15" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T001" MASK="  CHARE" MASKLEN="0000" DDTEXT="Company Code" REPTEXT="CoCd" SCRTEXT_S="CoCode" SCRTEXT_M="Company Code" SCRTEXT_L="Company Code" DOMNAME3L="BUKRS" SHLPORIGIN="P" SHLPNAME="C_T001" SHLPFIELD="BUKRS" DEPTH="00" COMPTYPE="E" DEFFDNAME="COMP_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="STEPN" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="ZVNMM_XWFRL_STEPN" ADMINFIELD="0" INTTYPE="N" INTLEN="000004" NOTNULL="X" DOMNAME="NUMC2" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" MASK="  NUMCE" MASKLEN="0000" DDTEXT="MM-WF: Invoice-diff release step" REPTEXT="Invoice-diff release step" SCRTEXT_S="step" SCRTEXT_M="release step" SCRTEXT_L="release step" DOMNAME3L="NUMC2" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="VALUE" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZVNMM_XWFRL_VALUE" ADMINFIELD="0" INTTYPE="P" INTLEN="000008" REFTABLE="ZVNMM_XMIRO_C002" REFFIELD="WAERS" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CURR" LENG="000015" OUTPUTLEN="000020" DECIMALS="000002" MASK="  CURRE" MASKLEN="0000" DDTEXT="MM-WF: Invoice-diff value ≥" REPTEXT="Invoice-diff value ≥" SCRTEXT_S="value ≥" SCRTEXT_M="value ≥" SCRTEXT_L="value ≥" DOMNAME3L="WERT15" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="WAERS" DDLANGUAGE="E" POSITION="0006" ROLLNAME="WAERS" ADMINFIELD="0" INTTYPE="C" INTLEN="000010" DOMNAME="WAERS" ROUTPUTLEN="000000" MEMORYID="FWS" LOGFLAG="X" HEADLEN="05" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CUKY" LENG="000005" OUTPUTLEN="000005" DECIMALS="000000" ENTITYTAB="TCURC" MASK="  CUKYE" MASKLEN="0000" DDTEXT="Currency Key" REPTEXT="Crcy" SCRTEXT_S="Currency" SCRTEXT_M="Currency" SCRTEXT_L="Currency" DOMNAME3L="WAERS" DEPTH="00" COMPTYPE="E" DEFFDNAME="CURRENCY" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGGR" DDLANGUAGE="E" POSITION="0007" ROLLNAME="FRGGR" CHECKTABLE="T16FG" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="FRGGR" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T16FG" MASK="  CHARE" MASKLEN="0000" DDTEXT="Release group" REPTEXT="Grp" SCRTEXT_S="Rel. group" SCRTEXT_M="Release group" SCRTEXT_L="Release group" DOMNAME3L="FRGGR" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="REL_GROUP" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGCO" DDLANGUAGE="E" POSITION="0008" ROLLNAME="FRGCO" CHECKTABLE="T16FC" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="FRGCO" ROUTPUTLEN="000000" MEMORYID="FAB" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T16FC" MASK="  CHARE" MASKLEN="0000" DDTEXT="Release code" REPTEXT="Code" SCRTEXT_S="Rel. code" SCRTEXT_M="Release code" SCRTEXT_L="Release code" DOMNAME3L="FRGCO" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="REL_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="MANDT" CHECKTABLE="T001" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="BUKRS" CHECKTABLE="T001" CHECKFIELD="BUKRS" PRIMPOS="0002" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="MANDT" CHECKTABLE="T16FC" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="FRGGR" CHECKTABLE="T16FC" CHECKFIELD="FRGGR" PRIMPOS="0002" DOMNAME="FRGGR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="FRGCO" CHECKTABLE="T16FC" CHECKFIELD="FRGCO" PRIMPOS="0003" DOMNAME="FRGCO" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGGR" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="MANDT" CHECKTABLE="T16FG" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGGR" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="FRGGR" CHECKTABLE="T16FG" CHECKFIELD="FRGGR" PRIMPOS="0002" DOMNAME="FRGGR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="MANDT" FORTABLE="ZVNMM_XMIRO_C002" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="BUKRS" DDLANGUAGE="E" CHECKTABLE="T001" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGCO" DDLANGUAGE="E" CHECKTABLE="T16FC" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="FRGGR" DDLANGUAGE="E" CHECKTABLE="T16FG" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C002" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_XMIRO_C003" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="MM-WF: Invoice-NonDeductTax: relevant Tax Codes" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XMIRO_C003" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BUKRS" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BUKRS" CHECKTABLE="T001" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BUKRS" ROUTPUTLEN="000000" MEMORYID="BUK" LOGFLAG="X" HEADLEN="04" SCRLEN1="06" SCRLEN2="15" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T001" MASK="  CHARE" MASKLEN="0000" DDTEXT="Company Code" REPTEXT="CoCd" SCRTEXT_S="CoCode" SCRTEXT_M="Company Code" SCRTEXT_L="Company Code" DOMNAME3L="BUKRS" SHLPORIGIN="P" SHLPNAME="C_T001" SHLPFIELD="BUKRS" DEPTH="00" COMPTYPE="E" DEFFDNAME="COMP_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="MWSKZ_MRM" CHECKTABLE="T007A" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="MWSKZ" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="02" SCRLEN1="04" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T007A" MASK="  CHARE" MASKLEN="0000" DDTEXT="Tax Code" REPTEXT="St" SCRTEXT_S="TaxC" SCRTEXT_M="Tax Code" SCRTEXT_L="Tax Code" DOMNAME3L="MWSKZ" SHLPORIGIN="X" DEPTH="00" COMPTYPE="E" DEFFDNAME="DEL_COSTS_TAXJ" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="MANDT" CHECKTABLE="T001" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="BUKRS" CHECKTABLE="T001" CHECKFIELD="BUKRS" PRIMPOS="0002" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MANDT" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="MANDT" CHECKTABLE="T007A" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" FORTABLE="*" CHECKTABLE="T007A" CHECKFIELD="KALSM" PRIMPOS="0002" DOMNAME="KALSM" DATATYPE="CHAR" LENG="000006"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" FORTABLE="ZVNMM_XMIRO_C003" FORKEY="MWSKZ" CHECKTABLE="T007A" CHECKFIELD="MWSKZ" PRIMPOS="0003" DOMNAME="MWSKZ" DATATYPE="CHAR" LENG="000002"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="BUKRS" DDLANGUAGE="E" CHECKTABLE="T001" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" DDLANGUAGE="E" CHECKTABLE="T007A" FRKART="KEY" CLASFIELD="*" CARD="CN" CARDLEFT="1"/>
+  <dd35v TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" SHLPNAME="FINS_SMWSK"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" SHLPNAME="FINS_SMWSK" SHLPFIELD="BUKRS" FLPOSITION="0002" SHTABLE="ZVNMM_XMIRO_C003" SHFIELD="BUKRS" SHLPINPUT="X" ROLLNAME="BUKRS" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C003" FIELDNAME="MWSKZ" SHLPNAME="FINS_SMWSK" SHLPFIELD="MWSKZ" FLPOSITION="0001" SHTABLE="ZVNMM_XMIRO_C003" SHFIELD="MWSKZ" SHLPINPUT="X" SHLPOUTPUT="X" ROLLNAME="SMWSK" DOMNAME="SMWSK" DATATYPE="CHAR" LENG="000002" DECIMALS="000000"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_XMIRO_C004" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="MM-WF: Invoice-NonDeductTax: treshold &amp; release steps" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XMIRO_C004" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BUKRS" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BUKRS" CHECKTABLE="T001" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BUKRS" ROUTPUTLEN="000000" MEMORYID="BUK" LOGFLAG="X" HEADLEN="04" SCRLEN1="06" SCRLEN2="15" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T001" MASK="  CHARE" MASKLEN="0000" DDTEXT="Company Code" REPTEXT="CoCd" SCRTEXT_S="CoCode" SCRTEXT_M="Company Code" SCRTEXT_L="Company Code" DOMNAME3L="BUKRS" SHLPORIGIN="P" SHLPNAME="C_T001" SHLPFIELD="BUKRS" DEPTH="00" COMPTYPE="E" DEFFDNAME="COMP_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="STEPN" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="ZVNMM_MIRO_NDTAX_STEPN" ADMINFIELD="0" INTTYPE="N" INTLEN="000004" NOTNULL="X" DOMNAME="NUMC2" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="NUMC" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" MASK="  NUMCE" MASKLEN="0000" DDTEXT="MM-WF: Invoice-NonDeductTax: release step" REPTEXT="Invoice-NonDeductTax release step" SCRTEXT_S="step" SCRTEXT_M="release step" SCRTEXT_L="release step" DOMNAME3L="NUMC2" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="VALUE_FROM" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZVNMM_MIRO_NDTAX_VALUE_FROM" ADMINFIELD="0" INTTYPE="P" INTLEN="000008" REFTABLE="ZVNMM_XMIRO_C004" REFFIELD="WAERS" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CURR" LENG="000015" OUTPUTLEN="000020" DECIMALS="000002" MASK="  CURRE" MASKLEN="0000" DDTEXT="MM-WF: Invoice-NonDeductTax: tax value ≥" REPTEXT="Invoice-NonDeductTax value ≥" SCRTEXT_S="value ≥" SCRTEXT_M="value ≥" SCRTEXT_L="value ≥" DOMNAME3L="WERT15" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="VALUE_TO" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZVNMM_MIRO_NDTAX_VALUE_TO" ADMINFIELD="0" INTTYPE="P" INTLEN="000008" REFTABLE="ZVNMM_XMIRO_C004" REFFIELD="WAERS" DOMNAME="WERT15" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CURR" LENG="000015" OUTPUTLEN="000020" DECIMALS="000002" MASK="  CURRE" MASKLEN="0000" DDTEXT="MM-WF: Invoice-NonDeductTax: tax value ≤" REPTEXT="Invoice-NonDeductTax value ≤" SCRTEXT_S="value ≤" SCRTEXT_M="value ≤" SCRTEXT_L="value ≤" DOMNAME3L="WERT15" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="WAERS" DDLANGUAGE="E" POSITION="0007" ROLLNAME="WAERS" ADMINFIELD="0" INTTYPE="C" INTLEN="000010" DOMNAME="WAERS" ROUTPUTLEN="000000" MEMORYID="FWS" LOGFLAG="X" HEADLEN="05" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CUKY" LENG="000005" OUTPUTLEN="000005" DECIMALS="000000" ENTITYTAB="TCURC" MASK="  CUKYE" MASKLEN="0000" DDTEXT="Currency Key" REPTEXT="Crcy" SCRTEXT_S="Currency" SCRTEXT_M="Currency" SCRTEXT_L="Currency" DOMNAME3L="WAERS" DEPTH="00" COMPTYPE="E" DEFFDNAME="CURRENCY" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGGR" DDLANGUAGE="E" POSITION="0008" ROLLNAME="FRGGR" CHECKTABLE="T16FG" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="FRGGR" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T16FG" MASK="  CHARE" MASKLEN="0000" DDTEXT="Release group" REPTEXT="Grp" SCRTEXT_S="Rel. group" SCRTEXT_M="Release group" SCRTEXT_L="Release group" DOMNAME3L="FRGGR" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="REL_GROUP" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGCO" DDLANGUAGE="E" POSITION="0009" ROLLNAME="FRGCO" CHECKTABLE="T16FC" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="FRGCO" ROUTPUTLEN="000000" MEMORYID="FAB" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T16FC" MASK="  CHARE" MASKLEN="0000" DDTEXT="Release code" REPTEXT="Code" SCRTEXT_S="Rel. code" SCRTEXT_M="Release code" SCRTEXT_L="Release code" DOMNAME3L="FRGCO" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="REL_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="MANDT" CHECKTABLE="T001" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BUKRS" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="BUKRS" CHECKTABLE="T001" CHECKFIELD="BUKRS" PRIMPOS="0002" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="MANDT" CHECKTABLE="T16FC" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="FRGGR" CHECKTABLE="T16FC" CHECKFIELD="FRGGR" PRIMPOS="0002" DOMNAME="FRGGR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGCO" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="FRGCO" CHECKTABLE="T16FC" CHECKFIELD="FRGCO" PRIMPOS="0003" DOMNAME="FRGCO" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGGR" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="MANDT" CHECKTABLE="T16FG" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGGR" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="FRGGR" CHECKTABLE="T16FG" CHECKFIELD="FRGGR" PRIMPOS="0002" DOMNAME="FRGGR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="MANDT" FORTABLE="ZVNMM_XMIRO_C004" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="BUKRS" DDLANGUAGE="E" CHECKTABLE="T001" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGCO" DDLANGUAGE="E" CHECKTABLE="T16FC" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="FRGGR" DDLANGUAGE="E" CHECKTABLE="T16FG" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C004" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVN_IINV_FORMANDSERIAL" DDLANGUAGE="E" TABCLASS="APPEND" SQLTAB="INVFO" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="VN(InvInvoice): field Form &amp; Serial + wf-status" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVN_IINV_FORMANDSERIAL" FIELDNAME="ZZFORM" DDLANGUAGE="E" POSITION="0001" ROLLNAME="ZVNMM_MIRO_INV_FORM" ADMINFIELD="0" INTTYPE="C" INTLEN="000022" DOMNAME="CHAR11" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="12" SCRLEN1="10" SCRLEN2="10" SCRLEN3="12" DTELMASTER="E" DATATYPE="CHAR" LENG="000011" OUTPUTLEN="000011" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="MIRO: (Incoming Invoice) Invoice Form" REPTEXT="Invoice Form" SCRTEXT_S="Form" SCRTEXT_M="Form" SCRTEXT_L="Invoice Form" DOMNAME3L="CHAR11" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVN_IINV_FORMANDSERIAL" FIELDNAME="ZZSERI" DDLANGUAGE="E" POSITION="0002" ROLLNAME="ZVNMM_MIRO_INV_SERI" ADMINFIELD="0" INTTYPE="C" INTLEN="000016" DOMNAME="CHAR8" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="08" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000008" OUTPUTLEN="000008" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="MIRO: (Incoming Invoice) Invoice Serial" REPTEXT="Invoice Serial" SCRTEXT_S="Serial" SCRTEXT_M="Serial" SCRTEXT_L="Invoice Serial" DOMNAME3L="CHAR8" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_XMIRO_C000" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="HCVN: default Document Type per Vendor Acc-Group" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XMIRO_C000" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="KTOKK" CHECKTABLE="T077K" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="KTOKK" ROUTPUTLEN="000000" MEMORYID="KGK" LOGFLAG="X" HEADLEN="06" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T077K" MASK="  CHARE" MASKLEN="0000" DDTEXT="Vendor account group" REPTEXT="Group" SCRTEXT_S="Acct Group" SCRTEXT_M="Account group" SCRTEXT_L="Account group" DOMNAME3L="KTOKK" SHLPORIGIN="X" DEPTH="00" COMPTYPE="E" DEFFDNAME="ACCNT_GRP" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="X" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C000" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" FORTABLE="ZVNMM_XMIRO_C000" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" FORTABLE="ZVNMM_XMIRO_C000" FORKEY="MANDT" CHECKTABLE="T077K" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" FORTABLE="ZVNMM_XMIRO_C000" FORKEY="KTOKK" CHECKTABLE="T077K" CHECKFIELD="KTOKK" PRIMPOS="0002" DOMNAME="KTOKK" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="MANDT" FORTABLE="ZVNMM_XMIRO_C000" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" DDLANGUAGE="E" CHECKTABLE="T077K" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd35v TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" SHLPNAME="ASH_T003"/>
+  <dd35v TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" SHLPNAME="H_T077K"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" SHLPNAME="ASH_T003" SHLPFIELD="BLART" FLPOSITION="0001" SHTABLE="ZVNMM_XMIRO_C000" SHFIELD="BLART" SHLPINPUT="X" SHLPOUTPUT="X" ROLLNAME="BLART" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="BLART" SHLPNAME="ASH_T003" SHLPFIELD="LTEXT" FLPOSITION="0002" SHTYPE="G" SHLPOUTPUT="X" ROLLNAME="LTEXT_003T" DOMNAME="TEXT20" DATATYPE="CHAR" LENG="000020" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" SHLPNAME="H_T077K" SHLPFIELD="KTOKK" FLPOSITION="0001" SHTABLE="ZVNMM_XMIRO_C000" SHFIELD="KTOKK" SHLPINPUT="X" SHLPOUTPUT="X" ROLLNAME="KTOKK" DOMNAME="KTOKK" DATATYPE="CHAR" LENG="000004" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" SHLPNAME="H_T077K" SHLPFIELD="NUMKR" FLPOSITION="0002" SHTYPE="G" SHLPOUTPUT="X" ROLLNAME="NUMKR" DOMNAME="CHAR2" DATATYPE="CHAR" LENG="000002" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" SHLPNAME="H_T077K" SHLPFIELD="TXT30" FLPOSITION="0004" SHTYPE="G" SHLPOUTPUT="X" ROLLNAME="TXT30_077T" DOMNAME="TEXT30" DATATYPE="CHAR" LENG="000030" DECIMALS="000000"/>
+  <dd36m TABNAME="ZVNMM_XMIRO_C000" FIELDNAME="KTOKK" SHLPNAME="H_T077K" SHLPFIELD="XCPDS" FLPOSITION="0003" SHTYPE="G" SHLPOUTPUT="X" ROLLNAME="XCPDS" DOMNAME="XFELD" DATATYPE="CHAR" LENG="000001" DECIMALS="000000"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_MIRO_WFSTA" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="MM-WF: RBKP Incoming Invoice workflow status" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="A" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_MIRO_WFSTA" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL1" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="BELNR" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="RE_BELNR" CHECKTABLE="RBKP" ADMINFIELD="0" INTTYPE="C" INTLEN="000020" NOTNULL="X" DOMNAME="BELNR" ROUTPUTLEN="000000" MEMORYID="RBN" LOGFLAG="X" HEADLEN="10" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" CONVEXIT="ALPHA" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document Number of an Invoice Document" REPTEXT="Doc. No." SCRTEXT_S="Doc. No." SCRTEXT_M="Inv. Doc. No." SCRTEXT_L="Invoice Document No." DOMNAME3L="BELNR" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="INV_DOC_NO" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="GJAHR" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="GJAHR" ADMINFIELD="0" INTTYPE="N" INTLEN="000008" NOTNULL="X" DOMNAME="GJAHR" ROUTPUTLEN="000000" MEMORYID="GJR" LOGFLAG="X" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="NUMC" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" CONVEXIT="GJAHR" MASK="  NUMCE" MASKLEN="0000" DDTEXT="Fiscal Year" REPTEXT="Year" SCRTEXT_S="Fiscal Yr" SCRTEXT_M="Fiscal Year" SCRTEXT_L="Fiscal Year" DOMNAME3L="GJAHR" DEPTH="00" COMPTYPE="E" DEFFDNAME="FISC_YEAR" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="WFSTA" DDLANGUAGE="E" POSITION="0004" ROLLNAME="ZVNMM_MIRO_WFSTA_D" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" DOMNAME="ZVNMM_MIRO_WFSTA" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: Incoming Invoice workflow status" REPTEXT="Incoming Invoice workflow status" SCRTEXT_S="wf-status" SCRTEXT_M="workflow status" SCRTEXT_L="workflow status" DOMNAME3L="ZVNMM_MIRO_WFSTA" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="XWFDF" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZVNMM_MIRO_WFSTA_XWFDF" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: Invoice: workflow Differences started" REPTEXT="Invoice: workflow Differences started" SCRTEXT_S="wfDffStart" SCRTEXT_M="wf Differences start" SCRTEXT_L="wf Differences started" DOMNAME3L="XFELD" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="XWFAC" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZVNMM_MIRO_WFSTA_XWFAC" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: Invoice: workflow Accounting started" REPTEXT="Invoice: workflow Accounting started" SCRTEXT_S="wfAccStart" SCRTEXT_M="wf Accounting start" SCRTEXT_L="wf Accounting started" DOMNAME3L="XFELD" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="XWFND" DDLANGUAGE="E" POSITION="0007" ROLLNAME="ZVNMM_MIRO_WFSTA_XWFND" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: Invoice: workflow nonDeducTax started" REPTEXT="Invoice: workflow nonDeducTax started" SCRTEXT_S="wfNDTStart" SCRTEXT_M="wf nonDeducTax start" SCRTEXT_L="wf nonDeducTax started" DOMNAME3L="XFELD" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="BELNR" FORTABLE="ZVNMM_MIRO_WFSTA" FORKEY="MANDT" CHECKTABLE="RBKP" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="BELNR" FORTABLE="ZVNMM_MIRO_WFSTA" FORKEY="BELNR" CHECKTABLE="RBKP" CHECKFIELD="BELNR" PRIMPOS="0002" DOMNAME="BELNR" DATATYPE="CHAR" LENG="000010"/>
+  <dd05m TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="BELNR" FORTABLE="ZVNMM_MIRO_WFSTA" FORKEY="GJAHR" CHECKTABLE="RBKP" CHECKFIELD="GJAHR" PRIMPOS="0003" DOMNAME="GJAHR" DATATYPE="NUMC" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="MANDT" FORTABLE="ZVNMM_MIRO_WFSTA" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="BELNR" DDLANGUAGE="E" CHECKTABLE="RBKP" FRKART="KEY" CARD="C" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_MIRO_WFSTA" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNMM_MIRO_INV" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="VN(MIRO): structure for additional fields on screen" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_INV" FIELDNAME="ZZFORM" DDLANGUAGE="E" POSITION="0001" ROLLNAME="ZVNMM_MIRO_INV_FORM" ADMINFIELD="0" INTTYPE="C" INTLEN="000022" DOMNAME="CHAR11" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="12" SCRLEN1="10" SCRLEN2="10" SCRLEN3="12" DTELMASTER="E" DATATYPE="CHAR" LENG="000011" OUTPUTLEN="000011" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="MIRO: (Incoming Invoice) Invoice Form" REPTEXT="Invoice Form" SCRTEXT_S="Form" SCRTEXT_M="Form" SCRTEXT_L="Invoice Form" DOMNAME3L="CHAR11" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_MIRO_INV" FIELDNAME="ZZSERI" DDLANGUAGE="E" POSITION="0002" ROLLNAME="ZVNMM_MIRO_INV_SERI" ADMINFIELD="0" INTTYPE="C" INTLEN="000016" DOMNAME="CHAR8" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="08" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000008" OUTPUTLEN="000008" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="MIRO: (Incoming Invoice) Invoice Serial" REPTEXT="Invoice Serial" SCRTEXT_S="Serial" SCRTEXT_M="Serial" SCRTEXT_L="Invoice Serial" DOMNAME3L="CHAR8" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+ <TRAN TCODE="Y_SDV_77000002" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+ <TRAN TCODE="Y_SDV_77000021" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+ <TRAN TCODE="Y_SDV_77000031" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+ <TRAN TCODE="Y_SDV_77000032" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+ <TRAN TCODE="ZVNMM_MIRO_WFSTA" DYPNO="0000" TCODE_CALL="SM30" TYPE="P" SKIP_SCREEN="X" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="MM: MIRO wf-status (admin only!!)">
+  <params FIELD="VIEWNAME" VALUE="ZVNMM_MIRO_WFSTA"/>
+  <params FIELD="SHOW_LTD" VALUE="X"/>
+ </TRAN>
+ <TTYP TYPENAME="ZVNMM_XMIRO_C002_T" DDLANGUAGE="E" ROWTYPE="ZVNMM_XMIRO_C002" ROWKIND="S" DATATYPE="STRU" LENG="000000" DECIMALS="000000" ACCESSMODE="T" KEYDEF="D" KEYKIND="N" KEYFDCOUNT="0000" DDTEXT="MM-WF: Invoice-difference Release Code determination (tty)" TYPELEN="000048" CTLENG="000000" CTDECIMALS="000000" OCCURS="00000"/>
+</nugget>

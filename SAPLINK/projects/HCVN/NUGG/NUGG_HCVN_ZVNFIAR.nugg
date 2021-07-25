@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNFIAR">
+ <DEVC DEVCLASS="ZVNFIAR" CTEXT="HCVN: FI-AR Accounts Receivable" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="FI-AR" COMPONENT="HLA0009203" NAMESPACE="/0CUST/" PARENTCL="ZVNFI" CREATED_BY="HQ_TTA" CREATED_ON="20201030" CHANGED_BY="HQ_TTA" CHANGED_ON="20201030" PROJECT_GUID="00000000000000000000000000000000"/>
+ <FUGR AREA="ZVNFIAR_CBKTXT_V" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNFIAR_CBKTXT_V" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNFIAR_CBKTXT_V" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNFIAR_CBKTXT">
+     <dynprofield FNAM="TCTRL_ZVNFIAR_CBKTXT" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNFIAR_CBKTXT-BUKRS" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNFIAR_CBKTXT-BLART" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Type" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNFIAR_CBKTXT-BEGDA" DIDX="000A" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Start Date" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNFIAR_CBKTXT-ENDDA" DIDX="000A" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="End Date" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNFIAR_CBKTXT-BKTXT" DIDX="0019" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Document Header Text" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNFIAR_CBKTXT-BUKRS" DIDX="000A" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNFIAR_CBKTXT-BLART" DIDX="000A" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="02" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BAR" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNFIAR_CBKTXT-BEGDA" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="DATS" GRP1="KEY" ITYP="D" AGLT="10" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNFIAR_CBKTXT-ENDDA" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="08" LENG="0A" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="DATS" ITYP="D" AGLT="10" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNFIAR_CBKTXT-BKTXT" DIDX="0019" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="19" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="32" ADEZ="00" STXT="_________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNFIAR_CBKTXT CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNFIAR_CBKTXT-BUKRS .
+    FIELD ZVNFIAR_CBKTXT-BLART .
+    FIELD ZVNFIAR_CBKTXT-BEGDA .
+    FIELD ZVNFIAR_CBKTXT-ENDDA .
+    FIELD ZVNFIAR_CBKTXT-BKTXT .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNFIAR_CBKTXT-BUKRS .
+    FIELD ZVNFIAR_CBKTXT-BLART .
+    FIELD ZVNFIAR_CBKTXT-BEGDA .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-30 14:02:05
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNFIAR_CBKTXT_VTOP.              &quot; Global Declarations
+  INCLUDE LZVNFIAR_CBKTXT_VUXX.              &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNFIAR_CBKTXT_VF...              &quot; Subroutines
+* INCLUDE LZVNFIAR_CBKTXT_VO...              &quot; PBO-Modules
+* INCLUDE LZVNFIAR_CBKTXT_VI...              &quot; PAI-Modules
+* INCLUDE LZVNFIAR_CBKTXT_VE...              &quot; Events
+* INCLUDE LZVNFIAR_CBKTXT_VP...              &quot; Local class implement.
+* INCLUDE LZVNFIAR_CBKTXT_VT99.              &quot; ABAP Unit tests
+  INCLUDE LZVNFIAR_CBKTXT_VF00                    . &quot; subprograms
+  INCLUDE LZVNFIAR_CBKTXT_VI00                    . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNFIAR_CBKTXT_VF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-30 at 14:31:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNFIAR_CBKTXT_VI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-30 at 14:31:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNFIAR_CBKTXT_VI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-30 at 14:31:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNFIAR_CBKTXT_VTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-30 14:02:05
+FUNCTION-POOL ZVNFIAR_CBKTXT_V           MESSAGE-ID SV.
+
+* INCLUDE LZVNFIAR_CBKTXT_VD...              &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNFIAR_CBKTXT_VT00                    . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNFIAR_CBKTXT_V" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNFIAR_CBKTXT_V
+*   generation date: 2020-10-30 at 14:31:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNFIAR_CBKTXT_V" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNFIAR_CBKTXT_V
+*   generation date: 2020-10-30 at 14:31:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <TABL TABNAME="ZVNFIAR_CBKTXT" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="FI: Accounts Receivable default Header Text (=form/serial)" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNFIAR_CBKTXT" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BUKRS" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BUKRS" CHECKTABLE="T001" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BUKRS" ROUTPUTLEN="000000" MEMORYID="BUK" LOGFLAG="X" HEADLEN="04" SCRLEN1="06" SCRLEN2="15" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T001" MASK="  CHARE" MASKLEN="0000" DDTEXT="Company Code" REPTEXT="CoCd" SCRTEXT_S="CoCode" SCRTEXT_M="Company Code" SCRTEXT_L="Company Code" DOMNAME3L="BUKRS" SHLPORIGIN="P" SHLPNAME="C_T001" SHLPFIELD="BUKRS" DEPTH="00" COMPTYPE="E" DEFFDNAME="COMP_CODE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BLART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BLART" CHECKTABLE="T003" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="BLART" ROUTPUTLEN="000000" MEMORYID="BAR" LOGFLAG="X" HEADLEN="10" SCRLEN1="06" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="T003" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="BLART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BEGDA" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="BEGDA" ADMINFIELD="0" INTTYPE="D" INTLEN="000016" NOTNULL="X" DOMNAME="DATUM" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="06" SCRLEN2="10" SCRLEN3="20" DTELMASTER="D" DATATYPE="DATS" LENG="000008" OUTPUTLEN="000010" DECIMALS="000000" MASK="  DATSE" MASKLEN="0000" DDTEXT="Start Date" REPTEXT="Start Date" SCRTEXT_S="Start" SCRTEXT_M="Start Date" SCRTEXT_L="Start Date" DOMNAME3L="DATUM" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" DEFFDNAME="FROM_DATE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="ENDDA" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ENDDA" ADMINFIELD="0" INTTYPE="D" INTLEN="000016" DOMNAME="DATUM" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="01" SCRLEN2="10" SCRLEN3="15" DTELMASTER="D" DATATYPE="DATS" LENG="000008" OUTPUTLEN="000010" DECIMALS="000000" MASK="  DATSE" MASKLEN="0000" DDTEXT="End Date" REPTEXT="End Date" SCRTEXT_S="-" SCRTEXT_M="End Date" SCRTEXT_L="End Date" DOMNAME3L="DATUM" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" DEFFDNAME="TO_DATE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BKTXT" DDLANGUAGE="E" POSITION="0006" ROLLNAME="BKTXT" ADMINFIELD="0" INTTYPE="C" INTLEN="000050" DOMNAME="TEXT25" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="25" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000025" OUTPUTLEN="000025" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document Header Text" REPTEXT="Document Header Text" SCRTEXT_S="HeaderText" SCRTEXT_M="Doc.Header Text" SCRTEXT_L="Document Header Text" DOMNAME3L="TEXT25" DEPTH="00" COMPTYPE="E" DEFFDNAME="HEADER_TXT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BLART" FORTABLE="ZVNFIAR_CBKTXT" FORKEY="MANDT" CHECKTABLE="T003" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BLART" FORTABLE="ZVNFIAR_CBKTXT" FORKEY="BLART" CHECKTABLE="T003" CHECKFIELD="BLART" PRIMPOS="0002" DOMNAME="BLART" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BUKRS" FORTABLE="ZVNFIAR_CBKTXT" FORKEY="MANDT" CHECKTABLE="T001" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BUKRS" FORTABLE="ZVNFIAR_CBKTXT" FORKEY="BUKRS" CHECKTABLE="T001" CHECKFIELD="BUKRS" PRIMPOS="0002" DOMNAME="BUKRS" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="MANDT" FORTABLE="ZVNFIAR_CBKTXT" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd08v TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BLART" DDLANGUAGE="E" CHECKTABLE="T003" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="BUKRS" DDLANGUAGE="E" CHECKTABLE="T001" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNFIAR_CBKTXT" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TRAN TCODE="Y_SDV_77000028" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+</nugget>

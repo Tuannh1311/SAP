@@ -1,0 +1,654 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNWF">
+ <CLAS CLSNAME="ZCX_BO_TEMPORARY_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="CX_BO_TEMPORARY" CATEGORY="40" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk" REFCLSNAME="CX_STATIC_CHECK">
+  <implementing CLSNAME="ZCX_BO_TEMPORARY_MESSAGE" REFCLSNAME="IF_T100_DYN_MSG" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <inheritance CLSNAME="ZCX_BO_TEMPORARY_MESSAGE" REFCLSNAME="CX_STATIC_CHECK" VERSION="1" STATE="1"/>
+ </CLAS>
+ <DEVC DEVCLASS="ZVNWF" CTEXT="HCVN: WF Package" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" NAMESPACE="/0CUST/" PARENTCL="ZVN" CREATED_BY="HQ_TTA" CREATED_ON="20200319" CHANGED_BY="HQ_TTA" CHANGED_ON="20200706" PROJECT_GUID="00000000000000000000000000000000"/>
+ <DOCV OBJNAME="DTZVNWF_SWN_PROLOG_MULTI" ID="DT" OBJECT="ZVNWF_SWN_PROLOG_MULTI" TYP="E" DOKVERSION="0001">
+  <TextLines TDFORMAT="*" TDLINE="The following new workitems require processing in your SAP workflow"/>
+  <TextLines TDFORMAT="=" TDLINE=" inbox in system &amp;SYST-SYSID&amp; client &amp;SYST-MANDT&amp;:"/>
+  <TextLines TDFORMAT="*" TDLINE="Use the link below to login to Fiori MyInbox."/>
+ </DOCV>
+ <FUGR AREA="ZVNWF" SPRAS="E" AREAT="VNWF: Workflow">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNWF" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNWFTOP.                         &quot; Global Declarations
+  INCLUDE LZVNWFUXX.                         &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNWFF...                         &quot; Subroutines
+* INCLUDE LZVNWFO...                         &quot; PBO-Modules
+* INCLUDE LZVNWFI...                         &quot; PAI-Modules
+* INCLUDE LZVNWFE...                         &quot; Events
+* INCLUDE LZVNWFP...                         &quot; Local class implement.
+* INCLUDE LZVNWFT99.                         &quot; ABAP Unit tests</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNWFTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source></include_source>
+   </include>
+   <include NAME="LZVNWFTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL ZVNWF.                        &quot;MESSAGE-ID ..
+
+* INCLUDE LZVNWFD...                         &quot; Local class definition</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules/>
+ </FUGR>
+ <MSAG ARBGB="ZVNWF" MASTERLANG="E" RESPUSER="HQ_TTA" STEXT="HCVN: Workflow">
+  <t100 SPRSL="E" ARBGB="ZVNWF" MSGNR="001" TEXT="Fiori MyInbox"/>
+  <t100 SPRSL="E" ARBGB="ZVNWF" MSGNR="000" TEXT="&amp; &amp; &amp; &amp;"/>
+  <t100 SPRSL="E" ARBGB="ZVNWF" MSGNR="002" TEXT="New workitems in your SAP Fiori MyInbox"/>
+  <t100 SPRSL="E" ARBGB="ZVNWF" MSGNR="003" TEXT="Overview of workitems:"/>
+  <t100 SPRSL="쁩" ARBGB="ZVNWF" MSGNR="000" TEXT="&amp; &amp; &amp; &amp;"/>
+  <t100 SPRSL="쁩" ARBGB="ZVNWF" MSGNR="001" TEXT="Fiori MyInbox"/>
+  <t100 SPRSL="쁩" ARBGB="ZVNWF" MSGNR="002" TEXT="New workitems in your SAP Fiori MyInbox"/>
+  <t100 SPRSL="쁩" ARBGB="ZVNWF" MSGNR="003" TEXT="Overview of workitems:"/>
+  <t100t SPRSL="E" ARBGB="ZVNWF" STEXT="HCVN: Workflow"/>
+ </MSAG>
+ <PDTS OBJECT="TS97000051">
+  <HRS1000>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" AEDTM="20210415" UNAME="HQ_TTA" SHORT="ZWF_PREVWFCM" STEXT="WF: get comments of previous workflows" MC_SHORT="ZWF_PREVWFCM" MC_STEXT="WF: GET COMMENTS OF PREVIOUS WORKFLOWS"/>
+  </HRS1000>
+  <HRS1201>
+   <item OTYPE="TS" OBJID="97000051" AEDTM="20210416" UNAME="HQ_TTA" CLSNAM="ZVNMM_WFRL_UTIL" CLSMET="COPY_PREV_WF_COMMENTS" METHTYPE="CL" BACKGROUND="X" SYNCHRON="X"/>
+  </HRS1201>
+  <HRS1002>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000001" AEDTM="20210416" UNAME="HQ_TTA" TLINE="CBL-12853 FIORI app: My Inbox: comment of the tasks" TFORMAT="*"/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000002" AEDTM="20210416" UNAME="HQ_TTA" TFORMAT="*"/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000003" AEDTM="20210416" UNAME="HQ_TTA" TLINE="copy comments from last previous workflow of same scenario for given" TFORMAT="*"/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000004" AEDTM="20210416" UNAME="HQ_TTA" TLINE=" object" TFORMAT="="/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000005" AEDTM="20210416" UNAME="HQ_TTA" TFORMAT="*"/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000006" AEDTM="20210416" UNAME="HQ_TTA" TLINE="intended to be in beginning of wf-scenarios, summarizing comments" TFORMAT="*"/>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" SUBTY="0120" TABSEQNR="000007" AEDTM="20210416" UNAME="HQ_TTA" TLINE=" from previous wf instances" TFORMAT="="/>
+  </HRS1002>
+  <HRS1206>
+   <item OTYPE="TS" OBJID="97000051" LANGU="E" AEDTM="20210415" UNAME="HQ_TTA" WITEXT="WF: get comments of previous workflows"/>
+  </HRS1206>
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <CONTAINER href="#o275"/>
+   </asx:values>
+   <asx:heap xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:abap="http://www.sap.com/abapxml/types/built-in" xmlns:cls="http://www.sap.com/abapxml/classes/global" xmlns:dic="http://www.sap.com/abapxml/types/dictionary">
+    <cls:CL_SWF_CNT_CONTAINER id="o275">
+     <CL_SWF_CNT_CONTAINER>
+      <META>
+       <LPOR>
+        <INSTID>TS97000051</INSTID>
+        <TYPEID>CL_SWF_CNT_HRS_PERSISTENCE</TYPEID>
+        <CATID>CL</CATID>
+       </LPOR>
+       <PROPERTIES>23</PROPERTIES>
+       <DEF_EXTENSION>
+        <NAME>_DEF_EXT</NAME>
+        <CONTPOR>
+         <INSTID>DIALOG_STEP_CONTAINER</INSTID>
+         <TYPEID>CL_SWF_CNT_PERSISTENCE_DEF_EXT</TYPEID>
+         <CATID>CL</CATID>
+        </CONTPOR>
+       </DEF_EXTENSION>
+       <LTEXTS>  000</LTEXTS>
+      </META>
+      <ELMT>
+       <SWFDELMDEFXML>
+        <NAME>_ADHOC_OBJECTS</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Adhoc_Objects</EDITELEM>
+        <TYPE>:BO::h:0:0</TYPE>
+        <PROPS>0C905A51</PROPS>
+        <LTEXTS>EE014Ad Hoc ObjectsAd Hoc Objects of Workflow Instance</LTEXTS>
+        <EDITORDER>1</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_ATTACH_OBJECTS</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Attach_Objects</EDITELEM>
+        <TYPE>SOFM:BO::h:0:0</TYPE>
+        <PROPS>0C905A51</PROPS>
+        <LTEXTS>EE011AttachmentsAttachments of Workflow Instance</LTEXTS>
+        <EDITORDER>2</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WI_ACTUAL_AGENT</NAME>
+        <PARAMKIND>E</PARAMKIND>
+        <EDITELEM>_Wi_Actual_Agent</EDITELEM>
+        <TYPE>::WFSYST-AGENT:C:0:0</TYPE>
+        <PROPS>0C002A11</PROPS>
+        <LTEXTS>EE005AgentActual Agent of Workflow Activity</LTEXTS>
+        <EDITORDER>3</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WI_GROUP_ID</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Wi_Group_ID</EDITELEM>
+        <TYPE>:BO::u:0:0</TYPE>
+        <PROPS>0C901A11</PROPS>
+        <LTEXTS>EE018Grouping CharacterGrouping Characteristic for Workflow Instances</LTEXTS>
+        <EDITORDER>4</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WORKITEM</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Workitem</EDITELEM>
+        <TYPE>WORKINGWI:BO:::0:0</TYPE>
+        <PROPS>0C901A11</PROPS>
+        <LTEXTS>EE004StepStep Instance</LTEXTS>
+        <EDITORDER>5</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WF_TICKET</NAME>
+        <EDITELEM>_Wf_Ticket</EDITELEM>
+        <TYPE>::SWWTTICKET:h:0:0</TYPE>
+        <PROPS>0C000271</PROPS>
+        <LTEXTS>EE018Transaction TicketTransaction Ticket</LTEXTS>
+        <EDITORDER>6</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_RULE_RESULT</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Rule_Result</EDITELEM>
+        <TYPE>AAGENT:BO::u:0:0</TYPE>
+        <PROPS>0C901A11</PROPS>
+        <LTEXTS>EE006AgentsResult of Agent Determination</LTEXTS>
+        <EDITORDER>7</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_RFC_DESTINATION</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Rfc_Destination</EDITELEM>
+        <TYPE>::RFCDEST:C:0:0</TYPE>
+        <PROPS>0C001231</PROPS>
+        <LTEXTS>EE015RFC DestinationRFC Destination</LTEXTS>
+        <EDITORDER>8</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_ATTACH_COMMENT_OBJECTS</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Attach_Comment_Objects</EDITELEM>
+        <TYPE>SOFM:BO::h:0:0</TYPE>
+        <PROPS>0C905A71</PROPS>
+        <LTEXTS>EE007CommentComment</LTEXTS>
+        <EDITORDER>9</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_METHOD_OBJECTS</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Method_Objects</EDITELEM>
+        <TYPE>:BO::h:0:0</TYPE>
+        <PROPS>0C905A51</PROPS>
+        <LTEXTS>EE020Second.Method ObjectSecondary Method Objects of Workflow Activity</LTEXTS>
+        <EDITORDER>10</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_START_EVENT_IDENTIFIER</NAME>
+        <EDITELEM>_Start_Event_Identifier</EDITELEM>
+        <TYPE>CL_SWF_UTL_EVT_IDENTIFIER:CL::h:0:0</TYPE>
+        <PROPS>0CC00231</PROPS>
+        <LTEXTS>EE017ID of Start EventID of Start Event</LTEXTS>
+        <EDITORDER>11</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WF_TYPENAME_MAPPING</NAME>
+        <EDITELEM>_WF_Typename_Mapping</EDITELEM>
+        <TYPE>::SWF_CNT_MAPPING_TAB:h:0:0</TYPE>
+        <PROPS>0C100271</PROPS>
+        <LTEXTS>EE022Relation of Type NamesRelation of Type Names (Original and Copy)</LTEXTS>
+        <EDITORDER>12</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_HEALTH_CHECK_MESSAGE</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Health_Check_Message</EDITELEM>
+        <TYPE>CL_SWF_FLEX_RUN_MESSAGE:CL::h:0:0</TYPE>
+        <PROPS>0CC05A71</PROPS>
+        <LTEXTS>EE018Healthcheck ObjectHealthcheck Object</LTEXTS>
+        <EDITORDER>13</EDITORDER>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>RT_SOFM</NAME>
+        <PARAMKIND>R</PARAMKIND>
+        <TYPE>:NN::h:0:0</TYPE>
+        <PROPS>0C820541</PROPS>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>IV_WFID</NAME>
+        <PARAMKIND>I</PARAMKIND>
+        <TYPE>::SWW_WIID:N:12:0</TYPE>
+        <PROPS>0C001001</PROPS>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>IV_BOID</NAME>
+        <PARAMKIND>I</PARAMKIND>
+        <TYPE>:NN::u:0:0</TYPE>
+        <PROPS>0C821081</PROPS>
+       </SWFDELMDEFXML>
+       <SWFDELMDEFXML>
+        <NAME>_WI_OBJECT_ID</NAME>
+        <PARAMKIND>C</PARAMKIND>
+        <EDITELEM>_Wi_Object_ID</EDITELEM>
+        <TYPE>ZVNMM_WFRL_UTIL:CL:::0:0</TYPE>
+        <PROPS>0CC01A11</PROPS>
+       </SWFDELMDEFXML>
+      </ELMT>
+     </CL_SWF_CNT_CONTAINER>
+    </cls:CL_SWF_CNT_CONTAINER>
+   </asx:heap>
+  </asx:abap>
+  <task_attributes BEGDA="19000101" ENDDA="99991231" SHORT="ZWF_PREVWFCM" STEXT="WF: get comments of previous workflows" CLSNAM="ZVNMM_WFRL_UTIL" CLSMET="COPY_PREV_WF_COMMENTS" METHTYPE="CL" BACKGROUND="X" SYNCHRON="X" WITEXT="WF: get comments of previous workflows" ACTIV_DATE="00000000" ACTIV_TIME="000000" WI_TYPE="B"/>
+  <act_cont_def>
+   <item ELEMENT="IV_BOID" EDITORDER="0001" REFTYPE="D" EDITELEM="IV_BOID" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="IV_BOID" SHORTTEXT="IV_BOID" OLETYPE="00000" ELEMTYPE="I" OBLIGIMP="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="IV_WFID" EDITORDER="0002" REFTYPE="D" REFFIELD="SWW_WIID" EDITELEM="IV_WFID" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="IV_WFID" SHORTTEXT="IV_WFID" OLETYPE="00000" ELEMTYPE="I" OBLIGIMP="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="RT_SOFM" EDITORDER="0003" REFTYPE="D" EDITELEM="RT_SOFM" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="RT_SOFM" SHORTTEXT="RT_SOFM" OLETYPE="00000" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WI_OBJECT_ID" EDITORDER="0004" REFTYPE="D" EDITELEM="_Wi_Object_ID" OLEINDEX="0000000000" WINHLPIND="0000000000" OLETYPE="00000" ELEMTYPE="A" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_ADHOC_OBJECTS" EDITORDER="0005" REFTYPE="O" EDITELEM="_Adhoc_Objects" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Ad Hoc Objects" SHORTTEXT="Ad Hoc Objects of Workflow Instance" OLETYPE="00000" ELEMTYPE="A" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_ATTACH_OBJECTS" EDITORDER="0006" REFTYPE="O" REFOBJTYPE="SOFM" EDITELEM="_Attach_Objects" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Attachments" SHORTTEXT="Attachments of Workflow Instance" OLETYPE="00000" ELEMTYPE="A" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WI_ACTUAL_AGENT" EDITORDER="0007" REFTYPE="D" REFSTRUCT="WFSYST" REFFIELD="AGENT" EDITELEM="_Wi_Actual_Agent" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Agent" SHORTTEXT="Actual Agent of Workflow Activity" OLETYPE="00000" ELEMTYPE="E" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WI_GROUP_ID" EDITORDER="0008" REFTYPE="O" EDITELEM="_Wi_Group_ID" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Grouping Character" SHORTTEXT="Grouping Characteristic for Workflow Instances" OLETYPE="00000" ELEMTYPE="A" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WORKITEM" EDITORDER="0009" REFTYPE="O" REFOBJTYPE="WORKINGWI" EDITELEM="_Workitem" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Step" SHORTTEXT="Step Instance" OLETYPE="00000" ELEMTYPE="A" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WF_TICKET" EDITORDER="0010" REFTYPE="D" REFFIELD="SWWTTICKET" EDITELEM="_Wf_Ticket" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Transaction Ticket" SHORTTEXT="Transaction Ticket" OLETYPE="00000" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_RULE_RESULT" EDITORDER="0011" REFTYPE="O" REFOBJTYPE="AAGENT" EDITELEM="_Rule_Result" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Agents" SHORTTEXT="Result of Agent Determination" OLETYPE="00000" ELEMTYPE="A" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_RFC_DESTINATION" EDITORDER="0012" REFTYPE="D" REFFIELD="RFCDEST" EDITELEM="_Rfc_Destination" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="RFC Destination" SHORTTEXT="RFC Destination" OLETYPE="00000" ELEMTYPE="I" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_ATTACH_COMMENT_OBJECTS" EDITORDER="0013" REFTYPE="O" REFOBJTYPE="SOFM" EDITELEM="_Attach_Comment_Objects" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Comment" SHORTTEXT="Comment" OLETYPE="00000" ELEMTYPE="A" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_METHOD_OBJECTS" EDITORDER="0014" REFTYPE="O" EDITELEM="_Method_Objects" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Second.Method Object" SHORTTEXT="Secondary Method Objects of Workflow Activity" OLETYPE="00000" ELEMTYPE="A" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_START_EVENT_IDENTIFIER" EDITORDER="0015" REFTYPE="D" EDITELEM="_Start_Event_Identifier" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="ID of Start Event" SHORTTEXT="ID of Start Event" OLETYPE="00000" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_WF_TYPENAME_MAPPING" EDITORDER="0016" REFTYPE="O" EDITELEM="_WF_Typename_Mapping" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Relation of Type Nam" SHORTTEXT="Relation of Type Names (Original and Copy)" OLETYPE="00000" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+   <item ELEMENT="_HEALTH_CHECK_MESSAGE" EDITORDER="0017" REFTYPE="D" EDITELEM="_Health_Check_Message" OLEINDEX="0000000000" WINHLPIND="0000000000" DESCRIPT="Healthcheck Object" SHORTTEXT="Healthcheck Object" OLETYPE="00000" ELEMTYPE="A" TABELEM="X" SORTORDER="0000" COUNTPARAM="00"/>
+  </act_cont_def>
+ </PDTS>
+ <SICF ICF_NAME="ZSWN_MESSAGE1" ICFPARGUID="907RM5PM0WS1BRG2HAYGJYC1N" ICFNODGUID="00O2TKPKN65T7VL37L243UMAE" ICFCHILDNO="0 " ICFALIASNO="0 " ICF_OPTION="0 " ICF_TIME="000000" ICF_CUSER="HQ_TTA" ICF_CDATE="20210106" ICF_MUSER="HQ_TTA" ICF_MDATE="20210106" ICF_AUTHRC="0" ORIG_NAME="zswn_message1">
+  <icfdocu ICF_NAME="ZSWN_MESSAGE1" ICFPARGUID="907RM5PM0WS1BRG2HAYGJYC1N" ICF_LANGU="E" ICF_DOCU="WF Notification: Create E-Mail Body in Text Format"/>
+ </SICF>
+ <WAPA APPLNAME="ZSWN_MESSAGE1" APPLEXT="ZSWN_MESSAGE1" SECURITY="X" DEVCLASS="$TMP" ORIGLANG="E" MODIFLANG="E" TEXT="WF Notification: Create E-Mail Body in Text Format">
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" PAGENAME="html_inbox.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/html" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Message per Inbox (Text/HTML)">
+   <layout>&lt;%@page language=&quot;abap&quot; %&gt;
+&lt;%@extension name=&quot;bsp&quot; prefix=&quot;bsp&quot; %&gt;
+&lt;%@extension name=&quot;htmlb&quot; prefix=&quot;htmlb&quot; %&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+  DATA wa_link    TYPE swnslink.
+  READ TABLE notif_details INDEX 1 INTO wa_details.
+%&gt;
+&lt;htmlb:content id=&quot;EmailBodyInbox&quot; checkForCookiesAndJavaScript=&quot;FALSE&quot; design=&quot;DESIGN2003+DESIGN2008&quot;&gt;
+  &lt;htmlb:document&gt;
+    &lt;htmlb:documentHead&gt;
+      &lt;base href=&quot;&lt;%= BASE_HREF %&gt;&quot;&gt;
+      &lt;htmlb:headInclude/&gt;
+    &lt;/htmlb:documentHead&gt;
+    &lt;htmlb:documentBody&gt;
+      &lt;htmlb:textView wrapping=&quot;TRUE&quot; &gt;
+        &lt;%= text_prolog_inbox %&gt;
+        &lt;%
+          IF NOT inbox_link_url IS INITIAL.
+        %&gt;
+        &lt;br&gt;
+        &lt;htmlb:link id        = &quot;Inbox&quot;
+                    reference = &quot;&lt;%= inbox_link_url %&gt;&quot; &gt;
+          &lt;%= inbox_link_caption %&gt;
+        &lt;/htmlb:link&gt;
+        &lt;%
+          ELSEIF NOT has_action_attach IS INITIAL.
+        %&gt;
+        &lt;%= text_goto_inbox %&gt;
+        &lt;%
+          ELSE.
+        %&gt;
+        &lt;%= text_process_multi %&gt;
+        &lt;%
+          ENDIF.
+        %&gt;
+        &lt;p&gt;
+        &lt;%= text_contact_admin %&gt;
+      &lt;/htmlb:textView&gt;
+    &lt;/htmlb:documentBody&gt;
+  &lt;/htmlb:document&gt;
+&lt;/htmlb:content&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="BASE_HREF" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="BASE_HREF" TEXT="Base HREF Points to BSP Host"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling of Inbox Link"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="TEXT_GOTO_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_GOTO_INBOX" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="TEXT_LINK_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_LINK_INBOX" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="TEXT_PROCESS_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_MULTI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INBOX.HTM" COMPNAME="TEXT_PROLOG_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_INBOX" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" PAGENAME="html_indiv.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/html" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Work Item per Message (Text/HTML)">
+   <layout>&lt;%@page language=&quot;abap&quot; %&gt;
+&lt;%@extension name=&quot;bsp&quot; prefix=&quot;bsp&quot; %&gt;
+&lt;%@extension name=&quot;htmlb&quot; prefix=&quot;htmlb&quot; %&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+  DATA wa_link    TYPE swnslink.
+  DATA l_notif_link type xfeld.
+  READ TABLE notif_details INDEX 1 INTO wa_details.
+%&gt;
+&lt;htmlb:content id=&quot;EmailBodyIndiv&quot; checkForCookiesAndJavaScript=&quot;FALSE&quot; design=&quot;DESIGN2003+DESIGN2008&quot;&gt;
+  &lt;htmlb:document&gt;
+    &lt;htmlb:documentHead&gt;
+      &lt;base href=&quot;&lt;%= BASE_HREF %&gt;&quot;&gt;
+      &lt;htmlb:headInclude/&gt;
+    &lt;/htmlb:documentHead&gt;
+    &lt;htmlb:documentBody&gt;
+      &lt;htmlb:textView wrapping=&quot;TRUE&quot; &gt;
+        &lt;%= TEXT_PROLOG_INDIV %&gt;
+        &lt;p&gt;
+      &lt;/htmlb:textView&gt;
+      &lt;htmlb:group design=&quot;SECONDARYBOXCOLOR&quot; &gt;
+        &lt;htmlb:groupHeader&gt;
+          &lt;%= wa_details-subject %&gt;
+        &lt;/htmlb:groupHeader&gt;
+        &lt;htmlb:groupBody&gt;
+          &lt;%= wa_details-body %&gt;
+          &lt;p&gt;
+          &lt;%
+            LOOP AT wa_details-links INTO wa_link WHERE category = &apos;N&apos;.
+          %&gt;
+          &lt;htmlb:link id        = &quot;notifAction&quot;
+                      reference = &quot;&lt;%= wa_link-url %&gt;&quot; &gt;
+            &lt;%= wa_link-caption %&gt;
+          &lt;/htmlb:link&gt;
+          &lt;br&gt;
+          &lt;%
+              l_notif_link = &apos;X&apos;.
+            ENDLOOP.
+          %&gt;
+          &lt;%
+            IF l_notif_link = &apos;X&apos;.
+          %&gt;
+          &lt;hr&gt;&lt;p&gt;
+          &lt;%
+            ELSE.
+          %&gt;
+          &lt;p&gt;
+          &lt;%
+            ENDIF.
+          %&gt;
+          &lt;%
+            LOOP AT wa_details-links INTO wa_link WHERE category = &apos;T&apos;.
+          %&gt;
+          &lt;htmlb:link id        = &quot;action&quot;
+                      reference = &quot;&lt;%= wa_link-url %&gt;&quot; &gt;
+            &lt;%= wa_link-caption %&gt;
+          &lt;/htmlb:link&gt;
+          &lt;br&gt;
+          &lt;%
+            ENDLOOP.
+          %&gt;
+        &lt;/htmlb:groupBody&gt;
+      &lt;/htmlb:group&gt;
+      &lt;p&gt;
+      &lt;htmlb:textView wrapping=&quot;TRUE&quot; &gt;
+        &lt;%
+          IF NOT has_action_attach IS INITIAL.
+        %&gt;
+        &lt;%= TEXT_GOTO_WI %&gt;
+        &lt;%
+          ELSEIF NOT has_action_links IS INITIAL.
+          &quot;link is already handled by the links LOOP above
+        %&gt;
+        &lt;%
+          ELSE.
+        %&gt;
+        &lt;%= TEXT_PROCESS_INDIV %&gt;
+        &lt;%
+          ENDIF.
+        %&gt;
+        &lt;p&gt;
+        &lt;%= TEXT_CONTACT_ADMIN %&gt;
+      &lt;/htmlb:textView&gt;
+    &lt;/htmlb:documentBody&gt;
+  &lt;/htmlb:document&gt;
+&lt;/htmlb:content&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="BASE_HREF" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="BASE_HREF" TEXT="Base HREF Points to BSP Host"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling for Link to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="TEXT_GOTO_WI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_GOTO_WI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="TEXT_PROCESS_INDIV" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_INDIV" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_INDIV.HTM" COMPNAME="TEXT_PROLOG_INDIV" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_INDIV" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" PAGENAME="html_multi.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/html" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="Several Work Items per Message (Text/HTML)">
+   <layout>&lt;%@page language=&quot;abap&quot; %&gt;
+&lt;%@extension name=&quot;bsp&quot; prefix=&quot;bsp&quot; %&gt;
+&lt;%@extension name=&quot;htmlb&quot; prefix=&quot;htmlb&quot; %&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+  DATA wa_link    TYPE swnslink.
+  DATA l_wi_ref   TYPE string.
+  DATA l_index    TYPE string.
+  DATA l_notif_link type xfeld.
+  DATA l_text TYPE string.
+%&gt;
+&lt;htmlb:content id                           = &quot;EmailBodyMulti&quot;
+               checkForCookiesAndJavaScript = &quot;FALSE&quot; &gt;
+  &lt;htmlb:document&gt;
+    &lt;htmlb:documentHead&gt;
+      &lt;bsp:findAndReplace find    = &quot;/sap/public/b&quot;
+                          replace = &quot;&lt;%= BASE_HREF %&gt;/sap/public/b&quot; &gt;
+        &lt;htmlb:headInclude/&gt;
+      &lt;/bsp:findAndReplace&gt;
+    &lt;/htmlb:documentHead&gt;
+    &lt;htmlb:documentBody&gt;
+      &lt;a name=&quot;overview&quot;/&gt;
+      &lt;htmlb:textView wrapping=&quot;TRUE&quot; &gt;
+        &lt;%= TEXT_PROLOG_MULTI %&gt;
+        &lt;p&gt;
+      &lt;/htmlb:textView&gt;
+      &lt;htmlb:group&gt;
+        &lt;htmlb:groupHeader&gt;
+          &lt;%
+  l_text = cl_swn_utl_text=&gt;get_text_from_repository( i_id = &apos;NAZVNWF003&apos;
+  i_language = language ).
+          %&gt;
+          &lt;%= l_text %&gt;
+        &lt;/htmlb:groupHeader&gt;
+        &lt;htmlb:groupBody&gt;
+          &lt;%
+  LOOP AT notif_details INTO wa_details.
+  l_index = sy-tabix.
+  condense l_index.
+  concatenate &apos;#a&apos; l_index into l_wi_ref.
+          %&gt;
+          &lt;div style=&quot;text-indent: 1em; font-style: italic&quot; &gt;
+                       &lt;%= wa_details-subject %&gt;
+                     &lt;br&gt;
+           &lt;/div&gt;
+          &lt;%
+  ENDLOOP.
+          %&gt;
+          &lt;htmlb:link id        = &quot;Inbox&quot;
+                      reference = &quot;&lt;%= inbox_link_url %&gt;&quot; &gt;
+            &lt;%= inbox_link_caption %&gt;
+          &lt;/htmlb:link&gt;
+        &lt;/htmlb:groupBody&gt;
+      &lt;/htmlb:group&gt;
+      &lt;p&gt;&lt;hr&gt;&lt;p&gt;
+      &lt;p&gt;
+      &lt;htmlb:textView wrapping=&quot;TRUE&quot; &gt;
+        &lt;%
+  IF has_action_links IS INITIAL.
+        %&gt;
+        &lt;%= TEXT_PROCESS_MULTI %&gt;
+        &lt;%
+  ENDIF.
+        %&gt;
+        &lt;p&gt;
+        &lt;%= TEXT_CONTACT_ADMIN %&gt;
+      &lt;/htmlb:textView&gt;
+    &lt;/htmlb:documentBody&gt;
+  &lt;/htmlb:document&gt;
+&lt;/htmlb:content&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="BASE_HREF" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="BASE_HREF" TEXT="Base HREF Points to BSP Host"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling for Link to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="LANGUAGE" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SYLANGU" ALIASNAME="LANGUAGE" TEXT="Language"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="TEXT_PROCESS_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_MULTI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="HTML_MULTI.HTM" COMPNAME="TEXT_PROLOG_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_MULTI" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="MAIN.DO" PAGENAME="main.do" PAGETYPE="C" BROWSER_CACHE="0 " SERVER_CACHE="0 " IS_START_PAGE="X" LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="Controller for E-Mail Messages for Work Items"/>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" PAGENAME="plain_inbox.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/plain" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Message per Inbox (Text/Plain)">
+   <layout>&lt;%@page language=&quot;abap&quot; forceEncode=&quot;raw&quot;%&gt;
+&lt;%= text_prolog_inbox %&gt;
+&lt;%
+  IF NOT inbox_link_url IS INITIAL.
+%&gt;
+&lt;%= TEXT_LINK_INBOX %&gt;
+&lt;&lt;%= inbox_link_url %&gt;&gt;
+&lt;%
+  ELSEIF NOT has_action_attach IS INITIAL.
+%&gt;
+&lt;%= TEXT_GOTO_INBOX %&gt;
+&lt;%
+  ELSE.
+%&gt;
+&lt;%= TEXT_PROCESS_MULTI %&gt;
+&lt;%
+  ENDIF.
+%&gt;
+&lt;%= TEXT_CONTACT_ADMIN %&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling for Link to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="TEXT_GOTO_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_GOTO_INBOX" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="TEXT_LINK_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_LINK_INBOX" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="TEXT_PROCESS_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_MULTI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INBOX.HTM" COMPNAME="TEXT_PROLOG_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_INBOX" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" PAGENAME="plain_indiv.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/plain" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Work Item per Message (Text/Plain)">
+   <layout>&lt;%@page language=&quot;abap&quot; forceEncode=&quot;raw&quot;%&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+  DATA wa_link    TYPE swnslink.
+
+  READ TABLE notif_details INDEX 1 INTO wa_details.
+%&gt;&lt;%= TEXT_PROLOG_INDIV %&gt;
+
+------------------------------------------------------------------------
+
+&lt;%= wa_details-subject %&gt;
+
+&lt;%= wa_details-body %&gt;
+&lt;% LOOP AT wa_details-links INTO wa_link WHERE category = &apos;N&apos;. %&gt;
+&lt;%= wa_link-caption %&gt;: &lt;&lt;%= wa_link-url %&gt;&gt;&lt;% ENDLOOP.%&gt;
+&lt;% LOOP AT wa_details-links INTO wa_link WHERE category = &apos;T&apos;. %&gt;
+&lt;%= wa_link-caption %&gt;: &lt;&lt;%= wa_link-url %&gt;&gt;&lt;% ENDLOOP. %&gt;
+
+------------------------------------------------------------------------
+&lt;%
+  IF NOT has_action_attach IS INITIAL.
+%&gt;
+&lt;%= TEXT_GOTO_WI %&gt;
+&lt;%
+  ELSEIF has_action_links IS INITIAL.
+%&gt;
+&lt;%= TEXT_PROCESS_INDIV %&gt;
+&lt;%
+  ENDIF.
+%&gt;
+&lt;%= TEXT_CONTACT_ADMIN %&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling for Link to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="TEXT_GOTO_WI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_GOTO_WI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="TEXT_PROCESS_INDIV" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_INDIV" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_INDIV.HTM" COMPNAME="TEXT_PROLOG_INDIV" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_INDIV" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" PAGENAME="plain_multi.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/plain" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="Several Work Items per Message (Text/Plain)">
+   <layout>&lt;%@page language=&quot;abap&quot; forceEncode=&quot;raw&quot;%&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+  DATA wa_link    TYPE swnslink.
+%&gt;
+&lt;%= TEXT_PROLOG_MULTI %&gt;
+&lt;%
+  LOOP AT notif_details INTO wa_details.
+%&gt;
+------------------------------------------------------------------------
+
+&lt;%= wa_details-subject %&gt;
+
+&lt;%= wa_details-body %&gt;
+&lt;% LOOP AT wa_details-links INTO wa_link WHERE category = &apos;N&apos;. %&gt;
+&lt;%= wa_link-caption %&gt;: &lt;&lt;%= wa_link-url %&gt;&gt;&lt;% ENDLOOP.%&gt;
+&lt;% LOOP AT wa_details-links INTO wa_link WHERE category = &apos;T&apos;. %&gt;
+&lt;%= wa_link-caption %&gt;: &lt;&lt;%= wa_link-url %&gt;&gt;&lt;% ENDLOOP. %&gt;
+&lt;%
+  ENDLOOP.  &quot;notif
+%&gt;
+------------------------------------------------------------------------
+&lt;%
+  IF NOT has_action_attach IS INITIAL.
+%&gt;
+&lt;%= TEXT_GOTO_INBOX %&gt;
+&lt;%
+  ELSEIF has_action_links IS INITIAL.
+%&gt;
+&lt;%= TEXT_PROCESS_MULTI %&gt;
+&lt;%
+  ENDIF.
+%&gt;
+&lt;%= TEXT_CONTACT_ADMIN %&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="HAS_ACTION_ATTACH" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_ATTACH" TEXT="Message Contains Action Attachments"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="HAS_ACTION_LINKS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="FLAG" ALIASNAME="HAS_ACTION_LINKS" TEXT="Message Contains Action Links"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="INBOX_LINK_CAPTION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="INBOX_LINK_CAPTION" TEXT="Labeling for Link to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="INBOX_LINK_URL" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWN_BSPURL" ALIASNAME="INBOX_LINK_URL" TEXT="URL to Inbox"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="SALUTATION" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="SALUTATION" TEXT="For Example: Dear Mr.Bloggs"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="TEXT_CONTACT_ADMIN" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_CONTACT_ADMIN" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="TEXT_GOTO_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_GOTO_INBOX" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="TEXT_PROCESS_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROCESS_MULTI" TEXT="Message Text"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="PLAIN_MULTI.HTM" COMPNAME="TEXT_PROLOG_MULTI" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_PROLOG_MULTI" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="SMS_INBOX.HTM" PAGENAME="sms_inbox.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/plain" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Message per Inbox (SMS)">
+   <layout>&lt;%@page language=&quot;abap&quot; forceEncode=&quot;raw&quot;%&gt;
+&lt;%= TEXT_SMS_INBOX %&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="SMS_INBOX.HTM" COMPNAME="TEXT_SMS_INBOX" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_SMS_INBOX" TEXT="Message Text"/>
+  </page>
+  <page APPLNAME="ZSWN_MESSAGE1" PAGEKEY="SMS_INDIV.HTM" PAGENAME="sms_indiv.htm" PAGETYPE="V" CONTROLLERURL="CL_BSP_CONTROLLER" MIMETYPE="text/plain" BROWSER_CACHE="0 " SERVER_CACHE="0 " LAYOUTLANGU="E" VERSION="A" DEVCLASS="$TMP" LANGU="E" DESCRIPT="One Work Item Per Message (SMS)">
+   <layout>&lt;%@page language=&quot;abap&quot; forceEncode=&quot;raw&quot;%&gt;
+&lt;%
+  DATA wa_details TYPE swnsnotifdetails.
+
+  READ TABLE notif_details INDEX 1 INTO wa_details.
+%&gt;
+&lt;%= wa_details-subject %&gt;
+&lt;%= TEXT_SMS_INDIV %&gt;</layout>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="SMS_INDIV.HTM" COMPNAME="NOTIF_DETAILS" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="SWNTNOTIFDETAILS" ALIASNAME="NOTIF_DETAILS" TEXT="Details for Notifications"/>
+   <parameter APPLNAME="ZSWN_MESSAGE1" PAGEKEY="SMS_INDIV.HTM" COMPNAME="TEXT_SMS_INDIV" VERSION="A" PARDECLTYP="1" TYPTYPE="1" TYPE="STRING" ALIASNAME="TEXT_SMS_INDIV" TEXT="Message Text"/>
+  </page>
+ </WAPA>
+</nugget>

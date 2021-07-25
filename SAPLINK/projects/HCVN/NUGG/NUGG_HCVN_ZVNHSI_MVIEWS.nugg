@@ -1,0 +1,2128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNHSI_MVIEWS">
+ <DEVC DEVCLASS="ZVNHSI_MVIEWS" CTEXT="HomeSIS: maintenance views" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="BC-SRV-BP" COMPONENT="B200003098" NAMESPACE="/0CUST/" PARENTCL="ZVNHSI" CREATED_BY="HQ_TTA" CREATED_ON="20200923" CHANGED_BY="HQ_TTA" CHANGED_ON="20200923" PROJECT_GUID="00000000000000000000000000000000"/>
+ <FUGR AREA="ZVNHSI_FVRG" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_FVRG" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_FVRG" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_FVRG">
+     <dynprofield FNAM="TCTRL_ZVNHSI_FVRG" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_FVRG-RGCODE" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="RegionCode" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_FVRG-RGNAME" DIDX="0028" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Region Name" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_FVRG-RGCODE" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="02" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_FVRG-RGNAME" DIDX="0028" FLG1="A0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="50" ADEZ="00" STXT="________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_FVRG CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_FVRG-RGCODE .
+    FIELD ZVNHSI_FVRG-RGNAME .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_FVRG-RGCODE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-12-08 14:41:38
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_FVRGTOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_FVRGUXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_FVRGF...                   &quot; Subroutines
+* INCLUDE LZVNHSI_FVRGO...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_FVRGI...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_FVRGE...                   &quot; Events
+* INCLUDE LZVNHSI_FVRGP...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_FVRGT99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_FVRGF00                         . &quot; subprograms
+  INCLUDE LZVNHSI_FVRGI00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_FVRGF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-12-08 at 14:41:38
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVRGI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-08 at 14:41:38
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVRGI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-08 at 14:41:38
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVRGTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-12-08 14:41:38
+FUNCTION-POOL ZVNHSI_FVRG                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_FVRGD...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_FVRGT00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_FVRG" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_FVRG
+*   generation date: 2020-12-08 at 14:41:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_FVRG" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_FVRG
+*   generation date: 2020-12-08 at 14:41:38
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C000" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C000" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C000" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="69 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C000">
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="101" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ MODULE VIM_SUPPRESS_LISTE.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+    <dynpro PROG="SAPLZVNHSI_C000" DNUM="9002" FNUM="9002" BZMX="5 " BZBR="83 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Detail Screen ZVNHSI_C000">
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="0005" FLG1="80" FLG2="02" FLG3="88" FILL="R" FMB1="30" FMB2="00" LENG="53" LINE="01" COLN="02" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="101" AGLT="00" ADEZ="00" STXT="___________________________________________________________________________________"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSBNK_PORT" DIDX="0014" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="14" LINE="02" COLN="03" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="port for Bank ws" RES1="                                       00                                                                                                                                                                                                               X"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSBNK_PORT" DIDX="003C" FLG1="A0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="3C" LINE="02" COLN="18" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="78" ADEZ="00" STXT="____________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSP0_PORT" DIDX="0013" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="13" LINE="03" COLN="03" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="port for Partner ws" RES1="                                       00                                                                                                                                                                                                               X"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSP0_PORT" DIDX="003C" FLG1="A0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="3C" LINE="03" COLN="18" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="78" ADEZ="00" STXT="____________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSS0_PORT" DIDX="0014" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="00" LENG="14" LINE="04" COLN="03" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="port for Salesman ws" RES1="                                       00                                                                                                                                                                                                               X"/>
+     <dynprofield FNAM="ZVNHSI_C000-WSS0_PORT" DIDX="003C" FLG1="A0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="3C" LINE="04" COLN="18" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" ITYP="C" AGLT="78" ADEZ="00" STXT="____________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE detail_init.
+*
+PROCESS AFTER INPUT.
+ MODULE DETAIL_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE DETAIL_SET_PFSTATUS.
+ CHAIN.
+    FIELD ZVNHSI_C000-WSBNK_PORT .
+    FIELD ZVNHSI_C000-WSP0_PORT .
+    FIELD ZVNHSI_C000-WSS0_PORT .
+  MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+ endchain.
+ chain.
+  module detail_pai.
+ endchain.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-13 22:47:40
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C000TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C000UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C000F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C000O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C000I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C000E...                   &quot; Events
+* INCLUDE LZVNHSI_C000P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C000T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C000F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C000I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C000F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 02:23:18
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C000I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 02:23:18
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C000I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 02:23:18
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C000TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-13 22:47:40
+FUNCTION-POOL ZVNHSI_C000                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C000D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C000T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C000" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C000
+*   generation date: 2020-10-13 at 22:47:39
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C000" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C000
+*   generation date: 2020-10-13 at 22:47:40
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C001" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C001" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C001" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C001">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C001" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C001-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C001-ATRBT" DIDX="0028" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="attribute item" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_C001-ATTX0" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrData" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C001-ATTXA" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrAddres" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C001-ATTXB" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrBnkAcc" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C001-ATTXC" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrContct" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C001-PDOMA" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C001-ATRBT" DIDX="0014" FLG1="A1" FLG2="02" FLG3="80" FMB1="30" FMB2="20" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="50" ADEZ="00" STXT="________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_C001-ATTX0" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C001-ATTXA" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="104" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C001-ATTXB" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="105" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C001-ATTXC" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="106" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="107" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C001 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C001-PDOMA .
+    FIELD ZVNHSI_C001-ATRBT .
+    FIELD ZVNHSI_C001-ATTX0 .
+    FIELD ZVNHSI_C001-ATTXA .
+    FIELD ZVNHSI_C001-ATTXB .
+    FIELD ZVNHSI_C001-ATTXC .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C001-PDOMA .
+    FIELD ZVNHSI_C001-ATRBT .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 03:42:40
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C001TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C001UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C001F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C001O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C001I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C001E...                   &quot; Events
+* INCLUDE LZVNHSI_C001P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C001T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C001F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C001I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C001F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 03:45:03
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C001I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 03:45:03
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C001I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 03:45:03
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C001TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 03:42:40
+FUNCTION-POOL ZVNHSI_C001                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C001D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C001T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C001" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C001
+*   generation date: 2020-10-14 at 03:42:40
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C001" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C001
+*   generation date: 2020-10-14 at 03:42:40
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C020" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C020" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C020" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C020">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C020" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C020-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-PTYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="PartType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-BU_TYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="BPC" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-BU_GROUP" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Grp." RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-AD_TITLE" DIDX="0009" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Key" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-IDTYP" DIDX="0006" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="IDType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-TAXTY" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Category" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C020-UQIDTY" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="UniqIDType" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C020-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C020-PTYPE" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C020-BU_TYPE" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BPY" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C020-BU_GROUP" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BPP" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C020-AD_TITLE" DIDX="0009" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C020-IDTYP" DIDX="0006" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="06" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="0C" ADEZ="00" STXT="______" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C020-TAXTY" DIDX="000A" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C020-UQIDTY" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="08" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="10" ADEZ="00" STXT="________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C020 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C020-PDOMA .
+    FIELD ZVNHSI_C020-PTYPE .
+    FIELD ZVNHSI_C020-BU_TYPE .
+    FIELD ZVNHSI_C020-BU_GROUP .
+    FIELD ZVNHSI_C020-AD_TITLE .
+    FIELD ZVNHSI_C020-IDTYP .
+    FIELD ZVNHSI_C020-TAXTY .
+    FIELD ZVNHSI_C020-UQIDTY .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C020-PDOMA .
+    FIELD ZVNHSI_C020-PTYPE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 23:12:01
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C020TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C020UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C020F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C020O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C020I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C020E...                   &quot; Events
+* INCLUDE LZVNHSI_C020P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C020T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C020F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C020I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C020F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-11-02 at 15:09:50
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C020I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-02 at 15:09:50
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C020I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-02 at 15:09:50
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C020TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 23:12:01
+FUNCTION-POOL ZVNHSI_C020                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C020D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C020T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C020" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C020
+*   generation date: 2020-10-14 at 23:12:01
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C020" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C020
+*   generation date: 2020-10-14 at 23:12:01
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C022" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C022" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C022" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C022">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C022" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C022-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C022-PTYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="PartType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C022-LFM1_EKORG" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="POrg" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_C022-LFM1_EKGRP" DIDX="0003" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="PGr" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_C022-LFM1_WAERS" DIDX="0005" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Crcy" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_C022-LFM1_ZTERM" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="PayT" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C022-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C022-PTYPE" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C022-LFM1_EKORG" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="00" LENG="04" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="EKO" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C022-LFM1_EKGRP" DIDX="0003" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="00" LENG="03" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="EKG" TYPE="CHAR" ITYP="C" AGLT="06" ADEZ="00" STXT="___" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C022-LFM1_WAERS" DIDX="0005" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="00" LENG="05" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="FWS" TYPE="CUKY" ITYP="C" AGLT="0A" ADEZ="00" STXT="_____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C022-LFM1_ZTERM" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C022 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C022-PDOMA .
+    FIELD ZVNHSI_C022-PTYPE .
+    FIELD ZVNHSI_C022-LFM1_EKORG .
+    FIELD ZVNHSI_C022-LFM1_EKGRP .
+    FIELD ZVNHSI_C022-LFM1_WAERS .
+    FIELD ZVNHSI_C022-LFM1_ZTERM .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C022-PDOMA .
+    FIELD ZVNHSI_C022-PTYPE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 23:14:26
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C022TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C022UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C022F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C022O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C022I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C022E...                   &quot; Events
+* INCLUDE LZVNHSI_C022P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C022T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C022F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C022I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C022F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 23:14:26
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C022I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 23:14:26
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C022I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 23:14:26
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C022TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 23:14:26
+FUNCTION-POOL ZVNHSI_C022                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C022D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C022T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C022" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C022
+*   generation date: 2020-10-14 at 23:14:25
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C022" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C022
+*   generation date: 2020-10-14 at 23:14:25
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C023" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C023" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C023" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C023">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C023" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C023-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-PTYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="PartType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-KNB1_BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-KNB1_AKONT" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Recon. account" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-KNB1_ZUAWA" DIDX="0005" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Sort" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-KNB1_ZTERM" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="PayT" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C023-KNB1_ZWELS" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Payment Methods" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C023-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C023-PTYPE" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C023-KNB1_BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C023-KNB1_AKONT" DIDX="000F" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="0A" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" UCNV="ALPHA" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C023-KNB1_ZUAWA" DIDX="0005" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="03" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="06" ADEZ="00" STXT="___" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C023-KNB1_ZTERM" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C023-KNB1_ZWELS" DIDX="000F" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="0A" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C023 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C023-PDOMA .
+    FIELD ZVNHSI_C023-PTYPE .
+    FIELD ZVNHSI_C023-KNB1_BUKRS .
+    FIELD ZVNHSI_C023-KNB1_AKONT .
+    FIELD ZVNHSI_C023-KNB1_ZUAWA .
+    FIELD ZVNHSI_C023-KNB1_ZTERM .
+    FIELD ZVNHSI_C023-KNB1_ZWELS .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C023-PDOMA .
+    FIELD ZVNHSI_C023-PTYPE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 23:14:51
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C023TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C023UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C023F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C023O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C023I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C023E...                   &quot; Events
+* INCLUDE LZVNHSI_C023P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C023T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C023F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C023I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C023F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-15 at 03:41:59
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C023I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-15 at 03:41:59
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C023I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-15 at 03:41:59
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C023TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 23:14:51
+FUNCTION-POOL ZVNHSI_C023                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C023D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C023T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C023" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C023
+*   generation date: 2020-10-14 at 23:14:51
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C023" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C023
+*   generation date: 2020-10-14 at 23:14:51
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C024" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C024" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C024" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C024">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C024" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C024-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C024-PTYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="PartType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C024-RLTYP" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="BP Role" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C024-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C024-PTYPE" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C024-RLTYP" DIDX="000F" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="06" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="0C" ADEZ="00" STXT="______" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C024 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C024-PDOMA .
+    FIELD ZVNHSI_C024-PTYPE .
+    FIELD ZVNHSI_C024-RLTYP .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C024-PDOMA .
+    FIELD ZVNHSI_C024-PTYPE .
+    FIELD ZVNHSI_C024-RLTYP .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 23:20:33
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C024TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C024UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C024F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C024O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C024I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C024E...                   &quot; Events
+* INCLUDE LZVNHSI_C024P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C024T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C024F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C024I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C024F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 23:20:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C024I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 23:20:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C024I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 23:20:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C024TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 23:20:33
+FUNCTION-POOL ZVNHSI_C024                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C024D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C024T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C024" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C024
+*   generation date: 2020-10-14 at 23:20:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C024" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C024
+*   generation date: 2020-10-14 at 23:20:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_FVBB" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_FVBB" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_FVBB" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_FVBB">
+     <dynprofield FNAM="TCTRL_ZVNHSI_FVBB" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_FVBB-BBRANCH" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="BankBranch" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_FVBB-BANKK" DIDX="000F" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Bank Key" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_FVBB-BBRANCH" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="18" ADEZ="00" STXT="__________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_FVBB-BANKK" DIDX="000F" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="0F" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BNK" TYPE="CHAR" ITYP="C" AGLT="1E" ADEZ="00" STXT="_______________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_FVBB CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_FVBB-BBRANCH .
+    FIELD ZVNHSI_FVBB-BANKK .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_FVBB-BBRANCH .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-13 23:06:12
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_FVBBTOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_FVBBUXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_FVBBF...                   &quot; Subroutines
+* INCLUDE LZVNHSI_FVBBO...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_FVBBI...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_FVBBE...                   &quot; Events
+* INCLUDE LZVNHSI_FVBBP...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_FVBBT99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_FVBBF00                         . &quot; subprograms
+  INCLUDE LZVNHSI_FVBBI00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_FVBBF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-13 at 23:06:12
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVBBI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-13 at 23:06:12
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVBBI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-13 at 23:06:12
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVBBTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-13 23:06:12
+FUNCTION-POOL ZVNHSI_FVBB                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_FVBBD...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_FVBBT00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_FVBB" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_FVBB
+*   generation date: 2020-10-13 at 23:06:11
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_FVBB" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_FVBB
+*   generation date: 2020-10-13 at 23:06:12
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_FVDS" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_FVDS" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_FVDS" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_FVDS">
+     <dynprofield FNAM="TCTRL_ZVNHSI_FVDS" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_FVDS-DSCODE" DIDX="000C" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="District Code" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_FVDS-DSNAME" DIDX="0028" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="District Name" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_FVDS-DSCODE" DIDX="000C" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="0C" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="18" ADEZ="00" STXT="____________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_FVDS-DSNAME" DIDX="0028" FLG1="A0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="50" ADEZ="00" STXT="________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_FVDS CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_FVDS-DSCODE .
+    FIELD ZVNHSI_FVDS-DSNAME .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_FVDS-DSCODE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 00:26:37
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_FVDSTOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_FVDSUXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_FVDSF...                   &quot; Subroutines
+* INCLUDE LZVNHSI_FVDSO...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_FVDSI...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_FVDSE...                   &quot; Events
+* INCLUDE LZVNHSI_FVDSP...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_FVDST99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_FVDSF00                         . &quot; subprograms
+  INCLUDE LZVNHSI_FVDSI00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_FVDSF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 00:26:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVDSI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 00:26:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVDSI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 00:26:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_FVDSTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 00:26:37
+FUNCTION-POOL ZVNHSI_FVDS                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_FVDSD...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_FVDST00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_FVDS" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_FVDS
+*   generation date: 2020-10-14 at 00:26:36
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_FVDS" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_FVDS
+*   generation date: 2020-10-14 at 00:26:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_IFLN" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_IFLN" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_IFLN" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_IFLN">
+     <dynprofield FNAM="TCTRL_ZVNHSI_IFLN" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-RDATE" DIDX="000A" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Date" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-RTIME" DIDX="0008" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Time" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-PCODE" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="code" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-ATTX0" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrData" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-ATTXA" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrAddres" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-ATTXB" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrBnkAcc" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-ATTXC" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="attrContct" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-STATU" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="status" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-PARTNER" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="0A" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Partner" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-MSGID" DIDX="0014" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0B" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Message Class" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-MSGNO" DIDX="0007" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0C" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Msg.No." RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-MSGTY" DIDX="0007" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0D" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Type" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_IFLN-MSGTX" DIDX="00DC" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0E" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="message text" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-RDATE" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="DATS" GRP1="KEY" ITYP="D" AGLT="10" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-RTIME" DIDX="0008" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="28" LENG="08" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="TIMS" GRP1="KEY" ITYP="T" AGLT="0C" ADEZ="00" STXT="________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-PCODE" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="0A" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-ATTX0" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-ATTXA" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="104" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-ATTXB" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="105" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-ATTXC" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="106" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-STATU" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-PARTNER" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="08" LENG="0A" LINE="01" COLN="0A" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BPA" UCNV="ALPHA" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-MSGID" DIDX="0014" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="14" LINE="01" COLN="0B" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="28" ADEZ="00" STXT="____________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-MSGNO" DIDX="0007" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="03" LINE="01" COLN="0C" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="NUMC" ITYP="N" AGLT="06" ADEZ="00" STXT="___" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-MSGTY" DIDX="0007" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="01" LINE="01" COLN="0D" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_IFLN-MSGTX" DIDX="00DC" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="DC" LINE="01" COLN="0E" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="107" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_IFLN CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_IFLN-RDATE .
+    FIELD ZVNHSI_IFLN-RTIME .
+    FIELD ZVNHSI_IFLN-PDOMA .
+    FIELD ZVNHSI_IFLN-PCODE .
+    FIELD ZVNHSI_IFLN-ATTX0 .
+    FIELD ZVNHSI_IFLN-ATTXA .
+    FIELD ZVNHSI_IFLN-ATTXB .
+    FIELD ZVNHSI_IFLN-ATTXC .
+    FIELD ZVNHSI_IFLN-STATU .
+    FIELD ZVNHSI_IFLN-PARTNER .
+    FIELD ZVNHSI_IFLN-MSGID .
+    FIELD ZVNHSI_IFLN-MSGNO .
+    FIELD ZVNHSI_IFLN-MSGTY .
+    FIELD ZVNHSI_IFLN-MSGTX .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_IFLN-RDATE .
+    FIELD ZVNHSI_IFLN-RTIME .
+    FIELD ZVNHSI_IFLN-PDOMA .
+    FIELD ZVNHSI_IFLN-PCODE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 03:23:59
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_IFLNTOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_IFLNUXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_IFLNF...                   &quot; Subroutines
+* INCLUDE LZVNHSI_IFLNO...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_IFLNI...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_IFLNE...                   &quot; Events
+* INCLUDE LZVNHSI_IFLNP...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_IFLNT99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_IFLNF00                         . &quot; subprograms
+  INCLUDE LZVNHSI_IFLNI00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_IFLNF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-10-14 at 03:37:28
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_IFLNI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 03:37:28
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_IFLNI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-10-14 at 03:37:28
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_IFLNTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 03:23:59
+FUNCTION-POOL ZVNHSI_IFLN                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_IFLND...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_IFLNT00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_IFLN" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_IFLN
+*   generation date: 2020-10-14 at 03:37:27
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_IFLN" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_IFLN
+*   generation date: 2020-10-14 at 03:37:27
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNHSI_C021" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNHSI_C021" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNHSI_C021" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNHSI_C021">
+     <dynprofield FNAM="TCTRL_ZVNHSI_C021" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNHSI_C021-PDOMA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="domain" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-PTYPE" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="PartType" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_AKONT" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Recon. account" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_ZUAWA" DIDX="0005" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Sort" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_ZTERM" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="PayT" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_REPRF" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Chk Double Inv." RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_ZWELS" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Payment Methods" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNHSI_C021-LFB1_ZAHLS" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Payt Block" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNHSI_C021-PDOMA" DIDX="000F" FLG1="B1" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C021-PTYPE" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_AKONT" DIDX="000F" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="0A" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" UCNV="ALPHA" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_ZUAWA" DIDX="0005" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="03" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="06" ADEZ="00" STXT="___" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_ZTERM" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="08" LENG="04" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_REPRF" DIDX="000F" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_ZWELS" DIDX="000F" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="0A" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNHSI_C021-LFB1_ZAHLS" DIDX="000A" FLG1="B0" FLG2="00" FLG3="84" FMB1="00" FMB2="00" LENG="01" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="104" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNHSI_C021 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNHSI_C021-PDOMA .
+    FIELD ZVNHSI_C021-PTYPE .
+    FIELD ZVNHSI_C021-LFB1_BUKRS .
+    FIELD ZVNHSI_C021-LFB1_AKONT .
+    FIELD ZVNHSI_C021-LFB1_ZUAWA .
+    FIELD ZVNHSI_C021-LFB1_ZTERM .
+    FIELD ZVNHSI_C021-LFB1_REPRF .
+    FIELD ZVNHSI_C021-LFB1_ZWELS .
+    FIELD ZVNHSI_C021-LFB1_ZAHLS .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNHSI_C021-PDOMA .
+    FIELD ZVNHSI_C021-PTYPE .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-10-14 23:13:37
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNHSI_C021TOP.                   &quot; Global Declarations
+  INCLUDE LZVNHSI_C021UXX.                   &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNHSI_C021F...                   &quot; Subroutines
+* INCLUDE LZVNHSI_C021O...                   &quot; PBO-Modules
+* INCLUDE LZVNHSI_C021I...                   &quot; PAI-Modules
+* INCLUDE LZVNHSI_C021E...                   &quot; Events
+* INCLUDE LZVNHSI_C021P...                   &quot; Local class implement.
+* INCLUDE LZVNHSI_C021T99.                   &quot; ABAP Unit tests
+  INCLUDE LZVNHSI_C021F00                         . &quot; subprograms
+  INCLUDE LZVNHSI_C021I00                         . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNHSI_C021F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2021-03-17 at 15:48:52
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNHSI_C021I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2021-03-17 at 15:48:53
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C021I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2021-03-17 at 15:48:53
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNHSI_C021TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-10-14 23:13:37
+FUNCTION-POOL ZVNHSI_C021                MESSAGE-ID SV.
+
+* INCLUDE LZVNHSI_C021D...                   &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNHSI_C021T00                         . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNHSI_C021" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNHSI_C021
+*   generation date: 2020-10-14 at 23:13:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNHSI_C021" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNHSI_C021
+*   generation date: 2020-10-14 at 23:13:37
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <TRAN TCODE="ZVNHSI_CONF" DYPNO="0000" TCODE_CALL="SM34" TYPE="P" SKIP_SCREEN="X" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="HSI: Configuration">
+  <params FIELD="VCLDIR-VCLNAME" VALUE="ZVNHSI_CONF"/>
+  <params FIELD="SHOW" VALUE="X"/>
+ </TRAN>
+ <VCLS VCLNAME="ZVNHSI_CONF" CHANGEDATE="20201208" TEXT="HSI: HomeSIS configuration">
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C000" OBJECTTEXT="general configuration" PREDOBJECT="ZVNHSI_C000" DEPENDENCY="R" OBJPOS="01" OBJLEVEL="01" STARTOBJ="X"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C001" OBJECTTEXT="attribute-to-ws" PREDOBJECT="ZVNHSI_C001" DEPENDENCY="R" OBJPOS="02" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C020" OBJECTTEXT="BUPA Partner general" PREDOBJECT="ZVNHSI_C020" DEPENDENCY="R" OBJPOS="03" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C021" OBJECTTEXT="LFB1 Vendor CompCode" PREDOBJECT="ZVNHSI_C021" DEPENDENCY="R" OBJPOS="04" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C022" OBJECTTEXT="LFM1 Vendor Purchasing" PREDOBJECT="ZVNHSI_C022" DEPENDENCY="R" OBJPOS="05" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C023" OBJECTTEXT="KNB1 Customer CompCode" PREDOBJECT="ZVNHSI_C023" DEPENDENCY="R" OBJPOS="06" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C024" OBJECTTEXT="BUPA Roles" PREDOBJECT="ZVNHSI_C024" DEPENDENCY="R" OBJPOS="07" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVBB" OBJECTTEXT="(data) Bank Branches BSL" PREDOBJECT="ZVNHSI_FVBB" DEPENDENCY="R" OBJPOS="08" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVDS" OBJECTTEXT="(data) Districts HomeSIS" PREDOBJECT="ZVNHSI_FVDS" DEPENDENCY="R" OBJPOS="09" OBJLEVEL="01"/>
+  <vclstruc VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVRG" OBJECTTEXT="(data) Regions HomeSIS" PREDOBJECT="ZVNHSI_FVRG" DEPENDENCY="R" OBJPOS="10" OBJLEVEL="01"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C000" PREDOBJECT="ZVNHSI_C000"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C001" PREDOBJECT="ZVNHSI_C001"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C020" PREDOBJECT="ZVNHSI_C020"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C021" PREDOBJECT="ZVNHSI_C021"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C022" PREDOBJECT="ZVNHSI_C022"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C023" PREDOBJECT="ZVNHSI_C023"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_C024" PREDOBJECT="ZVNHSI_C024"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVBB" PREDOBJECT="ZVNHSI_FVBB"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVDS" PREDOBJECT="ZVNHSI_FVDS"/>
+  <vclstrudep VCLNAME="ZVNHSI_CONF" OBJECT="ZVNHSI_FVRG" PREDOBJECT="ZVNHSI_FVRG"/>
+ </VCLS>
+</nugget>

@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZBC_ACTIVITY_LOG">
+ <CLAS CLSNAME="ZCL_ACTIVITY_LOG" VERSION="1" LANGU="E" DESCRIPT="Activity log class" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" WITH_UNIT_TESTS="X" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <localTestClasses>*&quot;* use this source file for your ABAP unit test classes</localTestClasses>
+  <method CLSNAME="ZCL_ACTIVITY_LOG" CMPNAME="CHECK_LOG_IS_ENABLED" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_ACTIVITY_LOG" CMPNAME="CHECK_LOG_IS_ENABLED" SCONAME="IV_PROGRAM" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="SYS_CALLS-PROGNAME"/>
+   <parameter CLSNAME="ZCL_ACTIVITY_LOG" CMPNAME="CHECK_LOG_IS_ENABLED" SCONAME="RV_ENABLED" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="ABAP_BOOL"/>
+   <source>METHOD check_log_is_enabled.
+
+    SELECT SINGLE enabled
+    FROM zbc_act_log_cust
+    WHERE program_name = @iv_program
+    INTO @rv_enabled.
+
+    IF sy-subrc &lt;&gt; 0. &quot; Default enabled
+      MODIFY zbc_act_log_cust FROM @( VALUE #( program_name = iv_program enabled = abap_true ) ).
+      rv_enabled = abap_true.
+    ENDIF.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_ACTIVITY_LOG" CMPNAME="LOG" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD log.
+
+    DATA: lt_callstack TYPE sys_callst,
+          callstack    TYPE abap_callstack.
+
+    GET TIME.
+
+    CALL FUNCTION &apos;SYSTEM_CALLSTACK&apos;
+*    EXPORTING
+*      max_level    = 0
+      IMPORTING
+        callstack    = callstack
+        et_callstack = lt_callstack.
+    TRY.
+
+        DATA(lv_program) = lt_callstack[ 2 ]-progname.
+
+        IF check_log_is_enabled( lv_program ) = abap_true.
+
+          SELECT SINGLE *
+          FROM zbc_activity_log
+          INTO @DATA(ls_activity)
+          WHERE username = @sy-uname
+          AND application = @lv_program
+          AND used_on = @sy-datum.
+
+
+          IF sy-subrc = 0.
+            &quot; update time
+            ls_activity-used_at = sy-uzeit.
+            &quot; update count             &quot; add 1 min wait time for Fiori apps; update just time so if person keeps use it it will not update count
+            IF lv_program CS &apos;DPC_EXTCP&apos;.
+              IF abs( ls_activity-used_at - sy-uzeit ) &gt; 60.
+                ADD 1 TO ls_activity-use_count.
+              ENDIF.
+            ELSE.
+              ADD 1 TO ls_activity-use_count.
+            ENDIF.
+          ELSE.
+            &quot; new record
+            ls_activity = VALUE zbc_activity_log( username = sy-uname application = lv_program used_on = sy-datum used_at = sy-uzeit use_count = 1 ).
+          ENDIF.
+
+          MODIFY zbc_activity_log FROM ls_activity.
+
+        ENDIF.
+
+      CATCH cx_sy_itab_line_not_found.
+
+    ENDTRY.
+
+  ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <DEVC DEVCLASS="ZBC_ACTIVITY_LOG" CTEXT="Activity Log package" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" NAMESPACE="/0CUST/" PARENTCL="ZBC_GENERAL" CREATED_BY="HQ_MFE" CREATED_ON="20210414" CHANGED_BY="HQ_MFE" CHANGED_ON="20210414" PROJECT_GUID="00000000000000000000000000000000"/>
+ <DTEL ROLLNAME="ZBC_USED_AT" DDLANGUAGE="E" DOMNAME="UZEIT" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Used At" REPTEXT="Last Used At" SCRTEXT_S="Last Used" SCRTEXT_M="Last Used At" SCRTEXT_L="Last Used At" AUTHCLASS="00" DTELMASTER="E" DATATYPE="TIMS" LENG="000006" DECIMALS="000000" OUTPUTLEN="000008" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBC_USED_AT" DDLANGUAGE="E" DOMNAME="UZEIT" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Used At" REPTEXT="Last Used At" SCRTEXT_S="Last Used" SCRTEXT_M="Last Used At" SCRTEXT_L="Last Used At" AUTHCLASS="00" DTELMASTER="E" DATATYPE="TIMS" LENG="000006" DECIMALS="000000" OUTPUTLEN="000008" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBC_USED_ON" DDLANGUAGE="E" DOMNAME="DATS" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Used on" REPTEXT="Used On" SCRTEXT_S="Used On" SCRTEXT_M="Used On" SCRTEXT_L="Used On" AUTHCLASS="00" DTELMASTER="E" DATATYPE="DATS" LENG="000008" DECIMALS="000000" OUTPUTLEN="000010" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBC_USED_ON" DDLANGUAGE="E" DOMNAME="DATS" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Used on" REPTEXT="Used On" SCRTEXT_S="Used On" SCRTEXT_M="Used On" SCRTEXT_L="Used On" AUTHCLASS="00" DTELMASTER="E" DATATYPE="DATS" LENG="000008" DECIMALS="000000" OUTPUTLEN="000010" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZBC_USE_COUNT" DDLANGUAGE="E" DOMNAME="INT4" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Use Count" REPTEXT="Use Count" SCRTEXT_S="Use Count" SCRTEXT_M="Use Count" SCRTEXT_L="Use Count" AUTHCLASS="00" DTELMASTER="E" DATATYPE="INT4" LENG="000010" DECIMALS="000000" OUTPUTLEN="000011" SIGNFLAG="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZBC_USE_COUNT" DDLANGUAGE="E" DOMNAME="INT4" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="BC activity - Use Count" REPTEXT="Use Count" SCRTEXT_S="Use Count" SCRTEXT_M="Use Count" SCRTEXT_L="Use Count" AUTHCLASS="00" DTELMASTER="E" DATATYPE="INT4" LENG="000010" DECIMALS="000000" OUTPUTLEN="000011" SIGNFLAG="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <FUGR AREA="ZBC_ACT_LOG_CUST" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZBC_ACT_LOG_CUST" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZBC_ACT_LOG_CUST" DNUM="0001" FNUM="0001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZBC_ACT_LOG_CUST">
+     <dynprofield FNAM="TCTRL_ZBC_ACT_LOG_CUST" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZBC_ACT_LOG_CUST-PROGRAM_NAME" DIDX="0028" FLG1="00" FLG2="00" FLG3="08" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="+"/>
+     <dynprofield FNAM="*ZBC_ACT_LOG_CUST-ENABLED" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="Indicator" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZBC_ACT_LOG_CUST-PROGRAM_NAME" DIDX="0028" FLG1="A0" FLG2="00" FLG3="80" FMB1="30" FMB2="20" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="50" ADEZ="00" STXT="________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZBC_ACT_LOG_CUST-ENABLED" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="104" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZBC_ACT_LOG_CUST CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZBC_ACT_LOG_CUST-PROGRAM_NAME .
+    FIELD ZBC_ACT_LOG_CUST-ENABLED .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZBC_ACT_LOG_CUST-PROGRAM_NAME .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 14.04.2021 14:47:34
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZBC_ACT_LOG_CUSTTOP.              &quot; Global Declarations
+  INCLUDE LZBC_ACT_LOG_CUSTUXX.              &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZBC_ACT_LOG_CUSTF...              &quot; Subroutines
+* INCLUDE LZBC_ACT_LOG_CUSTO...              &quot; PBO-Modules
+* INCLUDE LZBC_ACT_LOG_CUSTI...              &quot; PAI-Modules
+* INCLUDE LZBC_ACT_LOG_CUSTE...              &quot; Events
+* INCLUDE LZBC_ACT_LOG_CUSTP...              &quot; Local class implement.
+* INCLUDE LZBC_ACT_LOG_CUSTT99.              &quot; ABAP Unit tests
+  INCLUDE LZBC_ACT_LOG_CUSTF00                    . &quot; subprograms
+  INCLUDE LZBC_ACT_LOG_CUSTI00                    . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZBC_ACT_LOG_CUSTF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 14.04.2021 at 14:47:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZBC_ACT_LOG_CUSTI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 14.04.2021 at 14:47:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZBC_ACT_LOG_CUSTI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 14.04.2021 at 14:47:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZBC_ACT_LOG_CUSTTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 14.04.2021 14:47:34
+FUNCTION-POOL ZBC_ACT_LOG_CUST           MESSAGE-ID SV.
+
+* INCLUDE LZBC_ACT_LOG_CUSTD...              &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZBC_ACT_LOG_CUSTT00                    . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZBC_ACT_LOG_CUST" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZBC_ACT_LOG_CUST
+*   generation date: 14.04.2021 at 14:47:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZBC_ACT_LOG_CUST" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZBC_ACT_LOG_CUST
+*   generation date: 14.04.2021 at 14:47:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <TABL TABNAME="ZBC_ACTIVITY_LOG" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="Acitivity Log Table" AUTHCLASS="00" MASTERLANG="E" CONTFLAG="A" PROZPUFF="000" EXCLASS="1">
+  <dd09l TABNAME="ZBC_ACTIVITY_LOG" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL0" SCHFELDANZ="000" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="CLIENT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000000" DECIMALS="000000" MASK="  CLNT" MASKLEN="0000" DEPTH="00" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="USERNAME" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="SYST_UNAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000024" NOTNULL="X" DOMNAME="SYCHAR12" ROUTPUTLEN="000000" HEADLEN="12" SCRLEN1="10" SCRLEN2="18" SCRLEN3="18" DTELMASTER="D" DATATYPE="CHAR" LENG="000012" OUTPUTLEN="000012" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="ABAP System Field: Name of Current User" REPTEXT="User" SCRTEXT_S="User" SCRTEXT_M="User Name" SCRTEXT_L="User Name" DOMNAME3L="SYCHAR12" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="APPLICATION" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="DBGLPROG" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" NOTNULL="X" DOMNAME="PROGNAME" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Program" DOMNAME3L="PROGNAME" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="USED_ON" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="ZBC_USED_ON" ADMINFIELD="0" INTTYPE="D" INTLEN="000016" NOTNULL="X" DOMNAME="DATS" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="DATS" LENG="000008" OUTPUTLEN="000010" DECIMALS="000000" MASK="  DATSE" MASKLEN="0000" DDTEXT="BC activity - Used on" REPTEXT="Used On" SCRTEXT_S="Used On" SCRTEXT_M="Used On" SCRTEXT_L="Used On" DOMMASTER="D" DOMNAME3L="DATS" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="USED_AT" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZBC_USED_AT" ADMINFIELD="0" INTTYPE="T" INTLEN="000012" DOMNAME="UZEIT" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="TIMS" LENG="000006" OUTPUTLEN="000008" DECIMALS="000000" MASK="  TIMSE" MASKLEN="0000" DDTEXT="BC activity - Used At" REPTEXT="Last Used At" SCRTEXT_S="Last Used" SCRTEXT_M="Last Used At" SCRTEXT_L="Last Used At" DOMNAME3L="UZEIT" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACTIVITY_LOG" FIELDNAME="USE_COUNT" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZBC_USE_COUNT" ADMINFIELD="0" INTTYPE="X" INTLEN="000004" DOMNAME="INT4" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="INT4" LENG="000010" OUTPUTLEN="000011" DECIMALS="000000" SIGNFLAG="X" MASK="  INT4E" MASKLEN="0000" DDTEXT="BC activity - Use Count" REPTEXT="Use Count" SCRTEXT_S="Use Count" SCRTEXT_M="Use Count" SCRTEXT_L="Use Count" DOMNAME3L="INT4" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+ <TABL TABNAME="ZBC_ACT_LOG_CUST" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="Customization for Activity log" AUTHCLASS="00" MASTERLANG="E" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="1">
+  <dd09l TABNAME="ZBC_ACT_LOG_CUST" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL0" SCHFELDANZ="000" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZBC_ACT_LOG_CUST" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACT_LOG_CUST" FIELDNAME="PROGRAM_NAME" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="DBGLPROG" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" NOTNULL="X" DOMNAME="PROGNAME" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Program" DOMNAME3L="PROGNAME" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_ACT_LOG_CUST" FIELDNAME="ENABLED" DDLANGUAGE="E" POSITION="0003" ROLLNAME="FLAG" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="FLAG" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="General Flag" REPTEXT="Flag" SCRTEXT_S="Indicator" SCRTEXT_M="Indicator" SCRTEXT_L="Indicator" DOMNAME3L="FLAG" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" DEFFDNAME="FLAG" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+</nugget>

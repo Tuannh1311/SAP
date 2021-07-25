@@ -1,0 +1,1458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNMM_ZMIGR">
+ <DEVC DEVCLASS="ZVNMM_ZMIGR" CTEXT="VNMM: Migrations" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" NAMESPACE="/0CUST/" PARENTCL="ZVNMM" CREATED_BY="HQ_TTA" CREATED_ON="20200916" CHANGED_BY="HQ_TTA" CHANGED_ON="20200916" PROJECT_GUID="00000000000000000000000000000000"/>
+ <PROG NAME="ZVNMM_ZMIGR_ARLINK" VARCL="X" SUBC="1" RSTAT="K" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Program ZVNMM_MIGRA_ARLINK" LENGTH="26 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNMM_ZMIGR_ARLINK
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnmm_zmigr_arlink.
+
+&quot;quick-and-dirty upload of ARLink file from frontend
+
+DATA: lv_archiv_doc_id TYPE sapb-sapadokid.
+
+&quot;***
+PARAMETERS: p_archid TYPE toaar-archiv_id,
+            p_dctyp  TYPE toadd-doc_type,
+            p_path   TYPE sapb-sappfad,
+            p_arobj  TYPE toaom-ar_object,
+            p_objid  TYPE sapb-sapobjid,
+            p_objty  TYPE toaom-sap_object,
+            p_fnam   TYPE text255. &quot;(not TOAAT-FILENAME, to be case-sensitive)
+
+&quot;0th filename from filepath (if not provided)
+IF p_fnam IS INITIAL.
+  DATA: i_filepath TYPE rsfilenm,
+        e_filename TYPE rsawbnobjnm.
+  MOVE: p_path TO i_filepath.
+  CALL FUNCTION &apos;RSDS_SPLIT_PATH_TO_FILENAME&apos;
+    EXPORTING
+      i_filepath = i_filepath
+    IMPORTING
+      e_filename = e_filename.
+  MOVE: e_filename TO p_fnam.
+ENDIF.
+
+&quot;1st upload to ar-link
+
+CALL FUNCTION &apos;ARCHIVOBJECT_CREATE_FILE&apos;
+  EXPORTING
+    archiv_id                = p_archid
+    document_type            = p_dctyp
+    path                     = p_path
+*   VSCAN_PROFILE            = &apos;/SCMS/KPRO_CREATE&apos;
+  IMPORTING
+    archiv_doc_id            = lv_archiv_doc_id
+  EXCEPTIONS
+    error_archiv             = 1
+    error_communicationtable = 2
+    error_upload             = 3
+    error_kernel             = 4
+    blocked_by_policy        = 5
+    OTHERS                   = 6.
+IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4. ENDIF.
+
+&quot;2nd store link
+DATA: lv_fnam TYPE toaat-filename .
+MOVE: p_path TO lv_fnam.
+CALL FUNCTION &apos;ARCHIV_CONNECTION_INSERT&apos;
+  EXPORTING
+    archiv_id             = p_archid
+    arc_doc_id            = lv_archiv_doc_id
+*   AR_DATE               = &apos; &apos;
+    ar_object             = p_arobj
+*   DEL_DATE              = &apos; &apos;
+*   MANDANT               = &apos; &apos;
+    object_id             = p_objid
+    sap_object            = p_objty
+*   DOC_TYPE              = &apos; &apos;
+*   BARCODE               = &apos; &apos;
+    filename              = p_fnam
+*   DESCR                 = &apos; &apos;
+*   CREATOR               = &apos; &apos;
+  EXCEPTIONS
+    error_connectiontable = 1
+    OTHERS                = 2.
+IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4. ENDIF.</source>
+ </PROG>
+ <PROG NAME="ZVNMM_ZMIGR_BP3100" VARCL="X" SUBC="1" RSTAT="K" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="S00" ENTRY="data" LENGTH="14 "/>
+    <textElement ID="I" KEY="S01" ENTRY="activity" LENGTH="18 "/>
+    <textElement ID="R" ENTRY="Program ZVNMM_ZMIGR_BP3100" LENGTH="26 "/>
+    <textElement ID="S" KEY="C_ADD" ENTRY="        activity: add data" LENGTH="26 "/>
+    <textElement ID="S" KEY="C_DEL" ENTRY="        activity: remove data" LENGTH="29 "/>
+    <textElement ID="S" KEY="P_AMNT" ENTRY="D       ." LENGTH="14 "/>
+    <textElement ID="S" KEY="P_ATYP" ENTRY="D       ." LENGTH="28 "/>
+    <textElement ID="S" KEY="P_CFLD" ENTRY="D       ." LENGTH="29 "/>
+    <textElement ID="S" KEY="P_CNTR" ENTRY="        Counter (for remove only)" LENGTH="33 "/>
+    <textElement ID="S" KEY="P_CURR" ENTRY="D       ." LENGTH="16 "/>
+    <textElement ID="S" KEY="P_DTFR" ENTRY="D       ." LENGTH="23 "/>
+    <textElement ID="S" KEY="P_DTTO" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="P_DTYP" ENTRY="D       ." LENGTH="24 "/>
+    <textElement ID="S" KEY="P_PART" ENTRY="D       ." LENGTH="31 "/>
+    <textElement ID="S" KEY="P_XFLD" ENTRY="D       ." LENGTH="17 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNMM_ZMIGR_BP3100
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnmm_zmigr_bp3100.
+
+&quot;quick-and-dirty upload of BP3100 Additional Information from frontend
+DATA: lt_bp3100 TYPE TABLE OF bp3100,
+      lt_ret    TYPE TABLE OF bapiret2.
+
+**********************************************************************
+*** selection screen
+SELECTION-SCREEN: BEGIN OF BLOCK s00 WITH FRAME TITLE TEXT-s00.
+  PARAMETERS: p_part TYPE bp3100-partner,
+              &quot;p_crit TYPE bp3100-criter,
+              p_atyp TYPE bp3100-addtype,
+              p_dtyp TYPE bp3100-data_type,
+
+              p_cfld TYPE bp3100-ct_field,
+              p_xfld TYPE bp3100-xfeld,
+              p_amnt TYPE bp3100-amnt,
+              p_curr TYPE bp3100-curr,
+              p_dtfr TYPE bp3100-datefr,
+              p_dtto TYPE bp3100-dateto.
+SELECTION-SCREEN: END OF BLOCK   s00.
+SELECTION-SCREEN: BEGIN OF BLOCK s01 WITH FRAME TITLE TEXT-s01.
+  PARAMETERS: c_add  TYPE xfeld RADIOBUTTON GROUP cntr DEFAULT &apos;X&apos;,
+              c_del  TYPE xfeld RADIOBUTTON GROUP cntr,
+              p_cntr TYPE bp3100-counter.
+SELECTION-SCREEN: END OF BLOCK   s01.
+
+**********************************************************************
+*** processing
+START-OF-SELECTION.
+  &quot;*** map to struc
+  APPEND INITIAL LINE TO lt_bp3100 ASSIGNING FIELD-SYMBOL(&lt;bp31&gt;).
+  MOVE: p_part TO &lt;bp31&gt;-partner,
+        p_atyp TO &lt;bp31&gt;-addtype,
+        p_dtyp TO &lt;bp31&gt;-data_type,
+        p_cfld TO &lt;bp31&gt;-ct_field,
+        p_xfld TO &lt;bp31&gt;-xfeld,
+        p_amnt TO &lt;bp31&gt;-amnt,
+        p_curr TO &lt;bp31&gt;-curr,
+        p_dtfr TO &lt;bp31&gt;-datefr,
+        p_dtto TO &lt;bp31&gt;-dateto,
+        p_cntr TO &lt;bp31&gt;-counter.
+
+  &quot;call: add
+  IF c_add = &apos;X&apos;.
+    CALL FUNCTION &apos;FS_API_BP3100_ADD&apos;
+      EXPORTING
+        iv_partner = &lt;bp31&gt;-partner
+      TABLES
+        it_bp3100  = lt_bp3100
+        et_return  = lt_ret.
+  ENDIF.
+
+  &quot;call: remove
+  IF c_del = &apos;X&apos;.
+    CALL FUNCTION &apos;FS_API_BP3100_REMOVE&apos;
+      EXPORTING
+        iv_partner = &lt;bp31&gt;-partner
+      TABLES
+        it_bp3100  = lt_bp3100
+        et_return  = lt_ret.
+  ENDIF.
+
+  &quot;commit
+  CALL FUNCTION &apos;BAPI_TRANSACTION_COMMIT&apos; EXPORTING wait = &apos;X&apos;.
+
+  &quot;write return
+  LOOP AT lt_ret ASSIGNING FIELD-SYMBOL(&lt;ret&gt;).
+    WRITE: / &lt;ret&gt;-id, &lt;ret&gt;-number, &lt;ret&gt;-type, &lt;ret&gt;-message.
+  ENDLOOP.</source>
+ </PROG>
+ <PROG NAME="Z_ADRU_CORRECT" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Z_ADRU_CORRECT (note 1158803 )" LENGTH="30 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report  Z_ADRU_CORRECT
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp; Repaires corrupted records in table ADRU,
+*&amp;
+*&amp; if VALID_TO = 00010101000000 AND VALID_FROM = 00000000000000
+*&amp; -&gt; DELETE recor
+*&amp;
+*&amp; if VALID_TO &gt; 00000000000000 -&gt; VALID_TO = 00000000000000
+*&amp; if VALID_FROM &gt; 00000000000000 -&gt; VALID_FROM = 00000000000000
+*&amp;---------------------------------------------------------------------*
+REPORT z_adru_correct.
+TABLES: adru.
+
+PARAMETERS: p_test DEFAULT &apos;X&apos; AS CHECKBOX.
+
+SELECT-OPTIONS: so_addr  FOR adru-addrnumber.
+
+START-OF-SELECTION.
+
+  PERFORM check_addru.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  CHECK_ADDRU
+*&amp;---------------------------------------------------------------------*
+FORM check_addru .
+
+  TYPES:
+    BEGIN OF lst_adrukey,
+      addrnumber  TYPE ad_addrnum,
+      persnumber  TYPE ad_persnum,
+      comm_type   TYPE ad_comm,
+      comm_usage  TYPE ad_cusage,
+    END OF lst_adrukey,
+    ltt_adrukey TYPE STANDARD TABLE OF lst_adrukey
+    .
+
+  DATA:
+    lt_adru_key   TYPE ltt_adrukey,
+    lt_adru       TYPE SORTED TABLE OF adru
+                  WITH NON-UNIQUE KEY addrnumber persnumber
+                                      comm_type comm_usage,
+    lt_adrud      LIKE lt_adru,
+    lv_subrc      LIKE sy-subrc,
+    lv_countc     TYPE i,
+    lv_countd     TYPE i
+    .
+
+  CONSTANTS:
+    lc_date0 LIKE adru-valid_to VALUE &apos;00000000000000&apos;,
+    lc_date1 LIKE adru-valid_to VALUE &apos;00010101000000&apos;
+    .
+
+  FIELD-SYMBOLS:
+    &lt;lfs_adrk_wa&gt;  LIKE LINE OF lt_adru_key,
+    &lt;lfs_adru_wa&gt;  LIKE LINE OF lt_adru,
+    &lt;lfs_adru_wb&gt;  LIKE LINE OF lt_adru
+    .
+
+
+
+  &quot; select possible incosistencies
+  SELECT DISTINCT addrnumber persnumber comm_type comm_usage
+    INTO TABLE lt_adru_key
+    FROM adru
+   WHERE addrnumber IN so_addr
+     AND valid_to &gt; lc_date0.
+
+  IF lt_adru_key IS NOT INITIAL.
+  &quot; communication ussage with iconsistencies
+  SELECT * INTO TABLE lt_adru
+    FROM adru
+     FOR ALL ENTRIES IN lt_adru_key
+   WHERE addrnumber = lt_adru_key-addrnumber
+     AND persnumber = lt_adru_key-persnumber
+     AND comm_type = lt_adru_key-comm_type
+     AND comm_usage = lt_adru_key-comm_usage.
+  ELSE.
+    MESSAGE &apos;Nothing Selected&apos; TYPE &apos;S&apos;.
+    RETURN.
+  ENDIF.
+
+  WRITE: &apos;Correct table ADRU&apos;.
+  WRITE: /,
+         AT 1(10)  &apos;ADDRNUMBER&apos;,
+         AT 12(10) &apos;PERSNUMBER&apos;,
+         AT 23(3)  &apos;CMT&apos;,
+         AT 27(3)  &apos;CNN&apos;,
+         AT 31(10) &apos;COMM_USAGE&apos;,
+         /.
+  ULINE: AT 1(80).
+
+  LOOP AT lt_adru ASSIGNING &lt;lfs_adru_wa&gt;.
+
+    WRITE: /.
+
+    &quot; record with validity &apos;00.00.0000&apos; - &apos;01.01.0001&apos;
+    &quot; should be deleted
+    IF &lt;lfs_adru_wa&gt;-valid_to = lc_date1.
+      WRITE: AT 1(10)  &lt;lfs_adru_wa&gt;-addrnumber,
+             AT 12(10) &lt;lfs_adru_wa&gt;-persnumber,
+             AT 23(3)  &lt;lfs_adru_wa&gt;-comm_type,
+             AT 27(3)  &lt;lfs_adru_wa&gt;-consnumber,
+             AT 31(10) &lt;lfs_adru_wa&gt;-comm_usage,
+             AT 42(30) &apos;delete incorrect record&apos;.
+      INSERT &lt;lfs_adru_wa&gt; INTO TABLE lt_adrud.
+      DELETE lt_adru.
+      CONTINUE.
+    ENDIF.
+    &quot; invalid valid_from, valid_to should be corrected
+    IF &lt;lfs_adru_wa&gt;-valid_from &gt; lc_date0 OR
+       &lt;lfs_adru_wa&gt;-valid_to &gt; lc_date0.
+      &quot; valid_to is key field we have to delete and insert
+      INSERT &lt;lfs_adru_wa&gt; INTO TABLE lt_adrud.
+      WRITE: AT 1(10)  &lt;lfs_adru_wa&gt;-addrnumber,
+             AT 12(10) &lt;lfs_adru_wa&gt;-persnumber,
+             AT 23(3)  &lt;lfs_adru_wa&gt;-comm_type,
+             AT 27(3)  &lt;lfs_adru_wa&gt;-consnumber,
+             AT 31(10) &lt;lfs_adru_wa&gt;-comm_usage,
+             AT 42(30) &apos;incorrect validity period&apos;.
+      IF &lt;lfs_adru_wa&gt;-valid_from &gt; lc_date0.
+        WRITE: /,
+               AT 23(15) &apos;Valid from old:&apos;,
+               AT 39(14) &lt;lfs_adru_wa&gt;-valid_from.
+        CLEAR  &lt;lfs_adru_wa&gt;-valid_from.
+      ENDIF.
+      IF &lt;lfs_adru_wa&gt;-valid_to &gt; lc_date0.
+        WRITE: /,
+               AT 23(15) &apos;Valid to old:&apos;,
+               AT 39(14) &lt;lfs_adru_wa&gt;-valid_to.
+        CLEAR  &lt;lfs_adru_wa&gt;-valid_to.
+      ENDIF.
+    ELSE.
+      DELETE lt_adru.
+    ENDIF.
+  ENDLOOP.
+
+  &quot; number of corrected records
+  DESCRIBE TABLE:
+    lt_adru  LINES lv_countc,
+    lt_adrud LINES lv_countd.
+
+  lv_countd = lv_countd - lv_countc.
+
+  ULINE AT 1(80).
+  IF p_test IS INITIAL.
+    IF NOT lt_adrud[] IS INITIAL.
+      &quot; delete all invalid ADRU records
+      DELETE adru FROM TABLE lt_adrud.
+      lv_subrc = sy-subrc.
+    ENDIF.
+    IF lv_subrc = 0 AND NOT lt_adru[] IS INITIAL.
+      DELETE ADJACENT DUPLICATES FROM lt_adru
+        COMPARING addrnumber persnumber comm_type consnumber comm_usage.
+      &quot; insert corrected ADRU records
+      INSERT adru FROM TABLE lt_adru ACCEPTING DUPLICATE KEYS.
+      lv_subrc = sy-subrc.
+    ENDIF.
+
+    IF lv_subrc IS INITIAL.
+      COMMIT WORK.
+      WRITE: / lv_countc, &apos;records corected&apos;,
+             / lv_countd, &apos;records deleted&apos;.
+    ELSE.
+      ROLLBACK WORK.
+      WRITE: / &apos;dabatabase error&apos;.
+    ENDIF.
+  ELSE.
+    WRITE: / lv_countc, &apos;records corected&apos;,
+           / lv_countd, &apos;records deleted&apos;.
+  ENDIF.
+
+ENDFORM.                    &quot; CHECK_ADDRU</source>
+ </PROG>
+ <PROG NAME="Z_COMMUSAGE_UPDATE" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Z_COMMUSAGE_UPDATE (note 1158803 )" LENGTH="34 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report  Z_COMMUSAGE_UPDATE
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp; Correction report - Address Communication Usages
+*&amp; SAP is not considered as responsible for any improper
+*&amp; use of this report.
+*&amp;*&amp;--------------------------------------------------------------------
+
+
+REPORT  z_commusage_update.
+
+TABLES: adrc, adru, adrp, adcp.
+
+
+
+SELECTION-SCREEN SKIP 1.
+SELECTION-SCREEN BEGIN OF BLOCK one WITH FRAME TITLE text1.
+SELECTION-SCREEN SKIP 1.
+* Parameters for selection
+PARAMETERS: pckgsize TYPE ad_pc_size DEFAULT &apos;1000&apos; OBLIGATORY.
+
+SELECTION-SCREEN SKIP.
+SELECTION-SCREEN COMMENT /1(70) comm1.
+SELECTION-SCREEN COMMENT /1(70) comm2.
+SELECT-OPTIONS: seladr FOR  adrc-addrnumber.
+SELECTION-SCREEN SKIP 1.
+SELECTION-SCREEN COMMENT /1(70) comm3.
+PARAMETERS: adru_cre LIKE szad_field-flag DEFAULT space.
+SELECTION-SCREEN: END OF BLOCK one.
+
+AT SELECTION-SCREEN OUTPUT.
+  comm1 = &apos;Address Number selection.&apos;.
+  comm2 = &apos;If blank, picks up all address numbers.&apos;.
+  comm3 = &apos;Create ADRU entries only.&apos;.
+
+INITIALIZATION.
+  text1 =    &apos;Correction report - Address Communication Usages&apos;.
+
+
+START-OF-SELECTION.
+  CONSTANTS : c_yes    VALUE &apos;X&apos;,
+              c_no     VALUE &apos; &apos;.
+
+  DATA : end_of_select LIKE c_yes,
+         seladr_flag LIKE c_yes,
+         sel_tab TYPE TABLE OF addr_addr_pers_cp_line,
+         ls_sel  TYPE addr_addr_pers_cp_line,
+         lt_adru TYPE SORTED TABLE OF adru WITH UNIQUE KEY
+                            addrnumber persnumber comm_type,
+         ls_adru TYPE adru.
+
+  IF seladr IS NOT INITIAL.
+    seladr_flag = &apos;X&apos;.
+  ENDIF.
+
+  &quot; update the communication usages.
+
+  PERFORM comm_update USING &apos;FLAGCOMM2&apos; &apos;ADTEL&apos;   &apos;TEL&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM3&apos; &apos;ADFAX&apos;   &apos;FAX&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM4&apos; &apos;ADTTX&apos;   &apos;TTX&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM5&apos; &apos;ADTLX&apos;   &apos;TLX&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM6&apos; &apos;ADSMTP&apos;  &apos;INT&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM7&apos; &apos;ADRML&apos;   &apos;RML&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM8&apos; &apos;ADX400&apos;  &apos;X40&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM9&apos; &apos;ADRFC&apos;   &apos;RFC&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM10&apos; &apos;ADPRT&apos;  &apos;PRT&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM11&apos; &apos;ADSSF&apos;  &apos;SSF&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM12&apos; &apos;ADURI&apos;  &apos;URI&apos;.
+  PERFORM comm_update USING &apos;FLAGCOMM13&apos; &apos;ADPAG&apos;  &apos;PAG&apos;.
+
+  WRITE: /, &apos;Report Run successfully.&apos;.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  COMM_UPDATE
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_0025   text
+*----------------------------------------------------------------------*
+FORM comm_update  USING value(iv_tabname)
+                        value(iv_commtype)
+                        value(iv_commusage).
+
+
+  DATA: lines_read LIKE sy-tabix,
+        package_no LIKE adrc_qu2-pckg_no_in.
+
+  DATA: lv_cursor TYPE cursor,
+        ls_addrnumber TYPE ad_addrnum,
+        ls_persnumber TYPE ad_persnum.
+
+  CLEAR: end_of_select.
+  DEFINE select_db_adrc.
+    if seladr_flag ne space.
+      select distinct addrnumber from adrc
+         into corresponding fields of table sel_tab
+         up to pckgsize rows  where addrnumber in seladr and
+        addrnumber gt ls_addrnumber and &amp;1 eq &apos;X&apos; order by addrnumber
+ascending.
+    else.
+      select distinct addrnumber from adrc
+        into corresponding fields of table sel_tab
+        up to pckgsize rows  where addrnumber gt ls_addrnumber and
+         &amp;1 eq &apos;X&apos; order by addrnumber ascending.
+    endif.
+  END-OF-DEFINITION.
+
+  DEFINE select_db_adcp.
+    if seladr_flag ne space.
+      select distinct s~persnumber p~addrnumber p~comp_pers
+      into corresponding fields of table sel_tab up to pckgsize rows
+     from adrp as s inner join adcp as p on p~persnumber = s~persnumber
+     where p~addrnumber in seladr and s~persnumber ge ls_persnumber
+     and  &amp;1 eq &apos;X&apos; order by s~persnumber ascending .
+
+    else.
+      select distinct s~persnumber p~addrnumber p~comp_pers
+        into corresponding fields of table sel_tab up to pckgsize rows
+     from adrp as s inner join adcp as p on p~persnumber = s~persnumber
+       where s~persnumber ge ls_persnumber and  &amp;1 eq &apos;X&apos;
+        order by s~persnumber ascending .
+    endif.
+  END-OF-DEFINITION.
+
+*TYPE 1 addresses.
+  DO.
+
+    CLEAR: sel_tab.
+    IF end_of_select = &apos;X&apos;.
+      EXIT.
+    ENDIF.
+
+    CASE iv_tabname.
+      WHEN &apos;FLAGCOMM2&apos;.  select_db_adrc flagcomm2.
+      WHEN &apos;FLAGCOMM3&apos;.  select_db_adrc flagcomm3.
+      WHEN &apos;FLAGCOMM4&apos;.  select_db_adrc flagcomm4.
+      WHEN &apos;FLAGCOMM5&apos;.  select_db_adrc flagcomm5.
+      WHEN &apos;FLAGCOMM6&apos;.  select_db_adrc flagcomm6.
+      WHEN &apos;FLAGCOMM7&apos;.  select_db_adrc flagcomm7.
+      WHEN &apos;FLAGCOMM8&apos;.  select_db_adrc flagcomm8.
+      WHEN &apos;FLAGCOMM9&apos;.  select_db_adrc flagcomm9.
+      WHEN &apos;FLAGCOMM10&apos;. select_db_adrc flagcomm10.
+      WHEN &apos;FLAGCOMM11&apos;. select_db_adrc flagcomm11.
+      WHEN &apos;FLAGCOMM12&apos;. select_db_adrc flagcomm12.
+      WHEN &apos;FLAGCOMM13&apos;. select_db_adrc flagcomm13.
+    ENDCASE.
+
+    DESCRIBE TABLE sel_tab LINES lines_read.
+    IF sel_tab IS NOT INITIAL.
+      IF lines_read &lt; pckgsize.
+        end_of_select = &apos;X&apos;.
+      ENDIF.
+      READ TABLE sel_tab INTO ls_sel INDEX lines_read.
+      ls_addrnumber = ls_sel-addrnumber.
+      IF adru_cre IS NOT INITIAL.
+        PERFORM filter_adru TABLES sel_tab USING iv_commusage.
+      ENDIF.
+      IF sel_tab IS NOT INITIAL.
+        PERFORM adru_adj TABLES sel_tab USING iv_commtype.
+      ENDIF.
+    ELSE.
+      EXIT.
+    ENDIF.
+
+
+  ENDDO.
+
+* type 2 &amp; 3 addresses.
+  CLEAR: end_of_select, ls_persnumber ,  ls_addrnumber, lines_read .
+  DO.
+
+    CLEAR: sel_tab.
+
+    IF end_of_select = &apos;X&apos;.
+      EXIT.
+    ENDIF.
+
+    CASE iv_tabname.
+      WHEN &apos;FLAGCOMM2&apos;. select_db_adcp flagcomm2.
+      WHEN &apos;FLAGCOMM3&apos;. select_db_adcp flagcomm3.
+      WHEN &apos;FLAGCOMM4&apos;. select_db_adcp flagcomm4.
+      WHEN &apos;FLAGCOMM5&apos;. select_db_adcp flagcomm5.
+      WHEN &apos;FLAGCOMM6&apos;. select_db_adcp flagcomm6.
+      WHEN &apos;FLAGCOMM7&apos;. select_db_adcp flagcomm7.
+      WHEN &apos;FLAGCOMM8&apos;. select_db_adcp flagcomm8.
+      WHEN &apos;FLAGCOMM9&apos;. select_db_adcp flagcomm9.
+      WHEN &apos;FLAGCOMM10&apos;. select_db_adcp flagcomm10.
+      WHEN &apos;FLAGCOMM11&apos;. select_db_adcp flagcomm11.
+      WHEN &apos;FLAGCOMM12&apos;. select_db_adcp flagcomm12.
+      WHEN &apos;FLAGCOMM13&apos;. select_db_adcp flagcomm13.
+    ENDCASE.
+
+    DESCRIBE TABLE sel_tab LINES lines_read.
+
+    IF sel_tab IS NOT INITIAL.
+      IF lines_read &lt; pckgsize.
+        end_of_select = &apos;X&apos;.
+      ENDIF.
+      READ TABLE sel_tab INTO ls_sel INDEX lines_read.
+      ls_persnumber = ls_sel-persnumber.
+      IF adru_cre IS NOT INITIAL.
+        PERFORM filter_adru TABLES sel_tab USING iv_commusage.
+      ENDIF.
+      IF sel_tab IS NOT INITIAL.
+        PERFORM adru_adj TABLES sel_tab USING iv_commtype.
+      ENDIF.
+    ELSE.
+      EXIT.
+    ENDIF.
+
+  ENDDO.
+  CLEAR: sel_tab, end_of_select, ls_persnumber ,  ls_addrnumber,
+lines_read.
+
+ENDFORM.                    &quot; COMM_UPDATE
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FILTER_ADRU
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_SEL_TAB  text
+*      --&gt;P_IV_COMMUSAGE  text
+*----------------------------------------------------------------------*
+FORM filter_adru  TABLES   sel_tab STRUCTURE addr_addr_pers_cp_line
+
+                  USING value(iv_commusage).
+
+
+  SELECT DISTINCT addrnumber persnumber comm_type FROM adru INTO
+        CORRESPONDING FIELDS OF TABLE lt_adru FOR ALL ENTRIES
+        IN sel_tab WHERE addrnumber = sel_tab-addrnumber AND
+                     persnumber = sel_tab-persnumber AND
+                     comm_type = iv_commusage.
+
+  LOOP AT sel_tab INTO ls_sel.
+    READ TABLE lt_adru INTO ls_adru WITH KEY
+                                addrnumber =  ls_sel-addrnumber
+                                persnumber = ls_sel-persnumber
+                                comm_type = iv_commusage
+                                BINARY SEARCH.
+    IF sy-subrc = 0.
+      DELETE TABLE sel_tab FROM ls_sel.
+    ENDIF.
+  ENDLOOP.
+
+ENDFORM.                    &quot; FILTER_ADRU
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  ADRU_ADJ
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_SEL_TAB  text
+*      --&gt;P_IV_COMMTYPE  text
+*----------------------------------------------------------------------*
+FORM adru_adj  TABLES   sel_tab STRUCTURE addr_addr_pers_cp_line
+               USING    iv_commtype.
+
+  TYPES:BEGIN OF adcp_struc,
+        addrnumber TYPE ad_addrnum,
+        persnumber TYPE ad_persnum,
+        comp_pers TYPE ad_cmp_prs,
+        END OF adcp_struc.
+
+  FIELD-SYMBOLS: &lt;lt_commtype&gt; TYPE table,
+                 &lt;ls_commtype&gt; TYPE ANY,
+                 &lt;lv_addrnumber&gt; TYPE adrc-addrnumber,
+                 &lt;lv_persnumber&gt; TYPE adrp-persnumber,
+                 &lt;lv_updateflag&gt; TYPE c.
+
+  DATA: lt_adcp TYPE SORTED TABLE OF adcp_struc WITH NON-UNIQUE KEY
+        addrnumber persnumber,
+        ls_adr TYPE addr_addr_pers_cp_line,
+        ls_adcp TYPE adcp_struc,
+        lv_addrnumber TYPE adrc-addrnumber,
+        lv_persnumber TYPE adrp-persnumber,
+        lr_data TYPE REF TO data,
+        et_error LIKE TABLE OF addr_error,
+        lv_xerro LIKE boole-boole.
+
+  CREATE DATA lr_data TYPE TABLE OF (iv_commtype).
+  ASSIGN lr_data-&gt;* TO &lt;lt_commtype&gt;.
+
+  LOOP AT sel_tab INTO ls_adr.
+
+* for the TYPE 1 addresses.
+    IF ls_adr-persnumber IS INITIAL.
+      CALL FUNCTION &apos;ADDR_COMM_GET&apos;
+        EXPORTING
+          address_number    = ls_adr-addrnumber
+          table_type        = iv_commtype
+          iv_current_state  = c_no
+        IMPORTING
+          returncode        = lv_xerro
+        TABLES
+          comm_table        = &lt;lt_commtype&gt;
+          error_table       = et_error
+        EXCEPTIONS
+          parameter_error   = 1
+          address_not_exist = 2
+          internal_error    = 3
+          OTHERS            = 4.
+      IF sy-subrc EQ 0 AND lv_xerro &lt;&gt; &apos;E&apos;.
+
+        LOOP AT &lt;lt_commtype&gt; ASSIGNING &lt;ls_commtype&gt;.
+
+          ASSIGN COMPONENT &apos;UPDATEFLAG&apos; OF STRUCTURE
+          &lt;ls_commtype&gt; TO &lt;lv_updateflag&gt;.
+          &lt;lv_updateflag&gt; = &apos;U&apos;.
+          MODIFY &lt;lt_commtype&gt; FROM &lt;ls_commtype&gt;.
+        ENDLOOP.
+
+        CALL FUNCTION &apos;ADDR_COMM_MAINTAIN&apos;
+          EXPORTING
+            address_number    = ls_adr-addrnumber
+            table_type        = iv_commtype
+          IMPORTING
+            returncode        = lv_xerro
+          TABLES
+            comm_table        = &lt;lt_commtype&gt;
+            error_table       = et_error
+          EXCEPTIONS
+            parameter_error   = 1
+            address_not_exist = 2
+            internal_error    = 3
+            OTHERS            = 4.
+
+   &quot;if internal error then subsitute all the comm data. This will delete
+   &quot; existing ADRU and creates again. But the exsisting default dates in
+        &quot; if maintained, will be lost.
+
+        IF sy-subrc = 3.
+
+          CALL FUNCTION &apos;ADDR_COMM_MAINTAIN&apos;
+            EXPORTING
+              address_number           = ls_adr-addrnumber
+              table_type               = iv_commtype
+              substitute_all_comm_data = c_yes
+            IMPORTING
+              returncode               = lv_xerro
+            TABLES
+              comm_table               = &lt;lt_commtype&gt;
+              error_table              = et_error.
+
+        ENDIF.
+
+      ENDIF.
+    ENDIF.
+
+* for Typw 2 &amp; 3 addresses.
+    IF ls_adr-addrnumber IS NOT INITIAL AND
+      ls_adr-persnumber IS NOT INITIAL.
+
+      CASE ls_adr-comp_pers .
+
+        WHEN &apos;C&apos;.
+          CALL FUNCTION &apos;ADDR_PERS_COMP_COMM_GET&apos;
+            EXPORTING
+              address_number    = ls_adr-addrnumber
+              person_number     = ls_adr-persnumber
+              table_type        = iv_commtype
+              iv_current_state  = c_no
+            IMPORTING
+              returncode        = lv_xerro
+            TABLES
+              comm_table        = &lt;lt_commtype&gt;
+              error_table       = et_error
+            EXCEPTIONS
+              parameter_error   = 1
+              address_not_exist = 2
+              person_not_exist  = 3
+              internal_error    = 4
+              OTHERS            = 5.
+
+          IF sy-subrc EQ 0 AND lv_xerro &lt;&gt; &apos;E&apos;.
+            LOOP AT &lt;lt_commtype&gt; ASSIGNING &lt;ls_commtype&gt;.
+
+              ASSIGN COMPONENT &apos;UPDATEFLAG&apos; OF STRUCTURE
+              &lt;ls_commtype&gt; TO &lt;lv_updateflag&gt;.
+              &lt;lv_updateflag&gt; = &apos;U&apos;.
+              MODIFY &lt;lt_commtype&gt; FROM &lt;ls_commtype&gt;.
+            ENDLOOP.
+
+            CALL FUNCTION &apos;ADDR_PERS_COMP_COMM_MAINTAIN&apos;
+              EXPORTING
+                address_number    = ls_adr-addrnumber
+                person_number     = ls_adr-persnumber
+                table_type        = iv_commtype
+              IMPORTING
+                returncode        = lv_xerro
+              TABLES
+                comm_table        = &lt;lt_commtype&gt;
+                error_table       = et_error
+              EXCEPTIONS
+                parameter_error   = 1
+                address_not_exist = 2
+                person_not_exist  = 3
+                internal_error    = 4
+                OTHERS            = 5.
+
+            IF sy-subrc = 4.
+
+              CALL FUNCTION &apos;ADDR_PERS_COMP_COMM_MAINTAIN&apos;
+                EXPORTING
+                  address_number           = ls_adr-addrnumber
+                  person_number            = ls_adr-persnumber
+                  table_type               = iv_commtype
+                  substitute_all_comm_data = c_yes
+                IMPORTING
+                  returncode               = lv_xerro
+                TABLES
+                  comm_table               = &lt;lt_commtype&gt;
+                  error_table              = et_error.
+
+            ENDIF.
+
+          ENDIF.
+
+        WHEN &apos;P&apos;.
+
+          CALL FUNCTION &apos;ADDR_PERSONAL_COMM_GET&apos;
+            EXPORTING
+              address_number    = ls_adr-addrnumber
+              person_number     = ls_adr-persnumber
+              table_type        = iv_commtype
+              iv_current_state  = c_no
+            IMPORTING
+              returncode        = lv_xerro
+            TABLES
+              comm_table        = &lt;lt_commtype&gt;
+              error_table       = et_error
+            EXCEPTIONS
+              parameter_error   = 1
+              address_not_exist = 2
+              person_not_exist  = 3
+              internal_error    = 4
+              OTHERS            = 5.
+
+          IF sy-subrc EQ 0 AND lv_xerro &lt;&gt; &apos;E&apos;.
+
+            LOOP AT &lt;lt_commtype&gt; ASSIGNING &lt;ls_commtype&gt;.
+
+              ASSIGN COMPONENT &apos;UPDATEFLAG&apos; OF STRUCTURE
+              &lt;ls_commtype&gt; TO &lt;lv_updateflag&gt;.
+              &lt;lv_updateflag&gt; = &apos;U&apos;.
+              MODIFY &lt;lt_commtype&gt; FROM &lt;ls_commtype&gt;.
+            ENDLOOP.
+
+            CALL FUNCTION &apos;ADDR_PERSONAL_COMM_MAINTAIN&apos;
+              EXPORTING
+                address_number    = ls_adr-addrnumber
+                person_number     = ls_adr-persnumber
+                table_type        = iv_commtype
+              IMPORTING
+                returncode        = lv_xerro
+              TABLES
+                comm_table        = &lt;lt_commtype&gt;
+                error_table       = et_error
+              EXCEPTIONS
+                parameter_error   = 1
+                address_not_exist = 2
+                person_not_exist  = 3
+                internal_error    = 4
+                OTHERS            = 5.
+
+            IF sy-subrc = 4.
+
+              CALL FUNCTION &apos;ADDR_PERSONAL_COMM_MAINTAIN&apos;
+                EXPORTING
+                  address_number           = ls_adr-addrnumber
+                  person_number            = ls_adr-persnumber
+                  table_type               = iv_commtype
+                  substitute_all_comm_data = c_yes
+                IMPORTING
+                  returncode               = lv_xerro
+                TABLES
+                  comm_table               = &lt;lt_commtype&gt;
+                  error_table              = et_error.
+
+            ENDIF.
+          ENDIF.
+      ENDCASE.
+    ENDIF.
+  ENDLOOP.
+
+
+  CALL FUNCTION &apos;ADDR_MEMORY_SAVE&apos;
+    EXCEPTIONS
+      address_number_missing = 1
+      person_number_missing  = 2
+      internal_error         = 3
+      database_error         = 4
+      reference_missing      = 5
+      OTHERS                 = 6.
+
+  IF sy-subrc EQ 0.
+    CALL FUNCTION &apos;ADDR_MEMORY_CLEAR_COMMIT_WORK&apos;.
+  ENDIF.
+
+ENDFORM.                    &quot; ADRU_ADJ</source>
+ </PROG>
+ <PROG NAME="Z_COMMUSAGE_UPDATE_PRL" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Z_COMMUSAGE_UPDATE_PRL (note 1158803 )" LENGTH="38 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report  Z_COMMUSAGE_UPDATE_PRL
+*&amp;
+*&amp;---------------------------------------------------------------------*
+*&amp; Correction report - Address Communication Usages
+*&amp; SAP is not considered as responsible for any improper
+*&amp; use of this report.
+*&amp;*&amp;--------------------------------------------------------------------
+
+
+report  z_commusage_update_prl.
+
+tables: adrc, adru, adrp, adcp.
+
+
+
+selection-screen skip 1.
+selection-screen begin of block one with frame title text1.
+selection-screen skip 1.
+* Parameters for selection
+parameters: pckgsize type ad_pc_size default &apos;1000&apos; obligatory,
+            serv_grp like rzllitab-classname,
+            job_cnt  type i default &apos;10&apos;.
+selection-screen skip.
+selection-screen comment /1(70) comm1.
+selection-screen comment /1(70) comm2.
+select-options: seladr for  adrc-addrnumber.
+selection-screen skip 1.
+selection-screen comment /1(70) comm3.
+parameters: adru_cre like szad_field-flag default space.
+selection-screen: end of block one.
+
+at selection-screen output.
+  comm1 = &apos;Address Number selection.&apos;.
+  comm2 = &apos;If blank, picks up all address numbers.&apos;.
+  comm3 = &apos;Create ADRU entries only.&apos;.
+
+initialization.
+  text1 =    &apos;Correction report - Address Communication Usages&apos;.
+
+
+start-of-selection.
+  constants : c_yes    value &apos;X&apos;,
+              gc_true  value &apos;X&apos;,
+              gc_false value &apos; &apos;.
+
+  types:
+   begin of task,
+     index       type sytabix,                     &quot;Index
+     statu       type char1,                       &quot;Status
+     desti       like rfcdes-rfcdest,              &quot;Destination
+     tname       type text20,                      &quot;Task name
+   end of task.
+
+  data :  gt_taskx type task occurs 0 with header line.
+  data :  lv_taskname(10)        type n value &apos;0000000000&apos;,
+          gc_statu_error      value &apos;E&apos;,          &quot;Status of task: error
+        gc_statu_working    value &apos;W&apos;,          &quot;Status of task: working
+          gc_statu_finished   value &apos;F&apos;.       &quot;Status of task: finished
+
+  data :  lv_group type rzlli_apcl,
+          gv_snd_jobs  type i,
+         gv_rcv_jobs  type i,
+         gv_err_jobs  type i,
+         gv_cur_jobs  type i,
+         lv_msg(80) type c value space,
+         lv_cur_jobs type i,
+         lv_tasks_default type i value &apos;10&apos;,
+         lv_max_tasks type i ,
+         lv_server_name like pbtresourc-servername,
+         lv_parallel_failed     type c,
+         lv_curr_line           type i,
+         gv_task_finished      type boolean, &quot;RFC-Answer received
+         gv_all_tasks_finished type boolean,
+         gv_all_tasks_error    type boolean, &quot; all tasks finished with
+         gv_keeping_task       type boolean,
+         end_of_select like c_yes,
+         seladr_flag like c_yes,
+         sel_tab type table of addr_addr_pers_cp_line,
+         ls_sel  type addr_addr_pers_cp_line,
+         lt_adru type sorted table of adru with unique key
+                            addrnumber persnumber comm_type,
+         ls_adru type adru.
+
+  if seladr is not initial.
+    seladr_flag = &apos;X&apos;.
+  endif.
+
+  &quot; update the communication usages.
+
+  perform comm_update using &apos;FLAGCOMM2&apos; &apos;ADTEL&apos;   &apos;TEL&apos;.
+  perform comm_update using &apos;FLAGCOMM3&apos; &apos;ADFAX&apos;   &apos;FAX&apos;.
+  perform comm_update using &apos;FLAGCOMM4&apos; &apos;ADTTX&apos;   &apos;TTX&apos;.
+  perform comm_update using &apos;FLAGCOMM5&apos; &apos;ADTLX&apos;   &apos;TLX&apos;.
+  perform comm_update using &apos;FLAGCOMM6&apos; &apos;ADSMTP&apos;  &apos;INT&apos;.
+  perform comm_update using &apos;FLAGCOMM7&apos; &apos;ADRML&apos;   &apos;RML&apos;.
+  perform comm_update using &apos;FLAGCOMM8&apos; &apos;ADX400&apos;  &apos;X40&apos;.
+  perform comm_update using &apos;FLAGCOMM9&apos; &apos;ADRFC&apos;   &apos;RFC&apos;.
+  perform comm_update using &apos;FLAGCOMM10&apos; &apos;ADPRT&apos;  &apos;PRT&apos;.
+  perform comm_update using &apos;FLAGCOMM11&apos; &apos;ADSSF&apos;  &apos;SSF&apos;.
+  perform comm_update using &apos;FLAGCOMM12&apos; &apos;ADURI&apos;  &apos;URI&apos;.
+  perform comm_update using &apos;FLAGCOMM13&apos; &apos;ADPAG&apos;  &apos;PAG&apos;.
+
+  write: /, &apos;Report Run successfully.&apos;.
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  COMM_UPDATE
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_0025   text
+*----------------------------------------------------------------------*
+form comm_update  using value(iv_tabname)
+                        value(iv_commtype)
+                        value(iv_commusage).
+
+
+  data: lines_read like sy-tabix,
+        package_no like adrc_qu2-pckg_no_in.
+
+  data: lv_cursor type cursor,
+        ls_addrnumber type ad_addrnum,
+        ls_persnumber type ad_persnum.
+
+  lv_max_tasks = job_cnt.
+  clear: end_of_select.
+  define select_db_adrc.
+    if seladr_flag ne space.
+      select distinct addrnumber from adrc
+         into corresponding fields of table sel_tab
+         up to pckgsize rows  where addrnumber in seladr and
+        addrnumber gt ls_addrnumber and &amp;1 eq &apos;X&apos; order by addrnumber
+ascending.
+    else.
+      select distinct addrnumber from adrc
+        into corresponding fields of table sel_tab
+        up to pckgsize rows  where addrnumber gt ls_addrnumber and
+         &amp;1 eq &apos;X&apos; order by addrnumber ascending.
+    endif.
+  end-of-definition.
+
+  define select_db_adcp.
+    if seladr_flag ne space.
+      select distinct s~persnumber p~addrnumber p~comp_pers
+      into corresponding fields of table sel_tab up to pckgsize rows
+     from adrp as s inner join adcp as p on p~persnumber = s~persnumber
+     where p~addrnumber in seladr and s~persnumber ge ls_persnumber
+     and  &amp;1 eq &apos;X&apos; order by s~persnumber ascending .
+
+    else.
+      select distinct s~persnumber p~addrnumber p~comp_pers
+        into corresponding fields of table sel_tab up to pckgsize rows
+     from adrp as s inner join adcp as p on p~persnumber = s~persnumber
+       where s~persnumber ge ls_persnumber and  &amp;1 eq &apos;X&apos;
+        order by s~persnumber ascending .
+    endif.
+  end-of-definition.
+
+*TYPE 1 addresses.
+  do.
+
+    clear: sel_tab.
+    if end_of_select = &apos;X&apos;.
+      exit.
+    endif.
+
+    case iv_tabname.
+      when &apos;FLAGCOMM2&apos;.  select_db_adrc flagcomm2.
+      when &apos;FLAGCOMM3&apos;.  select_db_adrc flagcomm3.
+      when &apos;FLAGCOMM4&apos;.  select_db_adrc flagcomm4.
+      when &apos;FLAGCOMM5&apos;.  select_db_adrc flagcomm5.
+      when &apos;FLAGCOMM6&apos;.  select_db_adrc flagcomm6.
+      when &apos;FLAGCOMM7&apos;.  select_db_adrc flagcomm7.
+      when &apos;FLAGCOMM8&apos;.  select_db_adrc flagcomm8.
+      when &apos;FLAGCOMM9&apos;.  select_db_adrc flagcomm9.
+      when &apos;FLAGCOMM10&apos;. select_db_adrc flagcomm10.
+      when &apos;FLAGCOMM11&apos;. select_db_adrc flagcomm11.
+      when &apos;FLAGCOMM12&apos;. select_db_adrc flagcomm12.
+      when &apos;FLAGCOMM13&apos;. select_db_adrc flagcomm13.
+    endcase.
+
+    describe table sel_tab lines lines_read.
+    if sel_tab is not initial.
+      if lines_read &lt; pckgsize.
+        end_of_select = &apos;X&apos;.
+      endif.
+      read table sel_tab into ls_sel index lines_read.
+      ls_addrnumber = ls_sel-addrnumber.
+      if adru_cre is not initial.
+        perform filter_adru tables sel_tab using iv_commusage.
+      endif.
+      if sel_tab is not initial.
+        perform fm_prl tables sel_tab using iv_commtype.
+      endif.
+    else.
+      exit.
+    endif.
+
+  enddo.
+
+* type 2 &amp; 3 addresses.
+  clear: end_of_select, ls_persnumber ,  ls_addrnumber, lines_read .
+  do.
+
+    clear: sel_tab.
+
+    if end_of_select = &apos;X&apos;.
+      exit.
+    endif.
+
+    case iv_tabname.
+      when &apos;FLAGCOMM2&apos;. select_db_adcp flagcomm2.
+      when &apos;FLAGCOMM3&apos;. select_db_adcp flagcomm3.
+      when &apos;FLAGCOMM4&apos;. select_db_adcp flagcomm4.
+      when &apos;FLAGCOMM5&apos;. select_db_adcp flagcomm5.
+      when &apos;FLAGCOMM6&apos;. select_db_adcp flagcomm6.
+      when &apos;FLAGCOMM7&apos;. select_db_adcp flagcomm7.
+      when &apos;FLAGCOMM8&apos;. select_db_adcp flagcomm8.
+      when &apos;FLAGCOMM9&apos;. select_db_adcp flagcomm9.
+      when &apos;FLAGCOMM10&apos;. select_db_adcp flagcomm10.
+      when &apos;FLAGCOMM11&apos;. select_db_adcp flagcomm11.
+      when &apos;FLAGCOMM12&apos;. select_db_adcp flagcomm12.
+      when &apos;FLAGCOMM13&apos;. select_db_adcp flagcomm13.
+    endcase.
+
+    describe table sel_tab lines lines_read.
+
+    if sel_tab is not initial.
+      if lines_read &lt; pckgsize.
+        end_of_select = &apos;X&apos;.
+      endif.
+      read table sel_tab into ls_sel index lines_read.
+      ls_persnumber = ls_sel-persnumber.
+      if adru_cre is not initial.
+        perform filter_adru tables sel_tab using iv_commusage.
+      endif.
+      if sel_tab is not initial.
+        perform fm_prl tables sel_tab using iv_commtype.
+      endif.
+    else.
+      exit.
+    endif.
+
+  enddo.
+  clear: sel_tab, end_of_select, ls_persnumber ,  ls_addrnumber,
+lines_read.
+
+endform.                    &quot; COMM_UPDATE
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  DETERMINE_END_OF_TASK
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*----------------------------------------------------------------------*
+form determine_end_of_task  using iv_taskname.
+
+
+  data: ls_task          type task,
+        lv_index         like sy-tabix,
+        lv_running_tasks type i.
+  data: lv_msgtx(80)     type c,
+        lv_flag(1) type c.
+
+
+  gv_rcv_jobs = gv_rcv_jobs + 1.
+
+  read table gt_taskx into ls_task
+       with key tname = iv_taskname.
+  lv_index = sy-tabix.
+  ls_task-statu = gc_statu_finished.
+
+  if sy-subrc eq 0.
+    delete gt_taskx index lv_index.
+  endif.
+
+*--&gt; Flag Task_Finished set to finish WAIT-Status
+  gv_task_finished = gc_true.
+
+  lv_running_tasks = 0.
+  loop at gt_taskx
+       where statu &lt;&gt; gc_statu_error.
+    lv_running_tasks = 1.
+    exit.
+  endloop.
+
+  if lv_running_tasks = 0.
+    gv_all_tasks_finished = gc_true.
+  endif.
+
+endform.                    &quot; DETERMINE_END_OF_TASK
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FM_PRL
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*  --&gt;  p1        text
+*  &lt;--  p2        text
+*----------------------------------------------------------------------*
+form fm_prl
+  tables sel_tab structure addr_addr_pers_cp_line
+    using value(iv_commtype).
+
+  data: lv_snd_jobs type i.
+
+  lv_taskname    = lv_taskname + 1.
+  gt_taskx-tname = lv_taskname.
+  gt_taskx-index = lv_taskname.
+  gt_taskx-statu = gc_statu_working.
+
+  if not serv_grp is initial.
+    lv_group = serv_grp.
+  endif.
+
+  call function &apos;FUNCTION_EXISTS&apos;
+    exporting
+      funcname           = &apos;Z_ADRU_ADJ_PRL&apos;
+    exceptions
+      function_not_exist = 1
+      others             = 2.
+
+  if sy-subrc = 0.
+    &quot; Processing the logic in different threads - parallelization.
+    call function &apos;Z_ADRU_ADJ_PRL&apos;
+      starting new task gt_taskx-tname
+      destination in group lv_group
+      performing determine_end_of_task on end of task
+      exporting
+        iv_commtype           = iv_commtype
+      tables
+        sel_tab               = sel_tab
+      exceptions
+        system_failure        = 01
+        communication_failure = 02
+        resource_failure      = 03.
+
+    case sy-subrc.
+      when 0.
+        call function &apos;SPBT_GET_PP_DESTINATION&apos;
+          importing
+            rfcdest = gt_taskx-desti.
+      when 1 or 2.
+        call function &apos;SPBT_GET_PP_DESTINATION&apos;
+          importing
+            rfcdest = gt_taskx-desti.
+        move gt_taskx-desti to lv_server_name.
+        gt_taskx-statu = gc_statu_error.
+        gv_err_jobs = gv_err_jobs + 1.
+      when 3.
+        wait until gv_rcv_jobs ge lv_snd_jobs.
+    endcase.
+  endif.
+*--&gt; Append to task-table
+  append gt_taskx.
+
+*--&gt; Statistics
+  add 1 to lv_snd_jobs.
+  lv_cur_jobs   = lv_snd_jobs - gv_rcv_jobs.
+
+*--&gt; Always work with constant number of active jobs
+  if lv_cur_jobs ge lv_max_tasks.
+    wait until gv_task_finished eq gc_true.
+    clear gv_task_finished.
+  endif.
+
+*--&gt; Stop: When RFC problems
+  if gv_err_jobs &gt; lv_max_tasks
+  and gv_err_jobs = gv_rcv_jobs.
+    lv_parallel_failed = c_yes.
+    exit.
+  endif.
+
+*--&gt; Stop: Raise exception
+  if lv_parallel_failed eq c_yes.
+    raise error_with_rfc.
+  endif.
+
+*   IF end_of_select = &apos;X&apos; OR package_no = &apos;0000000011&apos;.
+  if end_of_select = &apos;X&apos;.
+    wait until gv_all_tasks_finished eq gc_true.
+    exit.
+  endif.
+
+endform.                    &quot; FM_PRL
+*&amp;---------------------------------------------------------------------*
+*&amp;      Form  FILTER_ADRU
+*&amp;---------------------------------------------------------------------*
+*       text
+*----------------------------------------------------------------------*
+*      --&gt;P_SEL_TAB  text
+*      --&gt;P_IV_COMMUSAGE  text
+*----------------------------------------------------------------------*
+form filter_adru  tables   sel_tab structure addr_addr_pers_cp_line
+
+                  using value(iv_commusage).
+
+
+  select distinct addrnumber persnumber comm_type from adru into
+corresponding
+fields
+    of table lt_adru for all entries
+    in sel_tab where addrnumber = sel_tab-addrnumber and
+                     persnumber = sel_tab-persnumber and
+                     comm_type = iv_commusage.
+
+  loop at sel_tab into ls_sel.
+    read table lt_adru into ls_adru with key
+                                addrnumber =  ls_sel-addrnumber
+                                persnumber = ls_sel-persnumber
+                                comm_type = iv_commusage
+                                binary search.
+    if sy-subrc = 0.
+      delete table sel_tab from ls_sel.
+    endif.
+  endloop.
+
+endform.                    &quot; FILTER_ADRU</source>
+ </PROG>
+ <PROG NAME="ZVNMM_ZMIGR_DMBEW" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Program ZVNMM_ZMIGR_MLDEL" LENGTH="25 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNMM_ZMIGR_MLDEL
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnmm_zmigr_dmbew.
+*&amp; &quot;(+CBL-12417 Inventory Management) clear if no accountings
+*&amp;
+*&amp; one-time tool for activation of Inventory Management
+*&amp;
+*&amp; deletes MBEW records for materials to be switched into val-stock
+*&amp; accounting view to be then created manually in MM01
+*&amp; don&apos;t run it before closing of POrd for given materials
+
+
+**********************************************************************
+*** sel-screen
+TABLES: mbew.
+SELECT-OPTIONS: so_matnr FOR mbew-matnr.
+PARAMETERS: px_dele TYPE xfeld DEFAULT &apos;X&apos; AS CHECKBOX,
+            px_test TYPE xfeld DEFAULT &apos;X&apos; AS CHECKBOX.
+
+
+**********************************************************************
+***
+START-OF-SELECTION.
+  BREAK hq_tta.
+
+  SELECT * FROM mbew INTO TABLE @DATA(lt_mbew) WHERE matnr IN @so_matnr.
+
+  LOOP AT lt_mbew ASSIGNING FIELD-SYMBOL(&lt;mbew&gt;).
+    &quot;delete
+    IF px_dele = &apos;X&apos;.
+      DELETE FROM mbew WHERE matnr = &lt;mbew&gt;-matnr.
+    ENDIF.
+  ENDLOOP.
+
+  &quot;commit
+  CASE px_test.
+    WHEN &apos;X&apos;. CALL FUNCTION &apos;BAPI_TRANSACTION_ROLLBACK&apos;                    .
+    WHEN &apos; &apos;. CALL FUNCTION &apos;BAPI_TRANSACTION_COMMIT&apos;  EXPORTING wait = &apos;X&apos;.
+
+  ENDCASE.
+
+**  SELECT * FROM mbv_mbew      INTO TABLE @DATA(lt_mbv) WHERE matnr IN @so_matnr.
+**  SELECT * FROM mbv_mbew_base INTO TABLE @DATA(lt_mbb) WHERE matnr IN @so_matnr.</source>
+ </PROG>
+ <PROG NAME="ZVNMM_ZMIGR_ARLINK_D" VARCL="X" SUBC="1" RSTAT="K" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Program ZVNMM_MIGRA_ARLINK" LENGTH="26 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNMM_ZMIGR_ARLINK
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnmm_zmigr_arlink_d.
+
+&quot;+SAP-3692(HQ_TTa) LSMW/tcode to remove/delete BP GOS link
+&quot;quick-and-dirty DELETE of ARLink file
+
+DATA: lv_archiv_doc_id TYPE sapb-sapadokid.
+
+&quot;***
+PARAMETERS: p_archid TYPE toaar-archiv_id,
+            p_dctyp  TYPE toadd-doc_type,
+            p_path   TYPE sapb-sappfad,
+            p_arobj  TYPE toaom-ar_object,
+            p_objid  TYPE sapb-sapobjid,
+            p_objty  TYPE toaom-sap_object,
+            p_fnam   TYPE text255. &quot;(not TOAAT-FILENAME, to be case-sensitive)
+
+&quot;0th filename from filepath (if not provided)
+IF p_fnam IS INITIAL.
+  DATA: i_filepath TYPE rsfilenm,
+        e_filename TYPE rsawbnobjnm.
+  MOVE: p_path TO i_filepath.
+  CALL FUNCTION &apos;RSDS_SPLIT_PATH_TO_FILENAME&apos;
+    EXPORTING
+      i_filepath = i_filepath
+    IMPORTING
+      e_filename = e_filename.
+  MOVE: e_filename TO p_fnam.
+ENDIF.
+
+&quot;1st: object -&gt; ar-file (by name)
+SELECT SINGLE * INTO @DATA(ls_toax)
+       FROM       toa01 AS t1
+       INNER JOIN toaat AS tt ON tt~arc_doc_id = t1~arc_doc_id
+WHERE t1~sap_object = @p_objty
+  AND t1~object_id  = @p_objid
+  AND t1~archiv_id  = @p_archid
+  AND t1~ar_object  = @p_arobj
+  AND tt~filename   = @p_fnam.
+IF sy-subrc NE 0.
+  WRITE: / &apos;no file found&apos;.
+  EXIT.
+ENDIF.
+
+&quot;2nd: delete file
+***CALL FUNCTION &apos;ARCHIVOBJECT_DELETE&apos;
+***  EXPORTING
+***    archiv_doc_id            = ls_toax-t1-arc_doc_id
+***    archiv_id                = ls_toax-t1-archiv_id
+****   SIGN                     = &apos; &apos;
+****   DOC_TYPE                 = &apos; &apos;
+****   COMPID                   = &apos; &apos;
+***    sap_object               = ls_toax-t1-sap_object
+***    ar_object                = ls_toax-t1-ar_object
+****   ar_date                  = ls_toax-t1-ar_date
+****   DEL_DATE                 = DEL_DATE
+***    object_id                = ls_toax-t1-object_id
+***  EXCEPTIONS
+***    error_archiv             = 1
+***    error_communicationtable = 2
+***    error_kernel             = 3
+***    OTHERS                   = 4.
+***IF sy-subrc &lt;&gt; 0.
+***  WRITE: / &apos;error in deletion&apos;.
+***ELSE.
+***  COMMIT WORK AND WAIT.
+***ENDIF.
+
+&quot;2nd: delete link
+CALL FUNCTION &apos;ARCHIV_DELETE_META&apos;
+  EXPORTING
+    archiv_id                = ls_toax-t1-archiv_id
+    arc_doc_id               = ls_toax-t1-arc_doc_id
+    ar_object                = ls_toax-t1-ar_object
+    delete_flag              = 2
+    object_id                = ls_toax-t1-object_id
+    sap_object               = ls_toax-t1-sap_object
+*   CLIENT                   = CLIENT
+*   SINGLE_ENTRY             = &apos; &apos;
+*   DOCUMENTCLASS            = DOCUMENTCLASS
+    no_auth_check            = &apos;X&apos;
+* IMPORTING
+*   ALL_CONNECTIONS_DELETED  = ALL_CONNECTIONS_DELETED
+  EXCEPTIONS
+    error_connectiontable    = 1
+    error_parameter          = 2
+    error_archiv             = 3
+    error_kernel             = 4
+    error_communicationtable = 5
+    error_authority          = 6
+    OTHERS                   = 7.
+IF sy-subrc &lt;&gt; 0.
+  WRITE: / &apos;error in deletion, sy-subrc=&apos;, sy-subrc.
+ELSE.
+  COMMIT WORK AND WAIT.
+ENDIF.</source>
+ </PROG>
+ <TRAN TCODE="ZVNMM_ZMIGR_ARLINK" PGMNA="ZVNMM_ZMIGR_ARLINK" DYPNO="1000" TYPE="R" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="ZVNMM_ZMIGR_ARLINK"/>
+ <TRAN TCODE="ZVNMM_ZMIGR_BP3100" PGMNA="ZVNMM_ZMIGR_BP3100" DYPNO="1000" TYPE="R" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="ZVNMM_ZMIGR_BP3100"/>
+ <TRAN TCODE="ZVNMM_ZMIGR_ARLINK_D" PGMNA="ZVNMM_ZMIGR_ARLINK_D" DYPNO="1000" TYPE="R" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="ZVNMM_ZMIGR_ARLINK"/>
+</nugget>

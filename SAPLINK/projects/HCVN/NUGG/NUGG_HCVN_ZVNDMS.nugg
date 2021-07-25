@@ -1,0 +1,2586 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNDMS">
+ <CLAS CLSNAME="ZCL_VNDMS_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: Document Linker" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" MSG_ID="ZVNDMS" WITH_UNIT_TESTS="X" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <localTestClasses>*&quot;* use this source file for your ABAP unit test classes</localTestClasses>
+  <attribute CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="AT_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log (tty)" EXPOSURE="2" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_IFLD_T" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="CONSTRUCTOR" SCONAME="IT_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log (tty)" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_IFLD_T"/>
+   <source>METHOD constructor.
+
+    &quot;
+    MOVE: it_ifld[] TO me-&gt;at_ifld[].
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="CONV_STRIP" VERSION="1" LANGU="E" DESCRIPT="convert: strip filename from filename.ext" EXPOSURE="0" STATE="1" EDITORDER="10 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="CONV_STRIP" SCONAME="IV_FNAM" VERSION="1" LANGU="E" DESCRIPT="full name: filename.ext" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_FNAME"/>
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="CONV_STRIP" SCONAME="RV_SNAM" VERSION="1" LANGU="E" DESCRIPT="stripped name: filename (no ext)" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="ZVNDMS_FNAME"/>
+   <source>METHOD conv_strip.
+
+    &quot;strip file name from extention
+    SPLIT iv_fnam AT &apos;.&apos; INTO rv_snam DATA(lv_ext).
+    CONDENSE rv_snam NO-GAPS.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK" VERSION="1" LANGU="E" DESCRIPT="linker: link single record" EXPOSURE="0" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link.
+
+    &quot;link single ARfile to SAP object
+
+    &quot;1 determine key
+    me-&gt;ifld_link_okey( ir_ifld ).
+
+    &quot;2 link to object
+    me-&gt;ifld_link_save( ir_ifld ).
+
+    &quot;3 save log
+    me-&gt;ifld_link_dblg( ir_ifld ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_DBLG" VERSION="1" LANGU="E" DESCRIPT="linker: log IFLD db" EXPOSURE="0" STATE="1" EDITORDER="9 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_DBLG" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_dblg.
+
+    &quot;save IFLD to db
+    MODIFY zvndms_ifld FROM ir_ifld-&gt;*.
+    COMMIT WORK.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY" VERSION="1" LANGU="E" DESCRIPT="linker: determine key of SAP object" EXPOSURE="0" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_okey.
+
+    &quot;determine key
+    CASE ir_ifld-&gt;sobty.
+
+      WHEN &apos;BUS2012&apos;  &quot;Purchase Order
+        OR &apos;BUS2014&apos;. &quot;Outline Agreement
+
+        me-&gt;ifld_link_okey_ekko( ir_ifld ).
+
+      WHEN &apos;BUS2081&apos;. &quot;Incoming Invoice
+
+        me-&gt;ifld_link_okey_rbkp( ir_ifld ).
+
+      WHEN &apos;BKPF&apos;   . &quot;FI document
+
+        me-&gt;ifld_link_okey_bkpf( ir_ifld ).
+
+    ENDCASE.
+
+    &quot;error: no object determined
+    IF ir_ifld-&gt;sobid IS INITIAL.
+      ir_ifld-&gt;stlnk = zif_vndms_const=&gt;gc_stlnk_e.
+      MESSAGE e002(zvndms) INTO ir_ifld-&gt;msgtx. &quot;msg{No object link determined!}
+      MOVE: sy-msgid TO ir_ifld-&gt;msgid,
+            sy-msgno TO ir_ifld-&gt;msgno,
+            sy-msgty TO ir_ifld-&gt;msgty.
+    ENDIF.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_BKPF" VERSION="1" LANGU="E" DESCRIPT="linker: determine key of FI Document" EXPOSURE="0" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_BKPF" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_okey_bkpf.
+
+    &quot;strip filename to Document Number
+    DATA(lv_file)  = me-&gt;conv_strip( ir_ifld-&gt;fname ).
+    DATA(lv_belnr) = CONV bkpf-belnr( lv_file(10) ).
+
+    &quot;document can be provided with/without year (so NNNNNNNNNN or NNNNNNNNNNYYYY)
+    &quot;..and when without year it can be from current or previous
+    DATA(lv_provy) = CONV bkpf-gjahr( lv_file+10(4) ).
+
+    &quot;§1 check document in provided year
+    IF lv_provy IS NOT INITIAL.
+
+      SELECT SINGLE bukrs, belnr, gjahr INTO @DATA(lk_bkpf) FROM bkpf WHERE bukrs = @zif_vndms_const=&gt;gc_bukrs
+                                                                        AND belnr = @lv_belnr
+                                                                        AND gjahr = @lv_provy .
+      IF sy-subrc = 0.
+        ir_ifld-&gt;sobid = lk_bkpf-bukrs &amp;&amp; lk_bkpf-belnr &amp;&amp; lk_bkpf-gjahr.
+      ENDIF.
+      RETURN.
+
+    ELSE.
+      &quot;§2 no year provided, can be from current or previous year
+
+      &quot;§2.0 get current &amp; previous year
+      DATA: lv_curry TYPE bkpf-gjahr,
+            lv_prevy TYPE bkpf-gjahr.
+      CALL FUNCTION &apos;GET_CURRENT_YEAR&apos;
+        EXPORTING
+          bukrs = zif_vndms_const=&gt;gc_bukrs
+          date  = sy-datum
+        IMPORTING
+          curry = lv_curry
+          prevy = lv_prevy.
+
+      &quot;§2.1 check document in current year
+      SELECT SINGLE bukrs, belnr, gjahr INTO @lk_bkpf FROM bkpf WHERE bukrs = @zif_vndms_const=&gt;gc_bukrs
+                                                                  AND belnr = @lv_belnr
+                                                                  AND gjahr = @lv_curry.
+      IF sy-subrc = 0.
+        ir_ifld-&gt;sobid = lk_bkpf-bukrs &amp;&amp; lk_bkpf-belnr &amp;&amp; lk_bkpf-gjahr.
+        RETURN.
+      ELSE.
+
+        &quot;..check document in previous year
+        SELECT SINGLE bukrs, belnr, gjahr INTO @lk_bkpf FROM bkpf WHERE bukrs = @zif_vndms_const=&gt;gc_bukrs
+                                                                    AND belnr = @lv_belnr
+                                                                    AND gjahr = @lv_prevy.
+        IF sy-subrc = 0.
+          ir_ifld-&gt;sobid = lk_bkpf-bukrs &amp;&amp; lk_bkpf-belnr &amp;&amp; lk_bkpf-gjahr.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_EKKO" VERSION="1" LANGU="E" DESCRIPT="linker: determine key of Purchasing Document (POrd, OAgr)" EXPOSURE="0" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_EKKO" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_okey_ekko.
+
+    &quot;strip filename to Purchase Document number
+    DATA(lv_file)  = me-&gt;conv_strip( ir_ifld-&gt;fname ).
+    DATA(lv_ebeln) = CONV ekko-ebeln( lv_file ).
+
+    &quot;check existence
+    SELECT SINGLE ebeln FROM ekko INTO @DATA(lv_xebeln) WHERE ebeln = @lv_ebeln.
+
+    &quot;pass as key
+    MOVE: lv_xebeln TO ir_ifld-&gt;sobid.
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_RBKP" VERSION="1" LANGU="E" DESCRIPT="linker: determine key of Incoming Invoice" EXPOSURE="0" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_OKEY_RBKP" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_okey_rbkp.
+
+    &quot;strip filename to Invoice Number
+    DATA(lv_file)  = me-&gt;conv_strip( ir_ifld-&gt;fname ).
+    DATA(lv_belnr) = CONV rbkp-belnr( lv_file(10) ).
+
+    &quot;invoice can be provided with/without year (so NNNNNNNNNN or NNNNNNNNNNYYYY)
+    &quot;..and when without year it can be from current or previous
+    DATA(lv_provy) = CONV rbkp-gjahr( lv_file+10(4) ).
+
+    &quot;§1 check invoice in provided year
+    IF lv_provy IS NOT INITIAL.
+
+      SELECT SINGLE belnr, gjahr INTO @DATA(lk_rbkp) FROM rbkp WHERE belnr = @lv_belnr
+                                                                 AND gjahr = @lv_provy .
+      IF sy-subrc = 0.
+        ir_ifld-&gt;sobid = lk_rbkp-belnr &amp;&amp; lk_rbkp-gjahr.
+      ENDIF.
+      RETURN.
+
+    ELSE.
+      &quot;§2 no year provided, can be from current or previous year
+
+      &quot;§2.0 get current &amp; previous year
+      DATA: lv_curry TYPE bkpf-gjahr,
+            lv_prevy TYPE bkpf-gjahr.
+      CALL FUNCTION &apos;GET_CURRENT_YEAR&apos;
+        EXPORTING
+          bukrs = zif_vndms_const=&gt;gc_bukrs
+          date  = sy-datum
+        IMPORTING
+          curry = lv_curry
+          prevy = lv_prevy.
+
+      &quot;§2.1 check Invoice in current year
+      SELECT SINGLE belnr, gjahr INTO @lk_rbkp FROM rbkp WHERE belnr = @lv_belnr
+                                                           AND gjahr = @lv_curry.
+      IF sy-subrc = 0.
+        ir_ifld-&gt;sobid = lk_rbkp-belnr &amp;&amp; lk_rbkp-gjahr.
+        RETURN.
+      ELSE.
+
+        &quot;..check Invoice in previous year
+        SELECT SINGLE belnr, gjahr INTO @lk_rbkp FROM rbkp WHERE belnr = @lv_belnr
+                                                             AND gjahr = @lv_prevy.
+        IF sy-subrc = 0.
+          ir_ifld-&gt;sobid = lk_rbkp-belnr &amp;&amp; lk_rbkp-gjahr.
+        ENDIF.
+      ENDIF.
+    ENDIF.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_SAVE" VERSION="1" LANGU="E" DESCRIPT="linker: save link" EXPOSURE="0" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="IFLD_LINK_SAVE" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifld_link_save.
+
+    &quot;save determined link
+    CHECK: ir_ifld-&gt;sobid IS NOT INITIAL.
+
+
+    CALL FUNCTION &apos;ARCHIV_CONNECTION_INSERT&apos;
+      EXPORTING
+        archiv_id             = ir_ifld-&gt;acrep
+        arc_doc_id            = ir_ifld-&gt;ardid
+        &quot;Ar_date    = &apos; &apos;
+        ar_object             = ir_ifld-&gt;arobj
+        object_id             = ir_ifld-&gt;sobid
+        sap_object            = ir_ifld-&gt;sobty
+        filename              = CONV toaat-filename( ir_ifld-&gt;fname )
+        &quot;Descr      = &apos; &apos;
+        creator               = sy-uname
+      EXCEPTIONS
+        error_connectiontable = 1
+        OTHERS                = 2.
+    IF sy-subrc &lt;&gt; 0.
+      ir_ifld-&gt;stlnk = zif_vndms_const=&gt;gc_stlnk_e.
+      &quot;error: no connection
+      MESSAGE e003(zvndms) INTO ir_ifld-&gt;msgtx. &quot;msg{Error in object linking!}
+      MOVE: sy-msgid TO ir_ifld-&gt;msgid,
+            sy-msgno TO ir_ifld-&gt;msgno,
+            sy-msgty TO ir_ifld-&gt;msgty.
+    ELSE.
+      &quot;link status
+      ir_ifld-&gt;stlnk = zif_vndms_const=&gt;gc_stlnk_l.
+
+    ENDIF.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFLD" CMPNAME="PROCESS" VERSION="1" LANGU="E" DESCRIPT="linker: process" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD process.
+
+    &quot;process archived files
+    LOOP AT me-&gt;at_ifld REFERENCE INTO DATA(lr_ifld).
+
+      &quot;link single ARfile to SAP object
+      me-&gt;ifld_link( ir_ifld = lr_ifld ).
+
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_PERSI" VERSION="1" LANGU="E" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_PERSI" REFCLSNAME="IF_EX_CV_ODATA_ATTACH_PERSIST" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_PERSI" CPDNAME="IF_EX_CV_ODATA_ATTACH_PERSIST~DETERMINE_PERSISTENCY_TYPE">
+   <source>METHOD if_ex_cv_odata_attach_persist~determine_persistency_type.
+
+    &quot;**SAP-2887 Fiori PReq attachment into GOS (instead of DMS)
+    &quot;context:
+    &quot;         fiori app for preq is by default using DMS for attachments
+    &quot;         see method ~FINALIZE_OBJECT_KEYS for object key handling
+    &quot;feature:
+    &quot;         for EBAN-DMS switch to BUS2105-GOS
+    &quot;note   :
+    &quot;         see (badi impl ZME_PROCESS_REQ_CUST) class~method ZCL_IM_ME_PROCESS_REQ_CUST~ADD_ATTA_TO_GOS..
+    &quot;         ..where furher processing/connection of gos attachment is done
+    &quot;         (this is mere first step in proper gos reconnection)
+    IF cv_object_type                 = &apos;EBAN&apos; AND
+       cv_attach_storage_persistency  = &apos;DMS&apos;.
+      cv_object_type                  = &apos;BUS2105&apos;. &quot;BUS2105: works for sapgui-files
+      cv_attach_storage_persistency   = &apos;GOS&apos;.
+    ENDIF.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_PERSI" CPDNAME="IF_EX_CV_ODATA_ATTACH_PERSIST~FINALIZE_OBJECT_KEYS">
+   <source>METHOD if_ex_cv_odata_attach_persist~finalize_object_keys.
+
+    &quot;**SAP-2887 Fiori PReq attachment into GOS (instead of DMS)
+    &quot;context:
+    &quot;         fiori app for preq is by default using DMS for attachments, switched by this badi to GOS
+    &quot;         see method ~DETERMINE_PERSISTENCY_TYPE for object/type switching
+    &quot;feature:
+    &quot;         check PReq exist, if so, use key of only doc-num (like sapgui GOS), not doc-num+itm-num
+    &quot;         (if preq doesn&apos;t exist, it means we are working with preq draft, key cannot be modified)
+    &quot;note   :
+    &quot;         see (badi impl ZME_PROCESS_REQ_CUST) class~method ZCL_IM_ME_PROCESS_REQ_CUST~ADD_ATTA_TO_GOS..
+    &quot;         ..where furher processing/connection of gos attachment is done
+    IF iv_objecttype = &apos;EBAN&apos;.
+      SELECT SINGLE banfn FROM eban INTO @DATA(lv_banfn) WHERE banfn = @cv_finalized_objectkey(10) .
+      IF sy-subrc = 0.
+        cv_finalized_objectkey = cv_finalized_objectkey(10).
+      ENDIF.
+    ENDIF.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_PERSI" CPDNAME="IF_EX_CV_ODATA_ATTACH_PERSIST~PERFORM_AFTER_UPLOAD_TASKS">
+   <source>METHOD if_ex_cv_odata_attach_persist~perform_after_upload_tasks.
+  ENDMETHOD.</source>
+  </interfaceMethod>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_VNDMS_IFDD" VERSION="1" LANGU="E" DESCRIPT="DMS: Document Downloader" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" MSG_ID="ZVNDMS" WITH_UNIT_TESTS="X" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <localTestClasses>*&quot;* use this source file for your ABAP unit test classes</localTestClasses>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AS_C000" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS configuration (logical file, shared folder)" EXPOSURE="2" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_C000" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AS_TOADV" VERSION="1" LANGU="E" DESCRIPT="config: SAP ArchiveLink: Global document types" EXPOSURE="0" STATE="1" EDITORDER="4 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="TOADV" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AS_TOAOM" VERSION="1" LANGU="E" DESCRIPT="config: SAP ArchiveLink: Meta table for links" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="TOAOM" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AT_DLIST" VERSION="1" LANGU="E" DESCRIPT="DMS: EPSFILI List of Files (tty)" EXPOSURE="0" STATE="1" EDITORDER="6 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_EPSFILI_T" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AT_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log (tty)" EXPOSURE="2" STATE="1" EDITORDER="2 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_IFLD_T" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="AV_PPATH" VERSION="1" LANGU="E" DESCRIPT="Physical path name" EXPOSURE="0" STATE="1" EDITORDER="5 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="PATHEXTERN" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONSTRUCTOR" SCONAME="IV_C000" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS configuration (logical file, shared folder)" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_C000"/>
+   <source>METHOD CONSTRUCTOR.
+
+    &quot;set C000
+    MOVE: iv_c000 TO me-&gt;as_c000.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONV_FPATH" VERSION="1" LANGU="E" DESCRIPT="convert: log-file + file -&gt; full physical path" EXPOSURE="0" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONV_FPATH" SCONAME="IV_FNAME" VERSION="1" LANGU="E" DESCRIPT="DMS: file name" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_IFLD-FNAME"/>
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONV_FPATH" SCONAME="IV_LFILE" VERSION="1" LANGU="E" DESCRIPT="Logical file name" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_IFLD-LFILE"/>
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="CONV_FPATH" SCONAME="RV_FPATH" VERSION="1" LANGU="E" DESCRIPT="DMS: scan station full path (dir+file)" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="ZVNDMS_IFLD-FPATH"/>
+   <source>METHOD conv_fpath.
+
+    &quot;convert: log-file + file -&gt; full physical path
+    CALL FUNCTION &apos;FILE_GET_NAME&apos;
+      EXPORTING
+        logical_filename = iv_lfile
+        parameter_1      = iv_fname
+      IMPORTING
+        file_name        = rv_fpath
+      EXCEPTIONS
+        file_not_found   = 1
+        OTHERS           = 2.
+    ASSERT sy-subrc = 0.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_DIRLIST" VERSION="1" LANGU="E" DESCRIPT="downloader: directory listing" EXPOSURE="0" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD ifdd_dirlist.
+
+    &quot;&amp; list directory
+
+    CALL FUNCTION &apos;EPS_GET_DIRECTORY_LISTING&apos;
+      EXPORTING
+        dir_name               = CONV epsf-epsdirnam( me-&gt;av_ppath )
+      TABLES
+        dir_list               = me-&gt;at_dlist
+      EXCEPTIONS
+        invalid_eps_subdir     = 1
+        sapgparam_failed       = 2
+        build_directory_failed = 3
+        no_authorization       = 4
+        read_directory_failed  = 5
+        too_many_read_errors   = 6
+        empty_directory_list   = 7
+        OTHERS                 = 8.
+    ASSERT sy-subrc =  0 or
+           sy-subrc =  7    .
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_IFLD" VERSION="1" LANGU="E" DESCRIPT="downloader: loop at files, process to IFLD" EXPOSURE="0" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD ifdd_ifld.
+
+    &quot;&amp; process files to IFLD
+    LOOP AT me-&gt;at_dlist ASSIGNING FIELD-SYMBOL(&lt;dlist&gt;).
+
+      &quot;init IFLD record
+      APPEND INITIAL LINE TO me-&gt;at_ifld REFERENCE INTO DATA(lr_ifld).
+
+      MOVE: sy-datum                TO lr_ifld-&gt;rdate,
+            sy-uzeit                TO lr_ifld-&gt;rtime,
+            me-&gt;as_c000-arobj       TO lr_ifld-&gt;arobj,
+            me-&gt;as_toaom-doc_type   TO lr_ifld-&gt;ardoc,
+            me-&gt;as_toaom-archiv_id  TO lr_ifld-&gt;acrep,
+            &apos;&apos;                      TO lr_ifld-&gt;ardid, &quot;(not yet saved, empty)
+            &apos;&apos;                      TO lr_ifld-&gt;sobid, &quot;(linked later in linked ILFD)
+            me-&gt;as_c000-spobj       TO lr_ifld-&gt;sobty,
+            me-&gt;as_c000-lfile       TO lr_ifld-&gt;lfile,
+            &apos;&apos;                      TO lr_ifld-&gt;fpath, &quot;(see conv below)
+            &lt;dlist&gt;-name            TO lr_ifld-&gt;fname.
+
+      lr_ifld-&gt;fpath = me-&gt;conv_fpath( iv_fname = lr_ifld-&gt;fname
+                                       iv_lfile = lr_ifld-&gt;lfile ).
+
+      &quot;process IFLD record
+      me-&gt;ifdd_ifld_save( ir_ifld = lr_ifld ).  &quot;save to ArchiveLink
+      me-&gt;ifdd_ifld_dele( ir_ifld = lr_ifld ).  &quot;delete source file
+
+
+    ENDLOOP.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_IFLD_DELE" VERSION="1" LANGU="E" DESCRIPT="IFLD single file: delete from source folder" EXPOSURE="0" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_IFLD_DELE" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifdd_ifld_dele.
+
+    &quot;&amp; delete file from shared folder
+
+    CHECK: ir_ifld-&gt;*-_sta-stupl NE &apos;E&apos;. &quot;no deletion if no upload
+
+    CALL FUNCTION &apos;EPS_DELETE_FILE&apos;
+      EXPORTING
+        file_name              = CONV epsf-epsfilnam( ir_ifld-&gt;*-fname )
+        dir_name               = CONV epsf-epsdirnam( me-&gt;av_ppath )
+      EXCEPTIONS
+        invalid_eps_subdir     = 1
+        sapgparam_failed       = 2
+        build_directory_failed = 3
+        no_authorization       = 4
+        build_path_failed      = 5
+        delete_failed          = 6
+        OTHERS                 = 7.
+    ASSERT sy-subrc = 0.
+
+    &quot;update deletion lfag
+    MOVE zif_vndms_const=&gt;gc_stdel_d TO ir_ifld-&gt;*-stdel.
+
+    &quot;save to db IFLD
+    MODIFY zvndms_ifld FROM ir_ifld-&gt;*.
+    COMMIT WORK AND WAIT.
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_IFLD_SAVE" VERSION="1" LANGU="E" DESCRIPT="IFLD single file: save to ArchiveLink" EXPOSURE="0" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_IFLD_SAVE" SCONAME="IR_IFLD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="ZVNDMS_IFLD"/>
+   <source>METHOD ifdd_ifld_save.
+
+    &quot;&amp; save file to ArchiveLink
+    WRITE: / &apos;       time save start: &apos;, sy-uzeit, ir_ifld-&gt;fpath.
+    CALL FUNCTION &apos;ARCHIVOBJECT_CREATE_FILE&apos;
+      EXPORTING
+        archiv_id                = ir_ifld-&gt;acrep
+        document_type            = ir_ifld-&gt;ardoc
+        path                     = ir_ifld-&gt;fpath
+      IMPORTING
+        archiv_doc_id            = ir_ifld-&gt;ardid
+      EXCEPTIONS
+        error_archiv             = 1
+        error_communicationtable = 2
+        error_upload             = 3
+        error_kernel             = 4
+        blocked_by_policy        = 5
+        OTHERS                   = 6.
+    &quot;ASSERT sy-subrc = 0.
+    WRITE: / &apos;       time save end  : &apos;, sy-uzeit, ir_ifld-&gt;fpath.
+
+    IF sy-subrc EQ 0.
+      MOVE &apos;U&apos; TO: ir_ifld-&gt;*-_sta-stupl.
+    ELSE.
+      &quot;msg{Error in ARCHIVOBJECT_CREATE_FILE: &amp; &amp; &amp; &amp;.}
+      MESSAGE e007(zvndms) WITH ir_ifld-&gt;acrep
+                                ir_ifld-&gt;ardoc
+                                ir_ifld-&gt;fpath
+                                sy-subrc        INTO ir_ifld-&gt;*-_msg-msgtx.
+      MOVE: &apos;ZVNDMS&apos;  TO ir_ifld-&gt;*-_msg-msgid,
+            &apos;007&apos;     TO ir_ifld-&gt;*-_msg-msgno,
+            &apos;E&apos;       TO ir_ifld-&gt;*-_msg-msgty.
+      MOVE &apos;E&apos; TO: ir_ifld-&gt;*-_sta-stupl.
+
+    ENDIF.
+
+
+    &quot;save to db IFLD
+    MODIFY zvndms_ifld FROM ir_ifld-&gt;*.
+    COMMIT WORK AND WAIT.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="IFDD_INIT" VERSION="1" LANGU="E" DESCRIPT="downloader: initialization" EXPOSURE="0" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD ifdd_init.
+
+    &quot;get customizing
+    SELECT SINGLE * FROM toadv INTO @me-&gt;as_toadv WHERE ar_object  = @me-&gt;as_c000-arobj.
+    SELECT SINGLE * FROM toaom INTO @me-&gt;as_toaom WHERE sap_object = @me-&gt;as_c000-spobj
+                                                    AND ar_object  = @me-&gt;as_c000-arobj
+                                                    AND ar_status  = &apos;X&apos;.
+
+    &quot;get shared folder (log-file -&gt; log-path -&gt; phys-path)
+    CALL FUNCTION &apos;FILE_GET_NAME&apos;
+      EXPORTING
+        logical_filename = me-&gt;as_c000-lfile
+      IMPORTING
+        file_name        = me-&gt;av_ppath
+      EXCEPTIONS
+        file_not_found   = 1
+        OTHERS           = 2.
+    ASSERT sy-subrc = 0.
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFDD" CMPNAME="PROCESS" VERSION="1" LANGU="E" DESCRIPT="downloader: process" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD process.
+
+    &quot;process shared folder
+
+    me-&gt;ifdd_init(  ).
+    me-&gt;ifdd_dirlist( ).
+    me-&gt;ifdd_ifld( ).
+
+
+  ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_VNDMS_IFMD" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document monitor" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" MSG_ID="ZVNDMS" WITH_UNIT_TESTS="X" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <types CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="TS_SDAT" VERSION="1" LANGU="E" DESCRIPT="enhance table IFLD for SALV" EXPOSURE="0" STATE="1" EDITORDER="1 " TYPTYPE="4" SRCROW1="4 " SRCCOLUMN1="4 " SRCROW2="10 " SRCCOLUMN2="26 " TYPESRC_LENG="0 " TYPESRC='BEGIN OF ts_sdat .
+        INCLUDE     TYPE zvndms_ifld AS _ifld.
+    TYPES:
+        stlnk_tx    TYPE zvndms_stlnk_tx,
+        stlnk_ic(1) TYPE c,
+        tscol       TYPE lvc_t_scol. &quot;for cell colour
+    TYPES: END   OF ts_sdat
+'/>
+  <types CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="TT_SDAT" VERSION="1" LANGU="E" DESCRIPT="enhance table IFLD for SALV (tty)" EXPOSURE="0" STATE="1" EDITORDER="2 " TYPTYPE="4" SRCROW1="12 " SRCCOLUMN1="4 " SRCROW2="12 " SRCCOLUMN2="32 " TYPESRC_LENG="0 " TYPESRC="tt_sdat TYPE TABLE OF ts_sdat
+"/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <localTestClasses>*&quot;* use this source file for your ABAP unit test classes</localTestClasses>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="AR_SALV" VERSION="1" LANGU="E" DESCRIPT="SALV class" EXPOSURE="0" STATE="1" EDITORDER="6 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="3" TYPE="CL_SALV_TABLE" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="AT_IFLD" VERSION="1" LANGU="E" DESCRIPT="IFLD full table" EXPOSURE="0" STATE="1" EDITORDER="4 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_IFLD_T" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="AT_KEYS" VERSION="1" LANGU="E" DESCRIPT="IFLD keys" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_IFLD_KEY_T" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="AT_SDAT" VERSION="1" LANGU="E" DESCRIPT="IFLD enh for SALV" EXPOSURE="0" STATE="1" EDITORDER="5 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="TT_SDAT" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="LC_PFKEY" VERSION="1" LANGU="E" DESCRIPT="calling program gui status" EXPOSURE="0" STATE="1" EDITORDER="2 " ATTDECLTYP="2" ATTVALUE="&apos;SALV_STANDARD_IFMD&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="SY-PFKEY" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="LC_REPID" VERSION="1" LANGU="E" DESCRIPT="calling program" EXPOSURE="0" STATE="1" EDITORDER="1 " ATTDECLTYP="2" ATTVALUE="&apos;ZVNDMS_IFMD&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="SY-REPID" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_ARLINK_ADD" VERSION="1" LANGU="E" DESCRIPT="call: ARlink add" EXPOSURE="0" STATE="1" EDITORDER="24 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD call_arlink_add.
+
+    &quot;get selected line
+    DATA(lr_sdat) = me-&gt;salv_line_get( ).
+    CHECK lr_sdat IS BOUND.
+
+    &quot;check anything to link
+    IF lr_sdat-&gt;sobid IS INITIAL.
+      MESSAGE w006(zvndms). &quot;msg{No SAP-Object ID in selected line, nothing to be linked.}
+      RETURN.
+    ENDIF.
+
+    &quot;link
+    CALL FUNCTION &apos;ARCHIV_CONNECTION_INSERT&apos;
+      EXPORTING
+        archiv_id             = lr_sdat-&gt;acrep
+        arc_doc_id            = lr_sdat-&gt;ardid
+        ar_object             = lr_sdat-&gt;arobj
+        object_id             = lr_sdat-&gt;sobid
+        sap_object            = lr_sdat-&gt;sobty
+        filename              = CONV toaat-filename( lr_sdat-&gt;fname )
+        &quot;Descr      = &apos; &apos;
+        creator               = sy-uname
+      EXCEPTIONS
+        error_connectiontable = 1
+        OTHERS                = 2.
+
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE &apos;W&apos; NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 DISPLAY LIKE &apos;E&apos;.
+      RETURN.
+    ENDIF.
+
+    &quot;update IFLD db
+    MOVE: zif_vndms_const=&gt;gc_stlnk_l TO lr_sdat-&gt;stlnk.
+    MODIFY zvndms_ifld FROM lr_sdat-&gt;*-_ifld.
+    COMMIT WORK AND WAIT.
+
+
+    &quot;refresh data
+    me-&gt;salv_refr( ).
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_ARLINK_DEL" VERSION="1" LANGU="E" DESCRIPT="call: ARlink delete" EXPOSURE="0" STATE="1" EDITORDER="23 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD call_arlink_del.
+
+    &quot;get selected line
+    DATA(lr_sdat) = me-&gt;salv_line_get( ).
+    CHECK lr_sdat IS BOUND.
+
+    &quot;check anything to un-link
+    IF lr_sdat-&gt;sobid IS INITIAL.
+      MESSAGE w005(zvndms). &quot;msg{No SAP-Object ID in selected line, nothing to be un-linked.}
+      RETURN.
+    ENDIF.
+
+    &quot;call deletion
+    CALL FUNCTION &apos;ARCHIV_DELETE_META&apos;
+      EXPORTING
+        archiv_id                = lr_sdat-&gt;acrep
+        arc_doc_id               = lr_sdat-&gt;ardid
+        ar_object                = lr_sdat-&gt;arobj
+        delete_flag              = 0               &quot;0= with dialog
+        object_id                = lr_sdat-&gt;sobid
+        sap_object               = lr_sdat-&gt;sobty
+        client                   = sy-mandt
+        single_entry             = &apos;X&apos;
+        documentclass            = lr_sdat-&gt;ardoc
+*       NO_AUTH_CHECK            = NO_AUTH_CHECK
+*     IMPORTING
+*       ALL_CONNECTIONS_DELETED  = ALL_CONNECTIONS_DELETED
+      EXCEPTIONS
+        error_connectiontable    = 1
+        error_parameter          = 2
+        error_archiv             = 3
+        error_kernel             = 4
+        error_communicationtable = 5
+        error_authority          = 6
+        OTHERS                   = 7.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE &apos;W&apos; NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 DISPLAY LIKE &apos;E&apos;.
+      RETURN.
+    ENDIF.
+
+
+    &quot;check is deleted (because the dialog confirmation in fm above does not return any status whan cancelled)
+    DATA: lt_cons TYPE STANDARD TABLE OF toav0.
+    CALL FUNCTION &apos;ARCHIV_GET_CONNECTIONS_INT&apos;
+      EXPORTING
+        objecttype       = lr_sdat-&gt;sobty
+        object_id        = lr_sdat-&gt;sobid
+        client           = sy-mandt
+        archiv_id        = lr_sdat-&gt;acrep
+        arc_doc_id       = lr_sdat-&gt;ardid
+      TABLES
+        connections      = lt_cons
+      EXCEPTIONS
+        nothing_found    = 1
+        error_authorithy = 2
+        error_parameter  = 3
+        OTHERS           = 4.
+    IF sy-subrc &lt;&gt; 0.  ENDIF.
+
+    LOOP AT lt_cons ASSIGNING FIELD-SYMBOL(&lt;con&gt;) WHERE sap_object = lr_sdat-&gt;sobty
+                                                    AND object_id  = lr_sdat-&gt;sobid.
+      &quot;found? then not deleted
+      RETURN.
+    ENDLOOP.
+
+
+    &quot;update IFLD db
+    MOVE: zif_vndms_const=&gt;gc_stlnk_x TO lr_sdat-&gt;stlnk,
+          &apos;&apos;                          TO lr_sdat-&gt;sobid.
+    MODIFY zvndms_ifld FROM lr_sdat-&gt;*-_ifld.
+    COMMIT WORK AND WAIT.
+
+
+    &quot;refresh data
+    me-&gt;salv_refr( ).
+
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_DISP_ARDOC" VERSION="1" LANGU="E" DESCRIPT="call: display ArchiveLink document" EXPOSURE="0" STATE="1" EDITORDER="21 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD call_disp_ardoc.
+
+    &quot;get selected line
+    DATA(lr_sdat) = me-&gt;salv_line_get( ).
+    CHECK lr_sdat IS BOUND.
+
+    &quot;call display
+
+    CALL FUNCTION &apos;ARCHIVOBJECT_DISPLAY&apos;
+      EXPORTING
+        archiv_doc_id            = lr_sdat-&gt;ardid
+        archiv_id                = lr_sdat-&gt;acrep
+      EXCEPTIONS
+        error_archiv             = 1
+        error_communicationtable = 2
+        error_kernel             = 3
+        OTHERS                   = 4.
+    IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE &apos;W&apos; NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 DISPLAY LIKE &apos;E&apos;. ENDIF.
+
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_DISP_SOBID" VERSION="1" LANGU="E" DESCRIPT="call: display SAP-Object" EXPOSURE="0" STATE="1" EDITORDER="22 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD call_disp_sobid.
+
+    &quot;get selected line
+    DATA(lr_sdat) = me-&gt;salv_line_get( ).
+    CHECK lr_sdat IS BOUND.
+
+    &quot;call display
+    CASE lr_sdat-&gt;sobty.
+
+      WHEN &apos;BUS2012&apos;  &quot;Purchase Order
+        OR &apos;BUS2014&apos;. &quot;Outline Agreement
+
+        CALL FUNCTION &apos;ME_DISPLAY_PURCHASE_DOCUMENT&apos;
+          EXPORTING
+            i_ebeln              = CONV ekko-ebeln( lr_sdat-&gt;*-sobid )
+          EXCEPTIONS
+            not_found            = 1
+            no_authority         = 2
+            invalid_call         = 3
+            preview_not_possible = 4
+            OTHERS               = 5.
+        IF sy-subrc &lt;&gt; 0. MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4. ENDIF.
+
+      WHEN &apos;BUS2081&apos;. &quot;Incoming Invoice
+
+        SET PARAMETER ID &apos;RBN&apos; FIELD lr_sdat-&gt;*-sobid(10).
+        SET PARAMETER ID &apos;GJR&apos; FIELD lr_sdat-&gt;*-sobid+10(4).
+
+        CALL TRANSACTION &apos;MIR4&apos; WITH AUTHORITY-CHECK AND SKIP FIRST SCREEN.
+
+
+    ENDCASE.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_IFLD" VERSION="1" LANGU="E" DESCRIPT="call: maintenance view ifld" EXPOSURE="0" STATE="1" EDITORDER="20 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CALL_IFLD" SCONAME="IR_SDAT" VERSION="1" LANGU="E" DESCRIPT="enhance table IFLD for SALV" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="3" TYPE="TS_SDAT"/>
+   <source>METHOD call_ifld.
+
+    &quot;call maintenance view for IFLD record
+
+    &quot;prep sel-opts
+    DATA lt_sel TYPE TABLE OF vimsellist.
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;RDATE&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-rdate and_or = &apos;AND&apos; ) ).
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;RTIME&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-rtime and_or = &apos;AND&apos; ) ).
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;AROBJ&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-arobj and_or = &apos;AND&apos; ) ).
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;ARDOC&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-ardoc and_or = &apos;AND&apos; ) ).
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;ACREP&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-acrep and_or = &apos;AND&apos; ) ).
+    lt_sel = VALUE #( BASE lt_sel ( viewfield = &apos;ARDID&apos; operator = &apos;EQ&apos; value = ir_sdat-&gt;*-ardid and_or = &apos;   &apos; ) ).
+
+    &quot;call view: ZVNDMS_IFLD &quot;DMS: DMS document log&quot;
+    CALL FUNCTION &apos;VIEW_MAINTENANCE_CALL&apos;
+      EXPORTING
+        action               = &apos;S&apos;
+        show_selection_popup = space
+        view_name            = &apos;ZVNDMS_IFLD&apos;
+      TABLES
+        dba_sellist          = lt_sel.
+
+
+    &quot;refresh salv
+    me-&gt;salv_refr( ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="CONSTRUCTOR" SCONAME="IT_KEYS" VERSION="1" LANGU="E" DESCRIPT="DMS: DMS document log: key (tty)" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ZVNDMS_IFLD_KEY_T"/>
+   <source>METHOD constructor.
+
+    me-&gt;at_keys = it_keys.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="DATA_SELC" VERSION="1" LANGU="E" DESCRIPT="select data per keys" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD data_selc.
+
+    &quot;get all IFLD as per keys
+
+    CHECK  me-&gt;at_keys[] IS NOT INITIAL.
+
+    SELECT * FROM zvndms_ifld INTO TABLE @me-&gt;at_ifld
+      FOR ALL ENTRIES IN @me-&gt;at_keys
+     WHERE rdate = @me-&gt;at_keys-rdate
+       AND rtime = @me-&gt;at_keys-rtime
+       AND arobj = @me-&gt;at_keys-arobj
+       AND ardoc = @me-&gt;at_keys-ardoc
+       AND acrep = @me-&gt;at_keys-acrep
+       AND ardid = @me-&gt;at_keys-ardid.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="ON_DBCL" VERSION="1" LANGU="E" DESCRIPT="handler: on double-click" EXPOSURE="0" STATE="1" EDITORDER="18 " DISPID="0 " MTDTYPE="1" MTDDECLTYP="0" REFCLSNAME="CL_SALV_EVENTS_TABLE" REFCMPNAME="DOUBLE_CLICK" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="ON_DBCL" SCONAME="ROW" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="1" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="0"/>
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="ON_DBCL" SCONAME="COLUMN" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="1" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="0"/>
+   <source>METHOD on_dbcl.
+
+    &quot;get double-clicked row
+    READ TABLE me-&gt;at_sdat REFERENCE INTO DATA(lr_sdat) INDEX row.
+
+    me-&gt;call_ifld( lr_sdat ). &quot;call m-views for ilfd
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="ON_UCOM" VERSION="1" LANGU="E" DESCRIPT="handler: on user-command" EXPOSURE="0" STATE="1" EDITORDER="19 " DISPID="0 " MTDTYPE="1" MTDDECLTYP="0" REFCLSNAME="CL_SALV_EVENTS" REFCMPNAME="ADDED_FUNCTION" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="ON_UCOM" SCONAME="E_SALV_FUNCTION" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="1" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="0"/>
+   <source>METHOD on_ucom.
+
+    CASE e_salv_function.
+
+      WHEN &apos;REFRESH&apos;.     me-&gt;salv_refr( ).
+
+      WHEN &apos;DISP_ARDOC&apos;.  me-&gt;call_disp_ardoc( ).
+
+      WHEN &apos;DISP_SOBID&apos;.  me-&gt;call_disp_sobid( ).
+
+      WHEN &apos;ARLINK_DEL&apos;.  me-&gt;call_arlink_del( ).
+
+      WHEN &apos;ARLINK_ADD&apos;.  me-&gt;call_arlink_add( ).
+
+    ENDCASE.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="REPORT" VERSION="1" LANGU="E" DESCRIPT="main report" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD report.
+
+    me-&gt;data_selc( ).
+    me-&gt;sdat_data( ).
+
+    me-&gt;sdat_enha( ).
+
+
+    me-&gt;salv_init( ).
+    me-&gt;salv_disp( ).
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_DISP" VERSION="1" LANGU="E" DESCRIPT="salv-object: display" EXPOSURE="0" STATE="1" EDITORDER="16 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_disp.
+
+***    &quot; optimise columns
+***    me-&gt;ar_salv-&gt;get_columns( )-&gt;set_optimize( abap_true ).
+
+
+    &quot; and finally display SALV table as full screen
+    me-&gt;ar_salv-&gt;display( ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise" EXPOSURE="0" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init.
+
+    &quot; create SAVL table object
+    TRY.
+        cl_salv_table=&gt;factory( IMPORTING r_salv_table = me-&gt;ar_salv
+                                CHANGING  t_table      = me-&gt;at_sdat ).
+      CATCH cx_salv_msg.
+    ENDTRY.
+
+
+    me-&gt;salv_init_mlts( ).  &quot;set multi-sel
+    me-&gt;salv_init_excp( ).  &quot;set exception columns
+    me-&gt;salv_init_func( ).  &quot;set all grid-functions
+    me-&gt;salv_init_pfst( ).  &quot;set own gui-status
+    me-&gt;salv_init_ccol( ).  &quot;set colours per column
+    me-&gt;salv_init_ccel( ).  &quot;set colours per cell-row
+    me-&gt;salv_init_invs( ).  &quot;set column invisible
+    me-&gt;salv_init_hndl( ).  &quot;set event handlers
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_CCEL" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: colours cell(row)" EXPOSURE="0" STATE="1" EDITORDER="12 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_ccel.
+
+    &quot;set colours per cell/row
+
+    &quot;get field list (from columns)
+    DATA(lo_cols) =  me-&gt;ar_salv-&gt;get_columns( ).
+    DATA(lt_cols) = lo_cols-&gt;get( ).
+
+    &quot;set column SCOL
+    TRY. lo_cols-&gt;set_color_column( value = &apos;TSCOL&apos; ). CATCH cx_salv_data_error. ENDTRY.
+
+    &quot;for each line..
+    LOOP AT me-&gt;at_sdat ASSIGNING FIELD-SYMBOL(&lt;sdat&gt;).
+
+      &quot;..prepare dynamic colour per stlnks
+      DATA: ls_scol TYPE lvc_s_colo.
+      CASE &lt;sdat&gt;-stlnk.
+        WHEN zif_vndms_const=&gt;gc_stlnk_x. ls_scol-col = 3. &quot;yellow
+        WHEN zif_vndms_const=&gt;gc_stlnk_e. ls_scol-col = 7. &quot;orange
+        WHEN zif_vndms_const=&gt;gc_stlnk_l. ls_scol-col = 1. &quot;blue
+      ENDCASE.
+
+      &quot;..for each column
+      LOOP AT lt_cols ASSIGNING FIELD-SYMBOL(&lt;cols&gt;).
+        APPEND INITIAL LINE TO &lt;sdat&gt;-tscol ASSIGNING FIELD-SYMBOL(&lt;tscol&gt;).
+
+        CASE &lt;cols&gt;-columnname.
+          WHEN &apos;RDATE&apos;
+            OR &apos;RTIME&apos;
+            OR &apos;AROBJ&apos;
+            OR &apos;ARDOC&apos;
+            OR &apos;ACREP&apos;
+            OR &apos;ARDID&apos;.
+            &quot;key fields: highlighted
+            MOVE: &lt;cols&gt;-columnname TO &lt;tscol&gt;-fname,
+                  ls_scol           TO &lt;tscol&gt;-color,
+                  1                 TO &lt;tscol&gt;-color-int.
+
+          WHEN OTHERS.
+            &quot;data fields: normal
+            MOVE: &lt;cols&gt;-columnname TO &lt;tscol&gt;-fname,
+                  ls_scol           TO &lt;tscol&gt;-color,
+                  0                 TO &lt;tscol&gt;-color-int.
+
+        ENDCASE.
+
+      ENDLOOP.
+
+
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_CCOL" VERSION="1" LANGU="E" DESCRIPT="***salv-object: initialise: colours row" EXPOSURE="0" STATE="1" EDITORDER="11 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_ccol.
+
+***    &quot;init: column colours
+***
+***    DATA: lr_col   TYPE REF TO cl_salv_column_list, &quot; object of column, allowing set_color
+***          ls_color TYPE        lvc_s_colo.          &quot; colours structure
+***
+***    DATA(lr_cols) = me-&gt;ar_salv-&gt;get_columns( ).
+***    DATA(lt_cols) = lr_cols-&gt;get( ).
+***
+***
+***    LOOP AT lt_cols ASSIGNING FIELD-SYMBOL(&lt;col&gt;).
+***      TRY.
+***          lr_col ?= lr_cols-&gt;get_column( &lt;col&gt;-columnname ).
+***        CATCH cx_salv_not_found.
+***      ENDTRY.
+***      &quot;setting colours
+***      CASE &lt;col&gt;-columnname.
+***        WHEN &apos;RDATE&apos;
+***          OR &apos;RTIME&apos;
+***          OR &apos;DEALR&apos;                         . ls_color-col = col_heading.   &quot;key  = grey/blue
+***        WHEN &apos;STATU&apos;
+***          OR &apos;STATU_TX&apos;
+***          OR &apos;STATU_IC&apos;
+***          OR &apos;EBELN&apos;
+***          OR &apos;EBELP&apos;                          . ls_color-col = col_group   .  &quot;sta  = orange
+***        WHEN &apos;MSGID&apos;
+***          OR &apos;MSGNO&apos;
+***          OR &apos;MSGTY&apos;
+***          OR &apos;MSGTXT&apos;                         . ls_color-col = col_total.     &quot;msg  = yellow
+***        WHEN &apos;CACTV&apos;
+***          OR &apos;CSTAT&apos;                          . ls_color-col = col_positive.  &quot;dat  = green
+***      ENDCASE.
+***      lr_col-&gt;set_color( ls_color ).
+***    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_EXCP" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: exception columns" EXPOSURE="0" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_excp.
+
+    &quot; set column for lights
+    DATA(lr_cols) = me-&gt;ar_salv-&gt;get_columns( ).
+    TRY.
+        lr_cols-&gt;set_exception_column( value = &apos;STLNK_IC&apos; ).
+      CATCH cx_salv_data_error.
+    ENDTRY.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_FUNC" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: functions" EXPOSURE="0" STATE="1" EDITORDER="9 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_func.
+
+    &quot;salv all functions
+    me-&gt;ar_salv-&gt;get_functions( )-&gt;set_all( abap_true ).
+
+    &quot; layout save &amp; default (&apos;all functions&apos; above are not really all)
+    DATA: lr_layout TYPE REF TO cl_salv_layout,
+          ls_key    TYPE salv_s_layout_key.
+
+    ls_key-report = me-&gt;lc_repid.
+
+    lr_layout     = me-&gt;ar_salv-&gt;get_layout( ).
+    lr_layout-&gt;set_key( ls_key ).         &quot;
+    lr_layout-&gt;set_save_restriction( cl_salv_layout=&gt;restrict_none ). &quot;User can save
+    lr_layout-&gt;set_default( abap_true ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_HNDL" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: event handlers" EXPOSURE="0" STATE="1" EDITORDER="14 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_hndl.
+
+    &quot;set handler
+    SET HANDLER me-&gt;on_dbcl FOR me-&gt;ar_salv-&gt;get_event( ).
+    SET HANDLER me-&gt;on_ucom FOR me-&gt;ar_salv-&gt;get_event( ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_INVS" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: invisible fields" EXPOSURE="0" STATE="1" EDITORDER="13 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_invs.
+
+    &quot;set invisible fields
+
+    DATA: lr_col   TYPE REF TO cl_salv_column_list. &quot; object of column, allowing set_color
+
+    DATA(lr_cols) = me-&gt;ar_salv-&gt;get_columns( ).
+    DATA(lt_cols) = lr_cols-&gt;get( ).
+
+    &quot; remove MANDT
+    LOOP AT lt_cols ASSIGNING FIELD-SYMBOL(&lt;col&gt;) WHERE columnname = &apos;MANDT&apos;.
+      TRY.
+          lr_col ?= lr_cols-&gt;get_column( &lt;col&gt;-columnname ).
+        CATCH cx_salv_not_found.
+      ENDTRY.
+      lr_col-&gt;set_technical( if_salv_c_bool_sap=&gt;true ).
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_MLTS" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: mutli-selection" EXPOSURE="0" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_mlts.
+
+    &quot;set multiple-selection
+    DATA(lr_sel) = me-&gt;ar_salv-&gt;get_selections( ).
+    lr_sel-&gt;set_selection_mode( if_salv_c_selection_mode=&gt;row_column ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_INIT_PFST" VERSION="1" LANGU="E" DESCRIPT="salv-object: initialise: gui status" EXPOSURE="0" STATE="1" EDITORDER="10 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_init_pfst.
+
+    &quot;init: gui status from calling program
+
+    &quot;set own function by own screen status (seriously, I hate SALV)
+    me-&gt;ar_salv-&gt;set_screen_status(
+                                    pfstatus      = me-&gt;lc_pfkey
+                                    report        = me-&gt;lc_repid
+                                    set_functions = me-&gt;ar_salv-&gt;c_functions_all ).
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_LINE_GET" VERSION="1" LANGU="E" DESCRIPT="salv-object: get single selected line" EXPOSURE="0" STATE="1" EDITORDER="15 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_LINE_GET" SCONAME="ER_SDAT" VERSION="1" LANGU="E" DESCRIPT="enhance table IFLD for SALV" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="TS_SDAT"/>
+   <source>METHOD salv_line_get.
+
+    &quot;get selected lines
+    DATA(lt_rows) = me-&gt;ar_salv-&gt;get_selections( )-&gt;get_selected_rows( ).
+    &quot;get selected cell
+    DATA(lt_cell) = me-&gt;ar_salv-&gt;get_selections( )-&gt;get_selected_cells( ).
+
+    &quot;check single
+    IF NOT ( lines( lt_rows ) = 1 OR
+             lines( lt_cell ) = 1   ).
+      MESSAGE w004(zvndms). &quot;msg{Select exactly one line for processing.}
+      RETURN.
+    ENDIF.
+
+    &quot;read line..
+    &quot;..per line
+    IF lines( lt_rows ) = 1.
+      READ TABLE lt_rows ASSIGNING FIELD-SYMBOL(&lt;row&gt;) INDEX 1.
+      READ TABLE me-&gt;at_sdat REFERENCE INTO er_sdat INDEX &lt;row&gt;.
+    ENDIF.
+    &quot;..per cell
+    IF lines( lt_cell ) = 1.
+      READ TABLE lt_cell ASSIGNING FIELD-SYMBOL(&lt;cell&gt;) INDEX 1.
+      READ TABLE me-&gt;at_sdat REFERENCE INTO er_sdat INDEX &lt;cell&gt;-row.
+    ENDIF.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SALV_REFR" VERSION="1" LANGU="E" DESCRIPT="salv-object: refresh" EXPOSURE="0" STATE="1" EDITORDER="17 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD salv_refr.
+
+    &quot;refresh SALV
+
+    &quot;..re-read data
+    CLEAR: me-&gt;at_sdat.
+
+    me-&gt;data_selc( ).
+    me-&gt;sdat_data( ).
+    me-&gt;sdat_enha( ).
+
+    me-&gt;salv_init_ccel( ).    &quot;re-colour cells (per row-line)
+
+
+    &quot;..refresh salv
+    me-&gt;ar_salv-&gt;refresh( ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SDAT_DATA" VERSION="1" LANGU="E" DESCRIPT="salv-data: from data" EXPOSURE="0" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD sdat_data.
+
+    &quot;pass IFLD to SDAT for SALV processing
+    LOOP AT me-&gt;at_ifld ASSIGNING FIELD-SYMBOL(&lt;ifld&gt;).
+      APPEND INITIAL LINE TO me-&gt;at_sdat ASSIGNING FIELD-SYMBOL(&lt;sdat&gt;).
+      MOVE: &lt;ifld&gt; TO &lt;sdat&gt;-_ifld.
+    ENDLOOP.
+
+    &quot; default sort
+    SORT me-&gt;at_sdat BY rdate DESCENDING
+                        rtime DESCENDING.
+
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SDAT_ENHA" VERSION="1" LANGU="E" DESCRIPT="salv-data: enhance" EXPOSURE="0" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD sdat_enha.
+
+    &quot;enhance salv-data
+
+    me-&gt;sdat_enha_stlnk_tx( ).
+    me-&gt;sdat_enha_stlnk_ic( ).
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SDAT_ENHA_STLNK_IC" VERSION="1" LANGU="E" DESCRIPT="salv-data: enhance: link-status icon" EXPOSURE="0" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD sdat_enha_stlnk_ic.
+
+    &quot;set status icon/exception
+    LOOP AT me-&gt;at_sdat ASSIGNING FIELD-SYMBOL(&lt;sdat&gt;).
+
+      CASE &lt;sdat&gt;-stlnk.
+        WHEN zif_vndms_const=&gt;gc_stlnk_x. &lt;sdat&gt;-stlnk_ic = 2. &quot;_ = not processed =&gt; yellow
+        WHEN zif_vndms_const=&gt;gc_stlnk_l. &lt;sdat&gt;-stlnk_ic = 3. &quot;L = linked        =&gt; green
+        WHEN zif_vndms_const=&gt;gc_stlnk_e. &lt;sdat&gt;-stlnk_ic = 1. &quot;E = error         =&gt; red
+      ENDCASE.
+
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_VNDMS_IFMD" CMPNAME="SDAT_ENHA_STLNK_TX" VERSION="1" LANGU="E" DESCRIPT="salv-data: enhance: link-status text" EXPOSURE="0" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <source>METHOD sdat_enha_stlnk_tx.
+
+    &quot;enhance: status text
+    DATA(lo_dref) = CAST cl_abap_elemdescr( cl_abap_elemdescr=&gt;describe_by_name( p_name = &apos;ZVNDMS_STLNK&apos; ) ).
+    DATA(lt_vals) = lo_dref-&gt;get_ddic_fixed_values( ).
+
+    LOOP AT me-&gt;at_sdat ASSIGNING FIELD-SYMBOL(&lt;sdat&gt;).
+
+      READ TABLE lt_vals ASSIGNING FIELD-SYMBOL(&lt;vals&gt;) WITH KEY low = &lt;sdat&gt;-stlnk. CHECK sy-subrc = 0.
+
+      MOVE: &lt;vals&gt;-ddtext TO &lt;sdat&gt;-stlnk_tx.
+
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL" VERSION="1" LANGU="E" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL" REFCLSNAME="IF_EX_CV_ODATA_ATTACH_DRAFT" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL" CPDNAME="IF_EX_CV_ODATA_ATTACH_DRAFT~BLOCK_DRAFT_ATTACHMENT">
+   <source>method IF_EX_CV_ODATA_ATTACH_DRAFT~BLOCK_DRAFT_ATTACHMENT.
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL" CPDNAME="IF_EX_CV_ODATA_ATTACH_DRAFT~DETERMINE_DOCUMENT_TYPE">
+   <source>METHOD if_ex_cv_odata_attach_draft~determine_document_type.
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL" CPDNAME="IF_EX_CV_ODATA_ATTACH_DRAFT~DRAFT_DELETE_AVOID">
+   <source>method IF_EX_CV_ODATA_ATTACH_DRAFT~DRAFT_DELETE_AVOID.
+  endmethod.</source>
+  </interfaceMethod>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_AUTH" VERSION="1" LANGU="E" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_AUTH" REFCLSNAME="IF_EX_CV_ODATA_ATTACHMENT_AUTH" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_AUTH" CPDNAME="IF_EX_CV_ODATA_ATTACHMENT_AUTH~CHECK_AUTHORIZATION">
+   <source>METHOD if_ex_cv_odata_attachment_auth~check_authorization.
+
+    &quot;**SAP-2887 Fiori PReq attachment into GOS (instead of DMS)
+    CLEAR cv_no_authorization.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNDMS_CV_OD_ATTCH_AUTH" CPDNAME="IF_EX_CV_ODATA_ATTACHMENT_AUTH~CHECK_USER_AUTHORIZATION">
+   <source>METHOD if_ex_cv_odata_attachment_auth~check_user_authorization.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+ </CLAS>
+ <DEVC DEVCLASS="ZVNDMS" CTEXT="HCVN: DMS ArchiveLink" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="BC-SRV-ARL" COMPONENT="HLB0009818" NAMESPACE="/0CUST/" PARENTCL="ZVN" CREATED_BY="HQ_TTA" CREATED_ON="20200801" CHANGED_BY="HQ_TTA" CHANGED_ON="20200801" PROJECT_GUID="00000000000000000000000000000000"/>
+ <DOMA DOMNAME="ZVNDMS_STUPL" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZVNDMS_STUPL" DDLANGUAGE="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASKLEN="0000" DDTEXT="DMS: status of file upload to ArchiveLink" AUTHCLASS="00" OUTPUTSTYLE="00"/>
+   <DD07V DOMNAME="ZVNDMS_STUPL" VALPOS="0001" DDLANGUAGE="E" DDTEXT="not processed"/>
+   <DD07V DOMNAME="ZVNDMS_STUPL" VALPOS="0002" DDLANGUAGE="E" DOMVALUE_L="U" DDTEXT="uploaded"/>
+   <DD07V DOMNAME="ZVNDMS_STUPL" VALPOS="0003" DDLANGUAGE="E" DOMVALUE_L="E" DDTEXT="error"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DOMA DOMNAME="ZVNDMS_MSGTX220" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZVNDMS_MSGTX220" DDLANGUAGE="E" DATATYPE="CHAR" LENG="000220" OUTPUTLEN="000220" DECIMALS="000000" LOWERCASE="X" MASKLEN="0000" DDTEXT="DMS: message text 220 case-sensitive" AUTHCLASS="00" OUTPUTSTYLE="00"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DOMA DOMNAME="ZVNDMS_STDEL" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZVNDMS_STDEL" DDLANGUAGE="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASKLEN="0000" DDTEXT="DMS: status of deletion of original file" AUTHCLASS="00" OUTPUTSTYLE="00"/>
+   <DD07V DOMNAME="ZVNDMS_STDEL" VALPOS="0001" DDLANGUAGE="E" DDTEXT="not processed"/>
+   <DD07V DOMNAME="ZVNDMS_STDEL" VALPOS="0002" DDLANGUAGE="E" DOMVALUE_L="D" DDTEXT="deleted"/>
+   <DD07V DOMNAME="ZVNDMS_STDEL" VALPOS="0003" DDLANGUAGE="E" DOMVALUE_L="E" DDTEXT="error"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DOMA DOMNAME="ZVNDMS_STLNK" MultiLanguageSupport="X">
+  <DDLANGUAGE LANGU="E">
+   <DD01V DOMNAME="ZVNDMS_STLNK" DDLANGUAGE="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASKLEN="0000" DDTEXT="DMS: status of linking ArchiveLink to Object" AUTHCLASS="00" OUTPUTSTYLE="00"/>
+   <DD07V DOMNAME="ZVNDMS_STLNK" VALPOS="0001" DDLANGUAGE="E" DDTEXT="not processed"/>
+   <DD07V DOMNAME="ZVNDMS_STLNK" VALPOS="0002" DDLANGUAGE="E" DOMVALUE_L="L" DDTEXT="linked"/>
+   <DD07V DOMNAME="ZVNDMS_STLNK" VALPOS="0003" DDLANGUAGE="E" DOMVALUE_L="E" DDTEXT="error"/>
+  </DDLANGUAGE>
+ </DOMA>
+ <DTEL ROLLNAME="ZVNDMS_STLNK_TX" DDLANGUAGE="E" DOMNAME="TEXT30" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="53" SCRLEN1="10" SCRLEN2="14" SCRLEN3="14" DDTEXT="DMS: status of linking ArchiveLink to Object (description)" REPTEXT="status of linking ArchiveLink to Object (description)" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000030" DECIMALS="000000" OUTPUTLEN="000030" LOWERCASE="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_STLNK_TX" DDLANGUAGE="E" DOMNAME="TEXT30" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="53" SCRLEN1="10" SCRLEN2="14" SCRLEN3="14" DDTEXT="DMS: status of linking ArchiveLink to Object (description)" REPTEXT="status of linking ArchiveLink to Object (description)" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000030" DECIMALS="000000" OUTPUTLEN="000030" LOWERCASE="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_STLNK" DDLANGUAGE="E" DOMNAME="ZVNDMS_STLNK" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status of linking ArchiveLink to Object" REPTEXT="status of linking ArchiveLink to Object" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_STLNK" DDLANGUAGE="E" DOMNAME="ZVNDMS_STLNK" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status of linking ArchiveLink to Object" REPTEXT="status of linking ArchiveLink to Object" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_STDEL" DDLANGUAGE="E" DOMNAME="ZVNDMS_STDEL" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status of deletion of original file" REPTEXT="status of deletion of original file" SCRTEXT_S="delStatus" SCRTEXT_M="deletion status" SCRTEXT_L="deletion status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_STDEL" DDLANGUAGE="E" DOMNAME="ZVNDMS_STDEL" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status of deletion of original file" REPTEXT="status of deletion of original file" SCRTEXT_S="delStatus" SCRTEXT_M="deletion status" SCRTEXT_L="deletion status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_MSGTX220" DDLANGUAGE="E" DOMNAME="ZVNDMS_MSGTX220" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: message text 220 case-sensitive" REPTEXT="message text" SCRTEXT_S="message" SCRTEXT_M="message text" SCRTEXT_L="message text" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000220" DECIMALS="000000" OUTPUTLEN="000220" LOWERCASE="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_MSGTX220" DDLANGUAGE="E" DOMNAME="ZVNDMS_MSGTX220" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: message text 220 case-sensitive" REPTEXT="message text" SCRTEXT_S="message" SCRTEXT_M="message text" SCRTEXT_L="message text" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000220" DECIMALS="000000" OUTPUTLEN="000220" LOWERCASE="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_FPATH" DDLANGUAGE="E" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: scan station full path (dir+file)" REPTEXT="DMS scan station full path" SCRTEXT_S="full path" SCRTEXT_M="scan full path" SCRTEXT_L="scan station full path" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" DECIMALS="000000" OUTPUTLEN="000070" LOWERCASE="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_FPATH" DDLANGUAGE="E" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: scan station full path (dir+file)" REPTEXT="DMS scan station full path" SCRTEXT_S="full path" SCRTEXT_M="scan full path" SCRTEXT_L="scan station full path" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" DECIMALS="000000" OUTPUTLEN="000070" LOWERCASE="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_FNAME" DDLANGUAGE="E" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: file name" REPTEXT="DMS scan station file name" SCRTEXT_S="file name" SCRTEXT_M="scan file name" SCRTEXT_L="scan station file name" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" DECIMALS="000000" OUTPUTLEN="000070" LOWERCASE="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_FNAME" DDLANGUAGE="E" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: file name" REPTEXT="DMS scan station file name" SCRTEXT_S="file name" SCRTEXT_M="scan file name" SCRTEXT_L="scan station file name" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" DECIMALS="000000" OUTPUTLEN="000070" LOWERCASE="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNDMS_STUPL" DDLANGUAGE="E" DOMNAME="ZVNDMS_STUPL" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status upload" REPTEXT="status of upload of file to ArchiveLink" SCRTEXT_S="uplStatus" SCRTEXT_M="upload status" SCRTEXT_L="upload status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNDMS_STUPL" DDLANGUAGE="E" DOMNAME="ZVNDMS_STUPL" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="DMS: status upload" REPTEXT="status of upload of file to ArchiveLink" SCRTEXT_S="uplStatus" SCRTEXT_M="upload status" SCRTEXT_L="upload status" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <ENHO enhancement_id="ZVNDMS_ES_CV_ODATA_ATTACHMENTS" shorttext="VN-DMS: enh-sp ES_CV_ODATA_ATTACHMENTS" tooltype_id="BADI_IMPL" spot_name="ES_CV_ODATA_ATTACHMENTS">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS>
+     <ENH_BADI_IMPL_DATA>
+      <SPOT_NAME>ES_CV_ODATA_ATTACHMENTS</SPOT_NAME>
+      <BADI_NAME>BADI_CV_ODATA_ATTACH_DRAFT_HDL</BADI_NAME>
+      <IMPL_NAME>ZVNDMS_CV_OD_ATTCH_DRFT_HDL</IMPL_NAME>
+      <IMPL_CLASS>ZCL_VNDMS_CV_OD_ATTCH_DRFT_HDL</IMPL_CLASS>
+      <ACTIVE>X</ACTIVE>
+      <IS_DEFAULT/>
+      <FILTER_ROOT>
+       <ENH_BADIIMPL_FILTER_ROOT>
+        <ROOT>1</ROOT>
+        <FILTERS>
+         <ENH_BADIIMPL_FILTER_ID>
+          <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+          <ID>1</ID>
+         </ENH_BADIIMPL_FILTER_ID>
+        </FILTERS>
+       </ENH_BADIIMPL_FILTER_ROOT>
+      </FILTER_ROOT>
+      <FILTER_TREE>
+       <ENH_BADIIMPL_FILTER_TREE>
+        <PARENT>1</PARENT>
+        <CHILD>2</CHILD>
+       </ENH_BADIIMPL_FILTER_TREE>
+       <ENH_BADIIMPL_FILTER_TREE>
+        <PARENT>1</PARENT>
+        <CHILD>3</CHILD>
+       </ENH_BADIIMPL_FILTER_TREE>
+      </FILTER_TREE>
+      <FILTER_VALUES>
+       <ENH_BADIIMPL_FILTER_VALUE>
+        <ID>2</ID>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_GENERAL_VALUE1/>
+        <FILTER_GENERAL_VALUE2/>
+        <FILTER_CHAR_VALUE1>EBAN</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>DOKOB</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADIIMPL_FILTER_VALUE>
+       <ENH_BADIIMPL_FILTER_VALUE>
+        <ID>3</ID>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_GENERAL_VALUE1/>
+        <FILTER_GENERAL_VALUE2/>
+        <FILTER_CHAR_VALUE1>BUS2105</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>DOKOB</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADIIMPL_FILTER_VALUE>
+      </FILTER_VALUES>
+      <FILTERS>
+       <ENH_BADI_FILTER_IMPL>
+        <DISJ_IDX>1</DISJ_IDX>
+        <CONJ_IDX>1</CONJ_IDX>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_CHAR_VALUE1>EBAN</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>DOKOB</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADI_FILTER_IMPL>
+       <ENH_BADI_FILTER_IMPL>
+        <DISJ_IDX>2</DISJ_IDX>
+        <CONJ_IDX>1</CONJ_IDX>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_CHAR_VALUE1>BUS2105</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>DOKOB</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADI_FILTER_IMPL>
+      </FILTERS>
+      <FCODE_EXTENSIONS/>
+      <SCREEN_EXTENSIONS/>
+      <IMPL_SHORTTEXT>Implementation: BAdI for handling draft attachments</IMPL_SHORTTEXT>
+      <IMPL_SHORTTEXT_ID>0050569B84631EEB96E91424AA53326B</IMPL_SHORTTEXT_ID>
+      <IMPL_LONGTEXT_ID/>
+      <MIG_BADI_IMPL/>
+      <SORTER_DATA/>
+      <IS_EXAMPLE_IMPLEMENTATION/>
+      <LOCKED_IN_CUSTOMIZING/>
+     </ENH_BADI_IMPL_DATA>
+     <ENH_BADI_IMPL_DATA>
+      <SPOT_NAME>ES_CV_ODATA_ATTACHMENTS</SPOT_NAME>
+      <BADI_NAME>BADI_CV_ODATA_ATTACH_PERSIST</BADI_NAME>
+      <IMPL_NAME>ZVNDMS_CV_OD_ATTCH_PERSIST</IMPL_NAME>
+      <IMPL_CLASS>ZCL_VNDMS_CV_OD_ATTCH_PERSI</IMPL_CLASS>
+      <ACTIVE>X</ACTIVE>
+      <IS_DEFAULT/>
+      <FILTER_ROOT>
+       <ENH_BADIIMPL_FILTER_ROOT>
+        <ROOT>1</ROOT>
+        <FILTERS>
+         <ENH_BADIIMPL_FILTER_ID>
+          <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+          <ID>1</ID>
+         </ENH_BADIIMPL_FILTER_ID>
+        </FILTERS>
+       </ENH_BADIIMPL_FILTER_ROOT>
+      </FILTER_ROOT>
+      <FILTER_TREE>
+       <ENH_BADIIMPL_FILTER_TREE>
+        <PARENT>1</PARENT>
+        <CHILD>2</CHILD>
+       </ENH_BADIIMPL_FILTER_TREE>
+       <ENH_BADIIMPL_FILTER_TREE>
+        <PARENT>1</PARENT>
+        <CHILD>3</CHILD>
+       </ENH_BADIIMPL_FILTER_TREE>
+      </FILTER_TREE>
+      <FILTER_VALUES>
+       <ENH_BADIIMPL_FILTER_VALUE>
+        <ID>2</ID>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_GENERAL_VALUE1/>
+        <FILTER_GENERAL_VALUE2/>
+        <FILTER_CHAR_VALUE1>EBAN</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>OBJECTTYPEID</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADIIMPL_FILTER_VALUE>
+       <ENH_BADIIMPL_FILTER_VALUE>
+        <ID>3</ID>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_GENERAL_VALUE1/>
+        <FILTER_GENERAL_VALUE2/>
+        <FILTER_CHAR_VALUE1>BUS2105</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>OBJECTTYPEID</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADIIMPL_FILTER_VALUE>
+      </FILTER_VALUES>
+      <FILTERS>
+       <ENH_BADI_FILTER_IMPL>
+        <DISJ_IDX>1</DISJ_IDX>
+        <CONJ_IDX>1</CONJ_IDX>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_CHAR_VALUE1>EBAN</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>OBJECTTYPEID</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADI_FILTER_IMPL>
+       <ENH_BADI_FILTER_IMPL>
+        <DISJ_IDX>2</DISJ_IDX>
+        <CONJ_IDX>1</CONJ_IDX>
+        <FILTER_NAME>OBJECT_TYPE</FILTER_NAME>
+        <FILTER_TYPE>C</FILTER_TYPE>
+        <COMPARE>=</COMPARE>
+        <FILTER_CHAR_VALUE1>BUS2105</FILTER_CHAR_VALUE1>
+        <FILTER_CHAR_VALUE2/>
+        <FILTER_INT_VALUE1>0</FILTER_INT_VALUE1>
+        <FILTER_INT_VALUE2>0</FILTER_INT_VALUE2>
+        <FILTER_NUMERIC_VALUE1>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE1>
+        <FILTER_NUMERIC_VALUE2>000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000</FILTER_NUMERIC_VALUE2>
+        <FILTER_PACKED_VALUE1>0.0</FILTER_PACKED_VALUE1>
+        <FILTER_PACKED_VALUE2>0.0</FILTER_PACKED_VALUE2>
+        <FILTER_STRING_VALUE1/>
+        <FILTER_STRING_VALUE2/>
+        <CHECK_TYPE>OBJECTTYPEID</CHECK_TYPE>
+        <CHECK_TYPE_IS_DOM/>
+        <CHECK_CLASS/>
+        <CHECK_LENGTH>0</CHECK_LENGTH>
+        <CHECK_DECS>0</CHECK_DECS>
+       </ENH_BADI_FILTER_IMPL>
+      </FILTERS>
+      <FCODE_EXTENSIONS/>
+      <SCREEN_EXTENSIONS/>
+      <IMPL_SHORTTEXT>Implementation: ODATA CV attachment persistency determination</IMPL_SHORTTEXT>
+      <IMPL_SHORTTEXT_ID>0050569B84631EEB96E91424AA53526B</IMPL_SHORTTEXT_ID>
+      <IMPL_LONGTEXT_ID/>
+      <MIG_BADI_IMPL/>
+      <SORTER_DATA/>
+      <IS_EXAMPLE_IMPLEMENTATION/>
+      <LOCKED_IN_CUSTOMIZING/>
+     </ENH_BADI_IMPL_DATA>
+     <ENH_BADI_IMPL_DATA>
+      <SPOT_NAME>ES_CV_ODATA_ATTACHMENTS</SPOT_NAME>
+      <BADI_NAME>BADI_CV_ODATA_ATTACHMENTS_AUTH</BADI_NAME>
+      <IMPL_NAME>ZVNDMS_CV_OD_ATTCH_AUTH</IMPL_NAME>
+      <IMPL_CLASS>ZCL_VNDMS_CV_OD_ATTCH_AUTH</IMPL_CLASS>
+      <ACTIVE>X</ACTIVE>
+      <IS_DEFAULT/>
+      <FILTER_ROOT/>
+      <FILTER_TREE/>
+      <FILTER_VALUES/>
+      <FILTERS/>
+      <FCODE_EXTENSIONS/>
+      <SCREEN_EXTENSIONS/>
+      <IMPL_SHORTTEXT>Implementation: BaDI to enable authorization checks for attachments</IMPL_SHORTTEXT>
+      <IMPL_SHORTTEXT_ID>0050569B84631EEB96E91424AA53126B</IMPL_SHORTTEXT_ID>
+      <IMPL_LONGTEXT_ID/>
+      <MIG_BADI_IMPL/>
+      <SORTER_DATA/>
+      <IS_EXAMPLE_IMPLEMENTATION/>
+      <LOCKED_IN_CUSTOMIZING/>
+     </ENH_BADI_IMPL_DATA>
+    </IMPLS>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <ENQU VIEWNAME="EZVNDMS_LFILE" AS4LOCAL="A" AS4VERS="0000" DDLANGUAGE="E" AGGTYPE="E" AUTHCLASS="00" ROOTTAB="ZVNDMS_C000" DDTEXT="DMS: logical file (no para-run of FPD on share-folder)">
+  <dd26e VIEWNAME="EZVNDMS_LFILE" TABNAME="ZVNDMS_C000" TABPOS="0001" FORTABNAME="ZVNDMS_C000" ENQMODE="E"/>
+  <dd27p VIEWNAME="EZVNDMS_LFILE" OBJPOS="0001" DDLANGUAGE="E" VIEWFIELD="MANDT" TABNAME="ZVNDMS_C000" FIELDNAME="MANDT" KEYFLAG="X" ROLLNAME="MANDT" ROLLNAMEVI="MANDT" ENQMODE="E" DOMNAME="MANDT" DATATYPE="CLNT" FLENGTH="000003" CHECKTABLE="T000" SHLPORIGIN="P" ENTITYTAB="T000" INTTYPE="C" INTLEN="000006" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" OUTPUTLEN="000003" DECIMALS="000000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" OUTPUTSTYLE="00" EXVFLENGTH="000000" EXVDECIMALS="000000"/>
+  <dd27p VIEWNAME="EZVNDMS_LFILE" OBJPOS="0002" DDLANGUAGE="E" VIEWFIELD="LFILE" TABNAME="ZVNDMS_C000" FIELDNAME="LFILE" KEYFLAG="X" ROLLNAME="FILEINTERN" ROLLNAMEVI="FILEINTERN" ENQMODE="E" DOMNAME="FILEINTERN" DATATYPE="CHAR" FLENGTH="000060" CHECKTABLE="FILENAMECI" SHLPORIGIN="P" ENTITYTAB="FILENAMECI" INTTYPE="C" INTLEN="000120" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" OUTPUTLEN="000060" DECIMALS="000000" DDTEXT="Logical file name" REPTEXT="Logical file" SCRTEXT_S="File" SCRTEXT_M="Log. File" SCRTEXT_L="Logical file" OUTPUTSTYLE="00" EXVFLENGTH="000000" EXVDECIMALS="000000"/>
+  <ddena VIEWNAME="EZVNDMS_LFILE" TABNAME="ZVNDMS_C000" FIELDNAME="MANDT" VIEWFIELD="MANDT"/>
+  <ddena VIEWNAME="EZVNDMS_LFILE" TABNAME="ZVNDMS_C000" FIELDNAME="LFILE" VIEWFIELD="LFILE"/>
+ </ENQU>
+ <FUGR AREA="ZVNDMS" SPRAS="E" AREAT="HCVN: DMS ArchiveLink">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNDMS" VARCL="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <source>*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNDMSTOP.                        &quot; Global Declarations
+  INCLUDE LZVNDMSUXX.                        &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNDMSF...                        &quot; Subroutines
+* INCLUDE LZVNDMSO...                        &quot; PBO-Modules
+* INCLUDE LZVNDMSI...                        &quot; PAI-Modules
+* INCLUDE LZVNDMSE...                        &quot; Events
+* INCLUDE LZVNDMSP...                        &quot; Local class implement.
+* INCLUDE LZVNDMST99.                        &quot; ABAP Unit tests</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNDMSTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source></include_source>
+   </include>
+   <include NAME="LZVNDMSTOP" VARCL="X" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>FUNCTION-POOL ZVNDMS.                       &quot;MESSAGE-ID ..
+
+* INCLUDE LZVNDMSD...                        &quot; Local class definition</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules/>
+ </FUGR>
+ <INTF CLSNAME="ZIF_VNDMS_CONST" VERSION="1" LANGU="E" DESCRIPT="DMS: Constants" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" UNICODE="X">
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_BUKRS" VERSION="1" LANGU="E" DESCRIPT="Company Code" EXPOSURE="2" STATE="1" EDITORDER="8 " ATTDECLTYP="2" ATTVALUE="&apos;VN01&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BUKRS" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_MSGID" VERSION="1" LANGU="E" DESCRIPT="Application Area" EXPOSURE="2" STATE="1" EDITORDER="1 " ATTDECLTYP="2" ATTVALUE="&apos;ZVNDMS&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ARBGB" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STDEL_D" VERSION="1" LANGU="E" DESCRIPT="del-status: D = deleted" EXPOSURE="2" STATE="1" EDITORDER="3 " ATTDECLTYP="2" ATTVALUE="&apos;D&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STDEL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STDEL_E" VERSION="1" LANGU="E" DESCRIPT="del-status: E = error" EXPOSURE="2" STATE="1" EDITORDER="4 " ATTDECLTYP="2" ATTVALUE="&apos;E&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STDEL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STDEL_X" VERSION="1" LANGU="E" DESCRIPT="del-status: _ = not processed" EXPOSURE="2" STATE="1" EDITORDER="2 " ATTDECLTYP="2" ATTVALUE="&apos; &apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STDEL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STLNK_E" VERSION="1" LANGU="E" DESCRIPT="link-status: E = error" EXPOSURE="2" STATE="1" EDITORDER="7 " ATTDECLTYP="2" ATTVALUE="&apos;E&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STLNK" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STLNK_L" VERSION="1" LANGU="E" DESCRIPT="link-status: L = linked" EXPOSURE="2" STATE="1" EDITORDER="6 " ATTDECLTYP="2" ATTVALUE="&apos;L&apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STLNK" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZIF_VNDMS_CONST" CMPNAME="GC_STLNK_X" VERSION="1" LANGU="E" DESCRIPT="link-status: _ = not processed" EXPOSURE="2" STATE="1" EDITORDER="5 " ATTDECLTYP="2" ATTVALUE="&apos; &apos;" ATTEXPVIRT="0" TYPTYPE="1" TYPE="ZVNDMS_STLNK" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+ </INTF>
+ <MSAG ARBGB="ZVNDMS" MASTERLANG="E" RESPUSER="HQ_TTA" STEXT="DMS: DMS Documents scanning integration">
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="001" TEXT="DMS:exception &amp; in function module &amp;!"/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="000" TEXT="&amp; &amp; &amp; &amp;"/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="002" TEXT="No object link determined!"/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="003" TEXT="Error in object linking!"/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="004" TEXT="Select exactly one line for processing."/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="005" TEXT="No SAP-Object ID in selected line, nothing to be un-linked."/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="006" TEXT="No SAP-Object ID in selected line, nothing to be linked."/>
+  <t100 SPRSL="E" ARBGB="ZVNDMS" MSGNR="007" TEXT="Error in ARCHIVOBJECT_CREATE_FILE: &amp; &amp; &amp; &amp;."/>
+  <t100t SPRSL="E" ARBGB="ZVNDMS" STEXT="DMS: DMS Documents scanning integration"/>
+ </MSAG>
+ <PROG NAME="ZVNDMS_IFMD" VARCL="X" SUBC="1" RSTAT="K" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="S01" ENTRY="selection: Document log table" LENGTH="70 "/>
+    <textElement ID="I" KEY="S02" ENTRY="selection: other data" LENGTH="70 "/>
+    <textElement ID="R" ENTRY="DMS: DMS document monitor" LENGTH="25 "/>
+    <textElement ID="S" KEY="SO_ACREP" ENTRY="D       ." LENGTH="23 "/>
+    <textElement ID="S" KEY="SO_ARDID" ENTRY="D       ." LENGTH="19 "/>
+    <textElement ID="S" KEY="SO_ARDOC" ENTRY="D       ." LENGTH="22 "/>
+    <textElement ID="S" KEY="SO_AROBJ" ENTRY="D       ." LENGTH="21 "/>
+    <textElement ID="S" KEY="SO_FNAME" ENTRY="D       ." LENGTH="30 "/>
+    <textElement ID="S" KEY="SO_RDATE" ENTRY="D       ." LENGTH="12 "/>
+    <textElement ID="S" KEY="SO_RTIME" ENTRY="D       ." LENGTH="12 "/>
+    <textElement ID="S" KEY="SO_SOBID" ENTRY="D       ." LENGTH="21 "/>
+    <textElement ID="S" KEY="SO_SOBTY" ENTRY="D       ." LENGTH="19 "/>
+    <textElement ID="S" KEY="SO_STLNK" ENTRY="D       ." LENGTH="9 "/>
+   </language>
+  </textPool>
+  <pfstatus>
+   <pfstatus_sta CODE="SALV_STANDARD_IFMD" MODAL="D" ACTCODE="000001" PFKCODE="000001" BUTCODE="0001" INT_NOTE="copy from SALV_TABLE_STANDARD, plus IFMD"/>
+   <pfstatus_fun CODE="%ML" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Session" PATH="S"/>
+   <pfstatus_fun CODE="%PC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_EXPORT" ICON_ID="@49@" FUN_TEXT="Local File..." PATH="L"/>
+   <pfstatus_fun CODE="%SC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH" ICON_ID="@13@" FUN_TEXT="Search" PATH="E"/>
+   <pfstatus_fun CODE="%SC+" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH_NEXT" ICON_ID="@4E@" FUN_TEXT="Find Next"/>
+   <pfstatus_fun CODE="%SL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_MAIL" ICON_ID="@1S@" FUN_TEXT="Mail Recipient" PATH="M"/>
+   <pfstatus_fun CODE="&amp;ABC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ABC" ICON_ID="@DL@" FUN_TEXT="ABC Analysis" PATH="A"/>
+   <pfstatus_fun CODE="&amp;ALL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_ALL" ICON_ID="@4B@" FUN_TEXT="Select All" PATH="S"/>
+   <pfstatus_fun CODE="&amp;AQW" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_WORD_PROCESSING" ICON_ID="@DK@" FUN_TEXT="Word Processing..." PATH="W"/>
+   <pfstatus_fun CODE="&amp;AUF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Define Totals Drilldown..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Saving..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_SAVE" ICON_ID="@DN@" FUN_TEXT="Save Layout..."/>
+   <pfstatus_fun CODE="&amp;AVR" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Mean Value" PATH="M"/>
+   <pfstatus_fun CODE="&amp;CDF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Unfreeze Columns" PATH="U"/>
+   <pfstatus_fun CODE="&amp;CFI" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Freeze to Column" PATH="F"/>
+   <pfstatus_fun CODE="&amp;COUNT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Count" PATH="C"/>
+   <pfstatus_fun CODE="&amp;CRB" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TOTAL_LEFT" ICON_ID="@0B@" FUN_TEXT="First Column"/>
+   <pfstatus_fun CODE="&amp;CRDESIG" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Crystal Reports Designer" PATH="C"/>
+   <pfstatus_fun CODE="&amp;CRE" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TOTAL_RIGHT" ICON_ID="@0C@" FUN_TEXT="Last Column"/>
+   <pfstatus_fun CODE="&amp;CRL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_COLUMN_LEFT" ICON_ID="@0D@" FUN_TEXT="Column Left"/>
+   <pfstatus_fun CODE="&amp;CRR" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_COLUMN_RIGHT" ICON_ID="@0E@" FUN_TEXT="Column Right"/>
+   <pfstatus_fun CODE="&amp;EB9" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TABLE_SETTINGS" ICON_ID="@36@" FUN_TEXT="Call Up Report..." PATH="B"/>
+   <pfstatus_fun CODE="&amp;ELP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_HELP" ICON_ID="@35@" FUN_TEXT="Help"/>
+   <pfstatus_fun CODE="&amp;ERW" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Administration..." PATH="A"/>
+   <pfstatus_fun CODE="&amp;ETA" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Details"/>
+   <pfstatus_fun CODE="&amp;F03" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back" PATH="Z"/>
+   <pfstatus_fun CODE="&amp;F12" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@" FUN_TEXT="Cancel" PATH="A"/>
+   <pfstatus_fun CODE="&amp;F15" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Exit" PATH="X"/>
+   <pfstatus_fun CODE="&amp;F4" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Possible Entries"/>
+   <pfstatus_fun CODE="&amp;GRAPH" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_GRAPHICS" ICON_ID="@0N@" FUN_TEXT="Graphic" PATH="G"/>
+   <pfstatus_fun CODE="&amp;IC1" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Choose"/>
+   <pfstatus_fun CODE="&amp;ILD" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Delete Filter" PATH="L"/>
+   <pfstatus_fun CODE="&amp;ILT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_FILTER" ICON_ID="@4G@" FUN_TEXT="Set Filter" PATH="F"/>
+   <pfstatus_fun CODE="&amp;INFO" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INFORMATION" ICON_ID="@0S@" FUN_TEXT="Information"/>
+   <pfstatus_fun CODE="&amp;MAX" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Maximum" PATH="A"/>
+   <pfstatus_fun CODE="&amp;MIN" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Minimum" PATH="I"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Choose..." PATH="H"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_CHOOSE" ICON_ID="@DM@" FUN_TEXT="Select Layout"/>
+   <pfstatus_fun CODE="&amp;ODN" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_DOWN" ICON_ID="@3F@" FUN_TEXT="Sort in Descending Order" PATH="O"/>
+   <pfstatus_fun CODE="&amp;OL0" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANTS" ICON_ID="@LZ@" FUN_TEXT="Change Layout..."/>
+   <pfstatus_fun CODE="&amp;OLX" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_VARIANTS" ICON_ID="@0R@" FUN_TEXT="Change..." PATH="C"/>
+   <pfstatus_fun CODE="&amp;OPT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Optimize Width" PATH="P"/>
+   <pfstatus_fun CODE="&amp;OUP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_UP" ICON_ID="@3E@" FUN_TEXT="Sort in Ascending Order" PATH="I"/>
+   <pfstatus_fun CODE="&amp;RNT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_PRINT" ICON_ID="@0X@" FUN_TEXT="Print" PATH="P"/>
+   <pfstatus_fun CODE="&amp;RNT_PREV" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LAYOUT_CONTROL" ICON_ID="@3G@" FUN_TEXT="Print Preview" PATH="R"/>
+   <pfstatus_fun CODE="&amp;SAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_DESELECT_ALL" ICON_ID="@4D@" FUN_TEXT="Deselect All" PATH="D"/>
+   <pfstatus_fun CODE="&amp;SUM" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INTERMEDIATE_SUM" ICON_ID="@5V@" FUN_TEXT="Subtotals" PATH="T"/>
+   <pfstatus_fun CODE="&amp;UMC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SUM" ICON_ID="@3Z@" FUN_TEXT="Total" PATH="T"/>
+   <pfstatus_fun CODE="&amp;VCRYSTAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REPORT_TEMPLATE" ICON_ID="@QH@" FUN_TEXT="Crystal Reports" PATH="C"/>
+   <pfstatus_fun CODE="&amp;VCRYSTRAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REPORT_TEMPLATE" ICON_ID="@QH@" FUN_TEXT="Crystal Reports Designer"/>
+   <pfstatus_fun CODE="&amp;VEXCEL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XLS" ICON_ID="@J2@" FUN_TEXT="Microsoft Excel" PATH="M"/>
+   <pfstatus_fun CODE="&amp;VGRID" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LIST" ICON_ID="@3W@" FUN_TEXT="SAP List Viewer" PATH="S"/>
+   <pfstatus_fun CODE="&amp;VLOTUS" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LOTUS" ICON_ID="@JD@" FUN_TEXT="Lotus 1-2-3" PATH="L"/>
+   <pfstatus_fun CODE="&amp;XXL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XXL" ICON_ID="@DJ@" FUN_TEXT="Spreadsheet" PATH="A"/>
+   <pfstatus_fun CODE="ARLINK_ADD" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_WF_LINK" ICON_ID="@CQ@" FUN_TEXT="Add-ARlink" ICON_TEXT=" add link" INFO_TEXT=" add link ARdoc to SAP Object"/>
+   <pfstatus_fun CODE="ARLINK_DEL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_WF_UNLINK" ICON_ID="@CR@" FUN_TEXT="Delete-ARlink" ICON_TEXT=" delete link" INFO_TEXT=" delete link ARdoc to SAP Object"/>
+   <pfstatus_fun CODE="BACK" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back" PATH="B"/>
+   <pfstatus_fun CODE="DISP_ARDOC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_VIEWER_OPTICAL_ARCHIVE" ICON_ID="@0U@" FUN_TEXT="ArchiveLink" ICON_TEXT="ArchiveLink" INFO_TEXT=" display ArchiveLink"/>
+   <pfstatus_fun CODE="DISP_SOBID" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_BUSINAV_OBJECTS" ICON_ID="@4W@" FUN_TEXT="SAP-Object" ICON_TEXT="SAP Object" INFO_TEXT=" display SAP Object"/>
+   <pfstatus_fun CODE="REFRESH" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REFRESH" ICON_ID="@42@" FUN_TEXT="Refresh" INFO_TEXT="Refresh data"/>
+   <pfstatus_fun CODE="REPROCESS" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_EXECUTE_OBJECT" ICON_ID="@15@" FUN_TEXT=" call processing" ICON_TEXT=" call processing" INFO_TEXT="Call processing report IFPC"/>
+   <pfstatus_men CODE="000001" NO="01" REF_TYPE="F" REF_CODE="&amp;RNT_PREV" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="02" REF_TYPE="F" REF_CODE="&amp;RNT" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="04" REF_TYPE="M" REF_CODE="000002"/>
+   <pfstatus_men CODE="000001" NO="05" REF_TYPE="M" REF_CODE="000003"/>
+   <pfstatus_men CODE="000001" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="07" REF_TYPE="F" REF_CODE="&amp;F15" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="01" REF_TYPE="F" REF_CODE="&amp;AQW" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="02" REF_TYPE="F" REF_CODE="&amp;XXL" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="03" REF_TYPE="F" REF_CODE="%PC" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="01" REF_TYPE="F" REF_CODE="%SL" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="02" REF_TYPE="F" REF_CODE="%ML" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="01" REF_TYPE="F" REF_CODE="&amp;ALL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="02" REF_TYPE="F" REF_CODE="&amp;SAL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="04" REF_TYPE="F" REF_CODE="&amp;ILT" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="05" REF_TYPE="F" REF_CODE="&amp;ILD" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="07" REF_TYPE="F" REF_CODE="&amp;OUP" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="08" REF_TYPE="F" REF_CODE="&amp;ODN" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="09" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="10" REF_TYPE="M" REF_CODE="000005"/>
+   <pfstatus_men CODE="000004" NO="11" REF_TYPE="F" REF_CODE="&amp;SUM" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="12" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="13" REF_TYPE="F" REF_CODE="%SC" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="14" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="15" REF_TYPE="F" REF_CODE="&amp;F12" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="01" REF_TYPE="F" REF_CODE="&amp;UMC" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="02" REF_TYPE="F" REF_CODE="&amp;AVR" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="03" REF_TYPE="F" REF_CODE="&amp;MIN" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="04" REF_TYPE="F" REF_CODE="&amp;MAX" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="05" REF_TYPE="F" REF_CODE="&amp;COUNT" REF_NO="001"/>
+   <pfstatus_men CODE="000006" NO="01" REF_TYPE="F" REF_CODE="BACK" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="01" REF_TYPE="M" REF_CODE="000008"/>
+   <pfstatus_men CODE="000007" NO="02" REF_TYPE="M" REF_CODE="000009"/>
+   <pfstatus_men CODE="000007" NO="03" REF_TYPE="F" REF_CODE="&amp;AUF" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="01" REF_TYPE="F" REF_CODE="&amp;OLX" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="02" REF_TYPE="F" REF_CODE="&amp;OAD" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000008" NO="04" REF_TYPE="F" REF_CODE="&amp;AVE" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="05" REF_TYPE="S"/>
+   <pfstatus_men CODE="000008" NO="06" REF_TYPE="F" REF_CODE="&amp;ERW" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="01" REF_TYPE="F" REF_CODE="&amp;OPT" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="02" REF_TYPE="S"/>
+   <pfstatus_men CODE="000009" NO="03" REF_TYPE="F" REF_CODE="&amp;CFI" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="04" REF_TYPE="F" REF_CODE="&amp;CDF" REF_NO="001"/>
+   <pfstatus_mtx CODE="000001" TEXT_TYPE="S" TEXT="List" PATH="L" INT_NOTE="SALV_TABLE_STATUS List"/>
+   <pfstatus_mtx CODE="000002" TEXT_TYPE="S" TEXT="Export" PATH="E" INT_NOTE="STANDARD Save"/>
+   <pfstatus_mtx CODE="000003" TEXT_TYPE="S" TEXT="Send To" PATH="S"/>
+   <pfstatus_mtx CODE="000004" TEXT_TYPE="S" TEXT="Edit" PATH="E" INT_NOTE="STANDARD"/>
+   <pfstatus_mtx CODE="000005" TEXT_TYPE="S" TEXT="Calculate" PATH="C"/>
+   <pfstatus_mtx CODE="000006" TEXT_TYPE="S" TEXT="Goto" PATH="G" INT_NOTE="Standard Supplement"/>
+   <pfstatus_mtx CODE="000007" TEXT_TYPE="S" TEXT="Settings" PATH="S" INT_NOTE="SALV_TABLE_STATUS"/>
+   <pfstatus_mtx CODE="000008" TEXT_TYPE="S" TEXT="Layout" PATH="A" INT_NOTE="Sub STANDARD"/>
+   <pfstatus_mtx CODE="000009" TEXT_TYPE="S" TEXT="Columns" PATH="C"/>
+   <pfstatus_act CODE="000001" NO="01" MENUCODE="000001"/>
+   <pfstatus_act CODE="000001" NO="02" MENUCODE="000004"/>
+   <pfstatus_act CODE="000001" NO="03" MENUCODE="000006"/>
+   <pfstatus_act CODE="000001" NO="04" MENUCODE="000007"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="01" PFNO="07"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="02" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="03" PFNO="05"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="04" PFNO="06"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="05" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="06" PFNO="28"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="07" PFNO="40"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="08" PFNO="29"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="09" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="10" PFNO="30"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="11" PFNO="42"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="12" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="13" PFNO="46"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="14" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="15" PFNO="32"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="16" PFNO="33"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="17" PFNO="34"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="18" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="19" PFNO="13"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="20" PFNO="14"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="21" PFNO="16"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="22" PFNO="17"/>
+   <pfstatus_pfk CODE="000001" PFNO="01" FUNCODE="&amp;ELP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="02" FUNCODE="&amp;IC1" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="03" FUNCODE="&amp;F03" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="04" FUNCODE="&amp;F4" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="05" FUNCODE="&amp;ALL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="06" FUNCODE="&amp;SAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="07" FUNCODE="REFRESH" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="12" FUNCODE="&amp;F12" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="13" FUNCODE="DISP_ARDOC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="14" FUNCODE="DISP_SOBID" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="15" FUNCODE="&amp;F15" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="16" FUNCODE="ARLINK_DEL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="17" FUNCODE="ARLINK_ADD" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="18" FUNCODE="&amp;CRB" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="19" FUNCODE="&amp;CRE" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="21" FUNCODE="&amp;XXL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="23" FUNCODE="&amp;VCRYSTRAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="24" FUNCODE="&amp;VCRYSTAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="25" FUNCODE="&amp;ABC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="26" FUNCODE="&amp;CRL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="27" FUNCODE="&amp;CRR" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="28" FUNCODE="&amp;OUP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="29" FUNCODE="&amp;ILT" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="30" FUNCODE="&amp;UMC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="31" FUNCODE="%SL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="32" FUNCODE="&amp;OL0" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="33" FUNCODE="&amp;OAD" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="34" FUNCODE="&amp;AVE" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="36" FUNCODE="&amp;INFO" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="37" FUNCODE="&amp;EB9" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="38" FUNCODE="&amp;VLOTUS" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="39" FUNCODE="&amp;ETA" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="40" FUNCODE="&amp;ODN" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="41" FUNCODE="&amp;VGRID" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="42" FUNCODE="&amp;SUM" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="43" FUNCODE="&amp;VEXCEL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="44" FUNCODE="&amp;AQW" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="45" FUNCODE="%PC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="46" FUNCODE="&amp;RNT_PREV" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="47" FUNCODE="&amp;GRAPH" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="48" FUNCODE="&amp;CRDESIG" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="71" FUNCODE="%SC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="84" FUNCODE="%SC+" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="86" FUNCODE="&amp;RNT" FUNNO="001"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%CH"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%ML"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%PC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%SC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%SC+"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="%SL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ABC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ALL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;AQW"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;AUF"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;AVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;AVR"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;BS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;BS+"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;BS-"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CDF"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CFI"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;COUNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRB"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRBATCH"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRDESIG"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRR"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;CRYSTAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;DATA_SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;DAU"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;DOF"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;DON"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;EB3"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;EB9"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ELP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ERW"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ETA"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;F03"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;F12"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;F15"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;F4"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;GRAPH"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;IC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ILD"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ILT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;INFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;KOM"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;LFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;LIS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;MAX"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;MIN"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;NFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;NTE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OAD"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;ODN"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OL0"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OLX"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OMP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OPT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;OUP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;REFRESH"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;RNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;RNT_PREV"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;SAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;SUM"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;UMC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;URL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;VCRYSTAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;VCRYSTRAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;VEXCEL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;VGRID"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;VLOTUS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;XML"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;XPA"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="&amp;XXL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="ARLINK_ADD"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="ARLINK_DEL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BAC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BACK"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BEB1"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BEB2"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BEB3"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BEB9"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="BEBN"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="COL0"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="COLX"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="DETA"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="DISP_ARDOC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="DISP_SOBID"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="DRUK"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="DSAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="ENTE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="EXIT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="EXPA"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="FILD"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="FILT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="GET_SEL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="GLIS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="HELP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="INFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="KOMP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="MYFUNCTION"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="P+"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="P++"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="P-"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="P--"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PF09"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PF13"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PIC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PICK"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PRI"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PRIN"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="PRNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="REFRESH"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="REPROCESS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="RW"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SALL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SAUF"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SCRB"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SCRE"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SCRL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SCRR"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SET_CELL"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SET_COLS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SET_ROWS"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SKOM"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SODN"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SOUP"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="SUMC"/>
+   <pfstatus_set STATUS="SALV_STANDARD_IFMD" FUNCTION="ZSUM"/>
+   <pfstatus_doc OBJ_TYPE="A" OBJ_CODE="000001" MODAL="D" INT_NOTE="copy from SALV_TABLE_STANDARD, plus IFMD"/>
+   <pfstatus_doc OBJ_TYPE="P" OBJ_CODE="000001" MODAL="D" NORM="X" INT_NOTE="Standard Maximum Interaction SALV_TABLE_STANDARD"/>
+   <pfstatus_doc OBJ_TYPE="B" OBJ_CODE="000001" SUB_CODE="0001" INT_NOTE="SALV_TABLE_STANDARD"/>
+  </pfstatus>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNDMS_IFMD
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvndms_ifmd.
+*&amp; VN-CSI INT_MM_03 (HQ_TTa) DMS/Scanning solution integration
+*&amp;   context:
+*&amp;            VN scanning station is saving scanned files on shared folder..
+*&amp;            ..to be uploaded to SAP to ArchiveLink and linked to sap-object
+*&amp;   feature:
+*&amp;            monitor for DMS integration
+*&amp;            (1) list IFLD files records
+*&amp;            (2) allow subsequent manual assignment
+
+**********************************************************************
+*&amp; selection screen
+TABLES:  zvndms_ifld.
+SELECTION-SCREEN: BEGIN OF BLOCK s01 WITH FRAME TITLE TEXT-s01. &quot;block: DMS log file
+  SELECT-OPTIONS:
+                  so_rdate FOR zvndms_ifld-rdate,
+                  so_rtime FOR zvndms_ifld-rtime,
+                  so_arobj FOR zvndms_ifld-arobj,
+                  so_ardoc FOR zvndms_ifld-ardoc,
+                  so_acrep FOR zvndms_ifld-acrep,
+                  so_ardid FOR zvndms_ifld-ardid.
+SELECTION-SCREEN: END   OF BLOCK s01.
+SELECTION-SCREEN: BEGIN OF BLOCK s02 WITH FRAME TITLE TEXT-s02. &quot;block: DMS log file
+  SELECT-OPTIONS:
+                  so_stlnk FOR zvndms_ifld-stlnk,
+                  so_sobid FOR zvndms_ifld-sobid,
+                  so_sobty FOR zvndms_ifld-sobty,
+                  so_fname FOR zvndms_ifld-fname.
+SELECTION-SCREEN: END   OF BLOCK s02.
+
+
+
+**********************************************************************
+*&amp; data selection
+START-OF-SELECTION.
+
+  &quot;select data, only on keys level
+  DATA: lt_keys TYPE zvndms_ifld_key_t.
+
+  SELECT rdate,
+         rtime,
+         arobj,
+         ardoc,
+         acrep,
+         ardid  FROM zvndms_ifld INTO TABLE @lt_keys
+  WHERE rdate IN @so_rdate
+    AND rtime IN @so_rtime
+    AND arobj IN @so_arobj
+    AND ardoc IN @so_ardoc
+    AND acrep IN @so_acrep
+    AND ardid IN @so_ardid
+    AND stlnk IN @so_stlnk
+    AND sobid IN @so_sobid
+    AND sobty IN @so_sobty
+    AND fname IN @so_fname.
+
+
+**********************************************************************
+*&amp; report processing
+  DATA(lr_ifmd) = NEW zcl_vndms_ifmd( it_keys = lt_keys ).
+
+  &quot;call processing
+  lr_ifmd-&gt;report( ).</source>
+ </PROG>
+ <PROG NAME="ZVNDMS_IFPD" VARCL="X" SUBC="1" APPL="*" RSTAT="K" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="D01" ENTRY="*** Data processing 1-Downloader:" LENGTH="66 "/>
+    <textElement ID="I" KEY="D02" ENTRY="     IFLD record=" LENGTH="27 "/>
+    <textElement ID="I" KEY="D03" ENTRY=" MSGTX=" LENGTH="17 "/>
+    <textElement ID="I" KEY="D04" ENTRY="    Logical file=" LENGTH="27 "/>
+    <textElement ID="I" KEY="L01" ENTRY="*** Data processing 2-Linker:" LENGTH="58 "/>
+    <textElement ID="I" KEY="L02" ENTRY="     IFLD record=" LENGTH="27 "/>
+    <textElement ID="I" KEY="L03" ENTRY=" MSGTX=" LENGTH="17 "/>
+    <textElement ID="I" KEY="P01" ENTRY="*** Data processing 1-Downloader:" LENGTH="66 "/>
+    <textElement ID="I" KEY="S01" ENTRY="selection: 1-Dowloader (scanned file to ArchiveLink)" LENGTH="70 "/>
+    <textElement ID="I" KEY="S02" ENTRY="selection: 2-Linker (AR-file to SAP-Object)" LENGTH="82 "/>
+    <textElement ID="I" KEY="S09" ENTRY="processing" LENGTH="70 "/>
+    <textElement ID="I" KEY="W00" ENTRY="*** Selection parameters:" LENGTH="50 "/>
+    <textElement ID="I" KEY="W01" ENTRY="  PA_RUN1D run 1-Downloader       =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W02" ENTRY="  SO_LFILE Logical file           =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W03" ENTRY="  PA_RUN2L run 2-Linker           =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W04" ENTRY="  SO_RDATE Date                   =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W05" ENTRY="  SO_RTIME Time                   =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W06" ENTRY="  SO_AROBJ Document type          =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W07" ENTRY="  SO_ARDID Document ID            =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W08" ENTRY="  SO_STDEL deletion status        =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W09" ENTRY="  SO_STLNK linkage status         =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W10" ENTRY="  PA_XSTAT exclude status         =" LENGTH="70 "/>
+    <textElement ID="I" KEY="W11" ENTRY="  PA_WSEP write sel-parameters    =" LENGTH="70 "/>
+    <textElement ID="R" ENTRY="DMS: DMS document processor" LENGTH="27 "/>
+    <textElement ID="S" KEY="PA_RUN1D" ENTRY="        run 1-Downloader" LENGTH="26 "/>
+    <textElement ID="S" KEY="PA_RUN2L" ENTRY="        run 2-Linker" LENGTH="22 "/>
+    <textElement ID="S" KEY="PA_WSEP" ENTRY="        write sel-parameters" LENGTH="28 "/>
+    <textElement ID="S" KEY="PA_XSTAT" ENTRY="        linkage status: exclude" LENGTH="31 "/>
+    <textElement ID="S" KEY="SO_ARDID" ENTRY="D       ." LENGTH="19 "/>
+    <textElement ID="S" KEY="SO_AROBJ" ENTRY="D       ." LENGTH="21 "/>
+    <textElement ID="S" KEY="SO_LFILE" ENTRY="        Logical file (= shared folder)" LENGTH="38 "/>
+    <textElement ID="S" KEY="SO_RDATE" ENTRY="D       ." LENGTH="12 "/>
+    <textElement ID="S" KEY="SO_RTIME" ENTRY="D       ." LENGTH="12 "/>
+    <textElement ID="S" KEY="SO_STDEL" ENTRY="D       ." LENGTH="23 "/>
+    <textElement ID="S" KEY="SO_STLNK" ENTRY="D       ." LENGTH="22 "/>
+    <textElement ID="S" KEY="SO_STUPL" ENTRY="D       ." LENGTH="21 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNDMS_IFPD
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvndms_ifpd LINE-SIZE 1023.
+*&amp; VN-CSI INT_MM_03 (HQ_TTa) DMS/Scanning solution integration
+*&amp;   context:
+*&amp;            VN scanning station is saving scanned files on shared folder..
+*&amp;            ..to be uploaded to SAP to ArchiveLink and linked to sap-object
+*&amp;   feature:
+*&amp;            processor for DMS integration
+*&amp;            (1) downloader: load file from shared-folder into ArchiveLink
+*&amp;            (2) linker    : link file in ArchiveLink to SAP-Object (per file name)
+
+INCLUDE: zvndms_ifpd_gdata,
+         zvndms_ifpd_selsc,
+         zvndms_ifpd_forms.
+
+INITIALIZATION.
+  PERFORM sels_init.
+
+START-OF-SELECTION.
+
+  PERFORM: sels_write,
+
+           &quot;(1) downloader: file to ArchiveLink
+           data_select_ifdd,
+           data_process_ifdd,
+
+           &quot;(2) linker    : AR-file link to SAP-object
+           data_select_ifld,
+           data_process_ifld.</source>
+ </PROG>
+ <PROG NAME="ZVNDMS_IFPD_FORMS" VARCL="X" SUBC="I" APPL="*" RSTAT="K" RMAND="700" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZVNDMS_IFPD_FORMS" LENGTH="25 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Include          ZVNDMS_IFPD_FORMS
+*&amp;---------------------------------------------------------------------*
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form sels_init
+*&amp;---------------------------------------------------------------------*
+*&amp; init selection screen
+*&amp;---------------------------------------------------------------------*
+FORM sels_init .
+
+ENDFORM.
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form sels_write
+*&amp;---------------------------------------------------------------------*
+*&amp; write selections
+*&amp;---------------------------------------------------------------------*
+FORM sels_write .
+
+  CHECK pa_wsep = &apos;X&apos;.
+
+  WRITE: /,/ &apos;*** Selection parameters:&apos;(w00).
+
+  WRITE:   / &apos;  PA_RUN1D run 1-Downloader       =&apos;(w01), pa_run1d.
+
+  LOOP AT so_lfile  ASSIGNING FIELD-SYMBOL(&lt;lfile&gt;).
+    WRITE: / &apos;  SO_LFILE Logical file           =&apos;(w02), &lt;lfile&gt;-sign, &lt;lfile&gt;-option, &lt;lfile&gt;-low, &lt;lfile&gt;-high.
+  ENDLOOP.
+
+  WRITE:   / &apos;  PA_RUN2L run 2-Linker           =&apos;(w03), pa_run2l.
+
+  LOOP AT so_rdate  ASSIGNING FIELD-SYMBOL(&lt;rdate&gt;).
+    WRITE: / &apos;  SO_RDATE Date                   =&apos;(w04), &lt;rdate&gt;-sign, &lt;rdate&gt;-option, &lt;rdate&gt;-low, &lt;rdate&gt;-high.
+  ENDLOOP.
+
+  LOOP AT so_rtime  ASSIGNING FIELD-SYMBOL(&lt;rtime&gt;).
+    WRITE: / &apos;  SO_RTIME Time                   =&apos;(w05), &lt;rtime&gt;-sign, &lt;rtime&gt;-option, &lt;rtime&gt;-low, &lt;rtime&gt;-high.
+  ENDLOOP.
+
+  LOOP AT so_arobj  ASSIGNING FIELD-SYMBOL(&lt;arobj&gt;).
+    WRITE: / &apos;  SO_AROBJ Document type          =&apos;(w06), &lt;arobj&gt;-sign, &lt;arobj&gt;-option, &lt;arobj&gt;-low, &lt;arobj&gt;-high.
+  ENDLOOP.
+
+  LOOP AT so_ardid  ASSIGNING FIELD-SYMBOL(&lt;ardid&gt;).
+    WRITE: / &apos;  SO_ARDID Document ID            =&apos;(w07), &lt;ardid&gt;-sign, &lt;ardid&gt;-option, &lt;ardid&gt;-low, &lt;ardid&gt;-high.
+  ENDLOOP.
+
+  LOOP AT so_stupl  ASSIGNING FIELD-SYMBOL(&lt;stupl&gt;).
+    WRITE: / &apos;  SO_STUPL upload status          =&apos;,      &lt;stupl&gt;-sign, &lt;stupl&gt;-option, &lt;stupl&gt;-low, &lt;stupl&gt;-high.
+  ENDLOOP.
+
+
+  LOOP AT so_stdel  ASSIGNING FIELD-SYMBOL(&lt;stdel&gt;).
+    WRITE: / &apos;  SO_STDEL deletion status        =&apos;(w08), &lt;stdel&gt;-sign, &lt;stdel&gt;-option, &lt;stdel&gt;-low, &lt;stdel&gt;-high.
+  ENDLOOP.
+
+  LOOP AT so_stlnk  ASSIGNING FIELD-SYMBOL(&lt;stlnk&gt;).
+    WRITE: / &apos;  SO_STLNK linkage status         =&apos;(w09), &lt;stlnk&gt;-sign, &lt;stlnk&gt;-option, &lt;stlnk&gt;-low, &lt;stlnk&gt;-high.
+  ENDLOOP.
+
+  WRITE:   / &apos;  PA_XSTAT exclude status         =&apos;(w10), pa_xstat,
+           / &apos;  PA_WSEP write sel-parameters    =&apos;(w11), pa_wsep.
+
+  WRITE: /.
+
+
+
+ENDFORM.
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form data_select_ifdd
+*&amp;---------------------------------------------------------------------*
+*&amp; select data to process: C000 for 1-dloader
+*&amp;---------------------------------------------------------------------*
+FORM data_select_ifdd .
+
+  IF pa_run1d = &apos;X&apos;.
+
+    SELECT * FROM zvndms_c000 INTO TABLE @gt_c000
+     WHERE lfile IN @so_lfile.
+
+  ENDIF.
+
+ENDFORM.
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form data_select_ifld
+*&amp;---------------------------------------------------------------------*
+*&amp; select data to process: IFLD for 2-linker
+*&amp;---------------------------------------------------------------------*
+FORM data_select_ifld .
+
+  IF pa_run2l = &apos;X&apos;.
+
+    SELECT * FROM zvndms_ifld INTO TABLE @gt_ifld &quot;#EC CI_ALL_FIELDS_NEEDED
+     WHERE rdate IN @so_rdate
+       AND rtime IN @so_rtime
+       AND arobj IN @so_arobj
+       AND ardid IN @so_ardid
+       AND stupl IN @so_stupl
+       AND stdel IN @so_stdel
+       AND stlnk IN @so_stlnk
+       AND stlnk NE @pa_xstat.
+
+  ENDIF.
+
+ENDFORM.
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form data_process_ifdd
+*&amp;---------------------------------------------------------------------*
+*&amp; (1) downloader: file to ArchiveLink
+*&amp;---------------------------------------------------------------------*
+FORM data_process_ifdd .
+
+  CHECK: gt_c000[] IS NOT INITIAL.
+
+  LOOP AT gt_c000 ASSIGNING FIELD-SYMBOL(&lt;c000&gt;).
+
+    WRITE: /,/ &apos;*** Data processing 1-Downloader:&apos;(d01).
+    WRITE: /   &apos;    Logical file=&apos;(d04), &lt;c000&gt;-lfile.
+
+    &quot;enqueue file: prevent para-run of processor on single
+    CALL FUNCTION &apos;ENQUEUE_EZVNDMS_LFILE&apos;
+      EXPORTING
+        mode_zvndms_c000 = &apos;E&apos;
+        mandt            = sy-mandt
+        lfile            = &lt;c000&gt;-lfile
+        x_lfile          = &apos; &apos;
+        _scope           = &apos;2&apos;
+        _wait            = &apos; &apos;
+        _collect         = &apos; &apos;
+      EXCEPTIONS
+        foreign_lock     = 1
+        system_failure   = 2
+        OTHERS           = 3.
+    IF sy-subrc &lt;&gt; 0.
+      &quot;locked -&gt; skip processing
+      WRITE: /   &apos;    Logical file=&apos;(d04), &lt;c000&gt;-lfile, &apos; already being processed, skip.&apos;.
+      CONTINUE.
+    ENDIF.
+
+
+    &quot;pass C000 table, selected log-paths
+    DATA(lo_ifdd) = NEW zcl_vndms_ifdd( &lt;c000&gt; ).
+
+    &quot;call processing
+    lo_ifdd-&gt;process( ).
+
+    &quot;receive log
+    DATA(it_ifld) = lo_ifdd-&gt;at_ifld.
+
+    &quot;write log
+    LOOP AT it_ifld ASSIGNING FIELD-SYMBOL(&lt;ifld&gt;).
+      WRITE: / &apos;     IFLD record=&apos;(d02),  &lt;ifld&gt;-rdate,
+                                          &lt;ifld&gt;-rdate,
+                                          &lt;ifld&gt;-arobj,
+                                          &lt;ifld&gt;-acrep,
+                                          &lt;ifld&gt;-ardid,
+                                          &lt;ifld&gt;-lfile,
+                                          &lt;ifld&gt;-fpath,
+                                          &lt;ifld&gt;-fname.
+      WRITE:  &apos; MSGTX=&apos;(d03)             ,&lt;ifld&gt;-msgtx.
+
+      &quot;dequeue file
+      CALL FUNCTION &apos;DEQUEUE_EZVNDMS_LFILE&apos;
+        EXPORTING
+          mode_zvndms_c000 = &apos;E&apos;
+          mandt            = sy-mandt
+          lfile            = &lt;c000&gt;-lfile
+          x_lfile          = &apos; &apos;
+          _scope           = &apos;3&apos;
+          _synchron        = &apos; &apos;
+          _collect         = &apos; &apos;.
+
+
+    ENDLOOP.
+
+  ENDLOOP.
+ENDFORM.
+
+
+*&amp;---------------------------------------------------------------------*
+*&amp; Form data_process_ifld
+*&amp;---------------------------------------------------------------------*
+*&amp; (2) linker    : AR-file link to SAP-object
+*&amp;---------------------------------------------------------------------*
+FORM data_process_ifld .
+
+  CHECK: gt_ifld[] IS NOT INITIAL.
+
+  WRITE: /,/ &apos;*** Data processing 2-Linker:&apos;(l01).
+
+  &quot;pass IFLD table, selected files loaded to ArLink
+  DATA(lo_ifld) = NEW zcl_vndms_ifld( gt_ifld ).
+
+  &quot;call processing
+  lo_ifld-&gt;process( ).
+
+  &quot;receive log
+  DATA(it_ifld) = lo_ifld-&gt;at_ifld.
+
+  &quot;write log
+  LOOP AT it_ifld ASSIGNING FIELD-SYMBOL(&lt;ifld&gt;).
+    WRITE: / &apos;     IFLD record=&apos;(l02),  &lt;ifld&gt;-rdate,
+                                        &lt;ifld&gt;-rdate,
+                                        &lt;ifld&gt;-arobj,
+                                        &lt;ifld&gt;-ardid,
+                                        &lt;ifld&gt;-stupl,
+                                        &lt;ifld&gt;-stdel,
+                                        &lt;ifld&gt;-stlnk,
+                                        &lt;ifld&gt;-sobid,
+                                        &lt;ifld&gt;-sobty,
+                                        &lt;ifld&gt;-lfile,
+                                        &lt;ifld&gt;-fpath,
+                                        &lt;ifld&gt;-fname.
+    WRITE:  &apos; MSGTX=&apos;(l03)             ,&lt;ifld&gt;-msgtx.
+
+  ENDLOOP.
+
+
+
+
+ENDFORM.</source>
+ </PROG>
+ <PROG NAME="ZVNDMS_IFPD_GDATA" VARCL="X" SUBC="I" APPL="*" RSTAT="K" RMAND="700" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZVNDMS_IFPD_GDATA" LENGTH="25 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Include          ZVNDMS_IFPD_GDATA
+*&amp;---------------------------------------------------------------------*
+
+&quot; for SelOpts
+TABLES: zvndms_ifld,
+        zvndms_c000.
+
+&quot; data to process
+DATA: gt_c000 TYPE TABLE OF zvndms_c000, &quot;C000 for 1-dloader
+      gt_ifld TYPE TABLE OF zvndms_ifld. &quot;IFLD for 2-linker</source>
+ </PROG>
+ <PROG NAME="ZVNDMS_IFPD_SELSC" VARCL="X" SUBC="I" APPL="*" RSTAT="K" RMAND="700" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZVNDMS_IFPD_SELSC" LENGTH="25 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Include          ZVNDMS_IFPD_SELSC
+*&amp;---------------------------------------------------------------------*
+
+
+SELECTION-SCREEN: BEGIN OF BLOCK s01 WITH FRAME TITLE TEXT-s01. &quot;block: selection (1) downloader
+  PARAMETERS:     pa_run1d TYPE xfeld DEFAULT &apos; &apos;.
+  SELECT-OPTIONS: so_lfile FOR zvndms_c000-lfile MATCHCODE OBJECT zvndms_c000_lfile_h.
+
+SELECTION-SCREEN: END   OF BLOCK s01.
+
+
+SELECTION-SCREEN: BEGIN OF BLOCK s02 WITH FRAME TITLE TEXT-s02. &quot;block: selection (2) linker
+  PARAMETERS:     pa_run2l TYPE xfeld DEFAULT &apos; &apos;.
+  SELECT-OPTIONS: so_rdate FOR zvndms_ifld-rdate,
+                  so_rtime FOR zvndms_ifld-rtime,
+                  so_arobj FOR zvndms_ifld-arobj,
+                  so_ardid FOR zvndms_ifld-ardid,
+                  so_stupl FOR zvndms_ifld-stupl,
+                  so_stdel FOR zvndms_ifld-stdel,
+                  so_stlnk FOR zvndms_ifld-stlnk.
+  PARAMETERS:     pa_xstat TYPE zvndms_ifld-stlnk DEFAULT &apos;L&apos; MODIF ID dis.
+
+SELECTION-SCREEN: END   OF BLOCK s02.
+
+SELECTION-SCREEN: BEGIN OF BLOCK s09 WITH FRAME TITLE TEXT-s09. &quot;block: processing
+  PARAMETERS:     pa_wsep TYPE xfeld DEFAULT &apos; &apos;.
+SELECTION-SCREEN: END   OF BLOCK s09.
+
+
+
+AT SELECTION-SCREEN OUTPUT.
+  LOOP AT SCREEN.
+    IF screen-group1 = &apos;DIS&apos;. screen-input = 0. ENDIF.
+    MODIFY SCREEN.
+  ENDLOOP.</source>
+ </PROG>
+ <SHLP SHLPNAME="ZVNDMS_C000_LFILE_H" DDLANGUAGE="E" DDTEXT="DMS: Configuration: Logical File Name" ISSIMPLE="X" SELMETHOD="ZVNDMS_C000" SELMTYPE="T" DIALOGTYPE="D" FUZZY_SIMILARITY="0.8 ">
+  <dd32p SHLPNAME="ZVNDMS_C000_LFILE_H" FIELDNAME="LFILE" FLPOSITION="0001" ROLLNAME="FILEINTERN" SHLPINPUT="X" SHLPOUTPUT="X" SHLPSELPOS="01" SHLPLISPOS="01" DOMNAME="FILEINTERN" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="CHAR" LENG="000060" OUTPUTLEN="000060" DECIMALS="000000"/>
+  <dd32p SHLPNAME="ZVNDMS_C000_LFILE_H" FIELDNAME="AROBJ" FLPOSITION="0002" ROLLNAME="SAEOBJART" SHLPINPUT="X" SHLPSELPOS="02" SHLPLISPOS="02" DOMNAME="SADC10_DV" HEADLEN="11" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000"/>
+  <dd32p SHLPNAME="ZVNDMS_C000_LFILE_H" FIELDNAME="SPOBJ" FLPOSITION="0003" ROLLNAME="SAEANWDID" SHLPINPUT="X" SHLPSELPOS="03" SHLPLISPOS="03" DOMNAME="OJ_NAME" HEADLEN="13" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000"/>
+ </SHLP>
+ <SOTR PACKET="ZVNDMS">
+  <SOTR_HEAD CONCEPT="0050569B84631EEB96E90DA6F98C5264" PAKET="ZVNDMS" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00008000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEB96E90DA6F98C5264" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="066" TEXT="VN-DMS: enh-spot for ES_CV_ODATA_ATTACHMENTS"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEB96E91155667C5268" PAKET="ZVNDMS" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEB96E91155667C5268" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="057" TEXT="VN-DMS: enh-sp ES_CV_ODATA_ATTACHMENTS"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEB96E91424AA53126B" PAKET="ZVNDMS" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEB96E91424AA53126B" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0008" LENGTH="101" TEXT="Implementation: BaDI to enable authorization checks for attachments"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEB96E91424AA53326B" PAKET="ZVNDMS" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEB96E91424AA53326B" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0008" LENGTH="077" TEXT="Implementation: BAdI for handling draft attachments"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEB96E91424AA53526B" PAKET="ZVNDMS" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEB96E91424AA53526B" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0008" LENGTH="092" TEXT="Implementation: ODATA CV attachment persistency determination"/>
+  </SOTR_HEAD>
+ </SOTR>
+ <TABL TABNAME="ZVNDMS_IFLD_STA" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="DMS: DMS document log: status" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="STUPL" DDLANGUAGE="E" POSITION="0001" ROLLNAME="ZVNDMS_STUPL" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STUPL" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status upload" REPTEXT="status of upload of file to ArchiveLink" SCRTEXT_S="uplStatus" SCRTEXT_M="upload status" SCRTEXT_L="upload status" DOMNAME3L="ZVNDMS_STUPL" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="STDEL" DDLANGUAGE="E" POSITION="0002" ROLLNAME="ZVNDMS_STDEL" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STDEL" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status of deletion of original file" REPTEXT="status of deletion of original file" SCRTEXT_S="delStatus" SCRTEXT_M="deletion status" SCRTEXT_L="deletion status" DOMNAME3L="ZVNDMS_STDEL" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="STLNK" DDLANGUAGE="E" POSITION="0003" ROLLNAME="ZVNDMS_STLNK" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STLNK" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status of linking ArchiveLink to Object" REPTEXT="status of linking ArchiveLink to Object" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" DOMNAME3L="ZVNDMS_STLNK" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="SOBID" DDLANGUAGE="E" POSITION="0004" ROLLNAME="SAEOBJID" ADMINFIELD="0" INTTYPE="C" INTLEN="000100" DOMNAME="SADC50" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000050" OUTPUTLEN="000050" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Object ID (object identifier)" SCRTEXT_S="Object ID" SCRTEXT_M="Object ID" SCRTEXT_L="SAP object ID" DOMNAME3L="SADC50" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="SOBTY" DDLANGUAGE="E" POSITION="0005" ROLLNAME="SAEANWDID" CHECKTABLE="TOJTB" ADMINFIELD="0" INTTYPE="C" INTLEN="000020" DOMNAME="OJ_NAME" ROUTPUTLEN="000000" MEMORYID="OAO" HEADLEN="13" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOJTB" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Object type of business object" REPTEXT="Object Type" SCRTEXT_S="Obj. Type" SCRTEXT_M="Object Type" SCRTEXT_L="Object Type" DOMMASTER="D" DOMNAME3L="OJ_NAME" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="SAP_OBJECT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="SOBTY" FORTABLE="ZVNDMS_IFLD_STA" FORKEY="SOBTY" CHECKTABLE="TOJTB" CHECKFIELD="NAME" PRIMPOS="0001" DOMNAME="OJ_NAME" DATATYPE="CHAR" LENG="000010"/>
+  <dd08v TABNAME="ZVNDMS_IFLD_STA" FIELDNAME="SOBTY" DDLANGUAGE="E" CHECKTABLE="TOJTB" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNDMS_IFLD_MSG" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="DMS: DMS document log: message" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGID" DDLANGUAGE="E" POSITION="0001" ROLLNAME="SYMSGID" CHECKTABLE="T100A" ADMINFIELD="0" INTTYPE="C" INTLEN="000040" DOMNAME="ARBGB" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="20" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000020" OUTPUTLEN="000020" DECIMALS="000000" ENTITYTAB="T100A" MASK="  CHARE" MASKLEN="0000" DDTEXT="Message Class" REPTEXT="Message ID" SCRTEXT_S="Message ID" SCRTEXT_M="Message Class" SCRTEXT_L="Message Class" DOMNAME3L="ARBGB" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="MESSAGE_ID" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGNO" DDLANGUAGE="E" POSITION="0002" ROLLNAME="SYMSGNO" ADMINFIELD="0" INTTYPE="N" INTLEN="000006" DOMNAME="SYMSGNO" ROUTPUTLEN="000000" HEADLEN="07" SCRLEN1="10" SCRLEN2="20" SCRLEN3="20" DTELMASTER="D" DATATYPE="NUMC" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" MASK="  NUMCE" MASKLEN="0000" DDTEXT="Message Number" REPTEXT="Msg.No." SCRTEXT_S="Number" SCRTEXT_M="Message Number" SCRTEXT_L="Message Number" DOMNAME3L="SYMSGNO" DEPTH="00" COMPTYPE="E" DEFFDNAME="MESSAGE_NUMBER" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGTY" DDLANGUAGE="E" POSITION="0003" ROLLNAME="SYMSGTY" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="SYCHAR01" ROUTPUTLEN="000000" HEADLEN="07" SCRLEN1="10" SCRLEN2="20" SCRLEN3="30" DTELMASTER="D" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Message Type" REPTEXT="Type" SCRTEXT_S="Msg. Type" SCRTEXT_M="Message Type" SCRTEXT_L="Message Type" DOMNAME3L="SYCHAR01" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGTX" DDLANGUAGE="E" POSITION="0004" ROLLNAME="ZVNDMS_MSGTX220" ADMINFIELD="0" INTTYPE="C" INTLEN="000440" DOMNAME="ZVNDMS_MSGTX220" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000220" OUTPUTLEN="000220" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: message text 220 case-sensitive" REPTEXT="message text" SCRTEXT_S="message" SCRTEXT_M="message text" SCRTEXT_L="message text" DOMNAME3L="ZVNDMS_MSGTX220" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGID" FORTABLE="ZVNDMS_IFLD_MSG" FORKEY="MSGID" CHECKTABLE="T100A" CHECKFIELD="ARBGB" PRIMPOS="0001" DOMNAME="ARBGB" DATATYPE="CHAR" LENG="000020"/>
+  <dd08v TABNAME="ZVNDMS_IFLD_MSG" FIELDNAME="MSGID" DDLANGUAGE="E" CHECKTABLE="T100A" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNDMS_IFLD_KEY" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="DMS: DMS document log: key" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="RDATE" DDLANGUAGE="E" POSITION="0001" ROLLNAME="DATUM" ADMINFIELD="0" INTTYPE="D" INTLEN="000016" DOMNAME="DATUM" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="05" SCRLEN2="05" SCRLEN3="05" DTELMASTER="D" DATATYPE="DATS" LENG="000008" OUTPUTLEN="000010" DECIMALS="000000" MASK="  DATSE" MASKLEN="0000" DDTEXT="Date" SCRTEXT_S="Date" SCRTEXT_M="Date" SCRTEXT_L="Date" DOMNAME3L="DATUM" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="RTIME" DDLANGUAGE="E" POSITION="0002" ROLLNAME="UZEIT" ADMINFIELD="0" INTTYPE="T" INTLEN="000012" DOMNAME="UZEIT" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="TIMS" LENG="000006" OUTPUTLEN="000008" DECIMALS="000000" MASK="  TIMSE" MASKLEN="0000" DDTEXT="Time" REPTEXT="Time" SCRTEXT_S="Time" SCRTEXT_M="Time" SCRTEXT_L="Time" DOMNAME3L="UZEIT" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="AROBJ" DDLANGUAGE="E" POSITION="0003" ROLLNAME="SAEOBJART" CHECKTABLE="TOADV" ADMINFIELD="0" INTTYPE="C" INTLEN="000020" DOMNAME="SADC10_DV" ROUTPUTLEN="000000" MEMORYID="DOK" HEADLEN="11" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOADV" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Doc. type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="SADC10_DV" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ARDOC" DDLANGUAGE="E" POSITION="0004" ROLLNAME="SAEDOKTYP" CHECKTABLE="TOADD" ADMINFIELD="0" INTTYPE="C" INTLEN="000040" DOMNAME="SADC20_DD" ROUTPUTLEN="000000" HEADLEN="20" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000020" OUTPUTLEN="000020" DECIMALS="000000" ENTITYTAB="TOADD" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Document class" REPTEXT="Document Class" SCRTEXT_S="Doc.class" SCRTEXT_M="Document Class" SCRTEXT_L="Document Class" DOMNAME3L="SADC20_DD" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_CLASS" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ACREP" DDLANGUAGE="E" POSITION="0005" ROLLNAME="SAEARCHIVI" CHECKTABLE="TOAAR" ADMINFIELD="0" INTTYPE="C" INTLEN="000004" DOMNAME="SADC2_AR" ROUTPUTLEN="000000" HEADLEN="21" SCRLEN1="10" SCRLEN2="12" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="TOAAR" MASK="  CHARE" MASKLEN="0000" DDTEXT="Content Repository Identification" REPTEXT="Content Repository ID" SCRTEXT_S="Cont. Rep." SCRTEXT_M="Cont.Rep.ID" SCRTEXT_L="Content Rep. ID" DOMNAME3L="SADC2_AR" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ARDID" DDLANGUAGE="E" POSITION="0006" ROLLNAME="SAEARDOID" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" DOMNAME="SADC40" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Document ID" SCRTEXT_S="Doc. ID" SCRTEXT_M="Doc. ID" SCRTEXT_L="Document ID" DOMNAME3L="SADC40" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOCID" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ACREP" FORTABLE="ZVNDMS_IFLD_KEY" FORKEY="ACREP" CHECKTABLE="TOAAR" CHECKFIELD="ARCHIV_ID" PRIMPOS="0001" DOMNAME="SADC2_AR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ARDOC" FORTABLE="ZVNDMS_IFLD_KEY" FORKEY="ARDOC" CHECKTABLE="TOADD" CHECKFIELD="DOC_TYPE" PRIMPOS="0001" DOMNAME="SADC20_DD" DATATYPE="CHAR" LENG="000020"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="AROBJ" FORTABLE="SYST" FORKEY="MANDT" CHECKTABLE="TOADV" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="AROBJ" FORTABLE="ZVNDMS_IFLD_KEY" FORKEY="AROBJ" CHECKTABLE="TOADV" CHECKFIELD="AR_OBJECT" PRIMPOS="0002" DOMNAME="SADC10_DV" DATATYPE="CHAR" LENG="000010"/>
+  <dd08v TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ACREP" DDLANGUAGE="E" CHECKTABLE="TOAAR" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="ARDOC" DDLANGUAGE="E" CHECKTABLE="TOADD" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD_KEY" FIELDNAME="AROBJ" DDLANGUAGE="E" CHECKTABLE="TOADV" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNDMS_IFLD_DAT" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="DMS: DMS document log: data" AUTHCLASS="00" PROZPUFF="000" EXCLASS="3">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_DAT" FIELDNAME="LFILE" DDLANGUAGE="E" POSITION="0001" ROLLNAME="FILEINTERN" ADMINFIELD="0" INTTYPE="C" INTLEN="000120" DOMNAME="FILEINTERN" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000060" OUTPUTLEN="000060" DECIMALS="000000" ENTITYTAB="FILENAMECI" MASK="  CHARE" MASKLEN="0000" DDTEXT="Logical file name" REPTEXT="Logical file" SCRTEXT_S="File" SCRTEXT_M="Log. File" SCRTEXT_L="Logical file" DOMMASTER="D" DOMNAME3L="FILEINTERN" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_DAT" FIELDNAME="FPATH" DDLANGUAGE="E" POSITION="0002" ROLLNAME="ZVNDMS_FPATH" ADMINFIELD="0" INTTYPE="C" INTLEN="000140" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" OUTPUTLEN="000070" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: scan station full path (dir+file)" REPTEXT="DMS scan station full path" SCRTEXT_S="full path" SCRTEXT_M="scan full path" SCRTEXT_L="scan station full path" DOMNAME3L="TEXT70" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD_DAT" FIELDNAME="FNAME" DDLANGUAGE="E" POSITION="0003" ROLLNAME="ZVNDMS_FNAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000140" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" OUTPUTLEN="000070" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: file name" REPTEXT="DMS scan station file name" SCRTEXT_S="file name" SCRTEXT_M="scan file name" SCRTEXT_L="scan station file name" DOMNAME3L="TEXT70" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+ <TABL TABNAME="ZVNDMS_IFLD" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" LANGDEP="X" DDTEXT="DMS: DMS document log" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="A" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNDMS_IFLD" AS4LOCAL="A" AS4VERS="0000" TABKAT="3" TABART="APPL1" SCHFELDANZ="000" BUFALLOW="N" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME=".INCLUDE" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ADMINFIELD="0" INTLEN="000000" PRECFIELD="ZVNDMS_IFLD_KEY" NOTNULL="X" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" LENG="000000" OUTPUTLEN="000000" DECIMALS="000000" MASK="      S" MASKLEN="0000" DDTEXT="DMS: DMS document log: key" DEPTH="00" COMPTYPE="S" GROUPNAME="_KEY" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="RDATE" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="DATUM" ADMINFIELD="1" INTTYPE="D" INTLEN="000016" NOTNULL="X" DOMNAME="DATUM" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="05" SCRLEN2="05" SCRLEN3="05" DTELMASTER="D" DATATYPE="DATS" LENG="000008" OUTPUTLEN="000010" DECIMALS="000000" MASK="  DATSE" MASKLEN="0000" DDTEXT="Date" SCRTEXT_S="Date" SCRTEXT_M="Date" SCRTEXT_L="Date" DOMNAME3L="DATUM" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="RTIME" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="UZEIT" ADMINFIELD="1" INTTYPE="T" INTLEN="000012" NOTNULL="X" DOMNAME="UZEIT" ROUTPUTLEN="000000" HEADLEN="08" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DATATYPE="TIMS" LENG="000006" OUTPUTLEN="000008" DECIMALS="000000" MASK="  TIMSE" MASKLEN="0000" DDTEXT="Time" REPTEXT="Time" SCRTEXT_S="Time" SCRTEXT_M="Time" SCRTEXT_L="Time" DOMNAME3L="UZEIT" SHLPORIGIN="T" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="AROBJ" DDLANGUAGE="E" POSITION="0005" KEYFLAG="X" ROLLNAME="SAEOBJART" CHECKTABLE="TOADV" ADMINFIELD="1" INTTYPE="C" INTLEN="000020" NOTNULL="X" DOMNAME="SADC10_DV" ROUTPUTLEN="000000" MEMORYID="DOK" HEADLEN="11" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOADV" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Doc. type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="SADC10_DV" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="ARDOC" DDLANGUAGE="E" POSITION="0006" KEYFLAG="X" ROLLNAME="SAEDOKTYP" CHECKTABLE="TOADD" ADMINFIELD="1" INTTYPE="C" INTLEN="000040" NOTNULL="X" DOMNAME="SADC20_DD" ROUTPUTLEN="000000" HEADLEN="20" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000020" OUTPUTLEN="000020" DECIMALS="000000" ENTITYTAB="TOADD" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Document class" REPTEXT="Document Class" SCRTEXT_S="Doc.class" SCRTEXT_M="Document Class" SCRTEXT_L="Document Class" DOMNAME3L="SADC20_DD" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_CLASS" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="ACREP" DDLANGUAGE="E" POSITION="0007" KEYFLAG="X" ROLLNAME="SAEARCHIVI" CHECKTABLE="TOAAR" ADMINFIELD="1" INTTYPE="C" INTLEN="000004" NOTNULL="X" DOMNAME="SADC2_AR" ROUTPUTLEN="000000" HEADLEN="21" SCRLEN1="10" SCRLEN2="12" SCRLEN3="15" DTELMASTER="D" DATATYPE="CHAR" LENG="000002" OUTPUTLEN="000002" DECIMALS="000000" ENTITYTAB="TOAAR" MASK="  CHARE" MASKLEN="0000" DDTEXT="Content Repository Identification" REPTEXT="Content Repository ID" SCRTEXT_S="Cont. Rep." SCRTEXT_M="Cont.Rep.ID" SCRTEXT_L="Content Rep. ID" DOMNAME3L="SADC2_AR" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="ARDID" DDLANGUAGE="E" POSITION="0008" KEYFLAG="X" ROLLNAME="SAEARDOID" ADMINFIELD="1" INTTYPE="C" INTLEN="000080" NOTNULL="X" DOMNAME="SADC40" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Document ID" SCRTEXT_S="Doc. ID" SCRTEXT_M="Doc. ID" SCRTEXT_L="Document ID" DOMNAME3L="SADC40" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOCID" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME=".INCLUDE" DDLANGUAGE="E" POSITION="0009" ADMINFIELD="0" INTLEN="000000" PRECFIELD="ZVNDMS_IFLD_STA" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" LENG="000000" OUTPUTLEN="000000" DECIMALS="000000" MASK="      S" MASKLEN="0000" DDTEXT="DMS: DMS document log: status" DEPTH="00" COMPTYPE="S" GROUPNAME="_STA" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="STUPL" DDLANGUAGE="E" POSITION="0010" ROLLNAME="ZVNDMS_STUPL" ADMINFIELD="1" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STUPL" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status upload" REPTEXT="status of upload of file to ArchiveLink" SCRTEXT_S="uplStatus" SCRTEXT_M="upload status" SCRTEXT_L="upload status" DOMNAME3L="ZVNDMS_STUPL" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="STDEL" DDLANGUAGE="E" POSITION="0011" ROLLNAME="ZVNDMS_STDEL" ADMINFIELD="1" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STDEL" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status of deletion of original file" REPTEXT="status of deletion of original file" SCRTEXT_S="delStatus" SCRTEXT_M="deletion status" SCRTEXT_L="deletion status" DOMNAME3L="ZVNDMS_STDEL" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="STLNK" DDLANGUAGE="E" POSITION="0012" ROLLNAME="ZVNDMS_STLNK" ADMINFIELD="1" INTTYPE="C" INTLEN="000002" DOMNAME="ZVNDMS_STLNK" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: status of linking ArchiveLink to Object" REPTEXT="status of linking ArchiveLink to Object" SCRTEXT_S="linkStatus" SCRTEXT_M="linkage status" SCRTEXT_L="linkage status" DOMNAME3L="ZVNDMS_STLNK" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="SOBID" DDLANGUAGE="E" POSITION="0013" ROLLNAME="SAEOBJID" ADMINFIELD="1" INTTYPE="C" INTLEN="000100" DOMNAME="SADC50" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000050" OUTPUTLEN="000050" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Object ID (object identifier)" SCRTEXT_S="Object ID" SCRTEXT_M="Object ID" SCRTEXT_L="SAP object ID" DOMNAME3L="SADC50" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="SOBTY" DDLANGUAGE="E" POSITION="0014" ROLLNAME="SAEANWDID" CHECKTABLE="TOJTB" ADMINFIELD="1" INTTYPE="C" INTLEN="000020" DOMNAME="OJ_NAME" ROUTPUTLEN="000000" MEMORYID="OAO" HEADLEN="13" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOJTB" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Object type of business object" REPTEXT="Object Type" SCRTEXT_S="Obj. Type" SCRTEXT_M="Object Type" SCRTEXT_L="Object Type" DOMMASTER="D" DOMNAME3L="OJ_NAME" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="SAP_OBJECT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME=".INCLUDE" DDLANGUAGE="E" POSITION="0015" ADMINFIELD="0" INTLEN="000000" PRECFIELD="ZVNDMS_IFLD_DAT" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" LENG="000000" OUTPUTLEN="000000" DECIMALS="000000" MASK="      S" MASKLEN="0000" DDTEXT="DMS: DMS document log: data" DEPTH="00" COMPTYPE="S" GROUPNAME="_DAT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="LFILE" DDLANGUAGE="E" POSITION="0016" ROLLNAME="FILEINTERN" ADMINFIELD="1" INTTYPE="C" INTLEN="000120" DOMNAME="FILEINTERN" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000060" OUTPUTLEN="000060" DECIMALS="000000" ENTITYTAB="FILENAMECI" MASK="  CHARE" MASKLEN="0000" DDTEXT="Logical file name" REPTEXT="Logical file" SCRTEXT_S="File" SCRTEXT_M="Log. File" SCRTEXT_L="Logical file" DOMMASTER="D" DOMNAME3L="FILEINTERN" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="FPATH" DDLANGUAGE="E" POSITION="0017" ROLLNAME="ZVNDMS_FPATH" ADMINFIELD="1" INTTYPE="C" INTLEN="000140" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" OUTPUTLEN="000070" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: scan station full path (dir+file)" REPTEXT="DMS scan station full path" SCRTEXT_S="full path" SCRTEXT_M="scan full path" SCRTEXT_L="scan station full path" DOMNAME3L="TEXT70" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="FNAME" DDLANGUAGE="E" POSITION="0018" ROLLNAME="ZVNDMS_FNAME" ADMINFIELD="1" INTTYPE="C" INTLEN="000140" DOMNAME="TEXT70" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="09" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000070" OUTPUTLEN="000070" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: file name" REPTEXT="DMS scan station file name" SCRTEXT_S="file name" SCRTEXT_M="scan file name" SCRTEXT_L="scan station file name" DOMNAME3L="TEXT70" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME=".INCLUDE" DDLANGUAGE="E" POSITION="0019" ADMINFIELD="0" INTLEN="000000" PRECFIELD="ZVNDMS_IFLD_MSG" ROUTPUTLEN="000000" HEADLEN="00" SCRLEN1="00" SCRLEN2="00" SCRLEN3="00" LENG="000000" OUTPUTLEN="000000" DECIMALS="000000" MASK="      S" MASKLEN="0000" DDTEXT="DMS: DMS document log: message" DEPTH="00" COMPTYPE="S" GROUPNAME="_MSG" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGID" DDLANGUAGE="E" POSITION="0020" ROLLNAME="SYMSGID" CHECKTABLE="T100A" ADMINFIELD="1" INTTYPE="C" INTLEN="000040" DOMNAME="ARBGB" ROUTPUTLEN="000000" HEADLEN="10" SCRLEN1="10" SCRLEN2="20" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000020" OUTPUTLEN="000020" DECIMALS="000000" ENTITYTAB="T100A" MASK="  CHARE" MASKLEN="0000" DDTEXT="Message Class" REPTEXT="Message ID" SCRTEXT_S="Message ID" SCRTEXT_M="Message Class" SCRTEXT_L="Message Class" DOMNAME3L="ARBGB" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="MESSAGE_ID" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGNO" DDLANGUAGE="E" POSITION="0021" ROLLNAME="SYMSGNO" ADMINFIELD="1" INTTYPE="N" INTLEN="000006" DOMNAME="SYMSGNO" ROUTPUTLEN="000000" HEADLEN="07" SCRLEN1="10" SCRLEN2="20" SCRLEN3="20" DTELMASTER="D" DATATYPE="NUMC" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" MASK="  NUMCE" MASKLEN="0000" DDTEXT="Message Number" REPTEXT="Msg.No." SCRTEXT_S="Number" SCRTEXT_M="Message Number" SCRTEXT_L="Message Number" DOMNAME3L="SYMSGNO" DEPTH="00" COMPTYPE="E" DEFFDNAME="MESSAGE_NUMBER" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGTY" DDLANGUAGE="E" POSITION="0022" ROLLNAME="SYMSGTY" ADMINFIELD="1" INTTYPE="C" INTLEN="000002" DOMNAME="SYCHAR01" ROUTPUTLEN="000000" HEADLEN="07" SCRLEN1="10" SCRLEN2="20" SCRLEN3="30" DTELMASTER="D" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Message Type" REPTEXT="Type" SCRTEXT_S="Msg. Type" SCRTEXT_M="Message Type" SCRTEXT_L="Message Type" DOMNAME3L="SYCHAR01" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGTX" DDLANGUAGE="E" POSITION="0023" ROLLNAME="ZVNDMS_MSGTX220" ADMINFIELD="1" INTTYPE="C" INTLEN="000440" DOMNAME="ZVNDMS_MSGTX220" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000220" OUTPUTLEN="000220" DECIMALS="000000" LOWERCASE="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="DMS: message text 220 case-sensitive" REPTEXT="message text" SCRTEXT_S="message" SCRTEXT_M="message text" SCRTEXT_L="message text" DOMNAME3L="ZVNDMS_MSGTX220" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="ACREP" FORTABLE="ZVNDMS_IFLD" FORKEY="ACREP" CHECKTABLE="TOAAR" CHECKFIELD="ARCHIV_ID" PRIMPOS="0001" DOMNAME="SADC2_AR" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="ARDOC" FORTABLE="ZVNDMS_IFLD" FORKEY="ARDOC" CHECKTABLE="TOADD" CHECKFIELD="DOC_TYPE" PRIMPOS="0001" DOMNAME="SADC20_DD" DATATYPE="CHAR" LENG="000020"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="AROBJ" FORTABLE="SYST" FORKEY="MANDT" CHECKTABLE="TOADV" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="AROBJ" FORTABLE="ZVNDMS_IFLD" FORKEY="AROBJ" CHECKTABLE="TOADV" CHECKFIELD="AR_OBJECT" PRIMPOS="0002" DOMNAME="SADC10_DV" DATATYPE="CHAR" LENG="000010"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="MANDT" FORTABLE="ZVNDMS_IFLD" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGID" FORTABLE="ZVNDMS_IFLD" FORKEY="MSGID" CHECKTABLE="T100A" CHECKFIELD="ARBGB" PRIMPOS="0001" DOMNAME="ARBGB" DATATYPE="CHAR" LENG="000020"/>
+  <dd05m TABNAME="ZVNDMS_IFLD" FIELDNAME="SOBTY" FORTABLE="ZVNDMS_IFLD" FORKEY="SOBTY" CHECKTABLE="TOJTB" CHECKFIELD="NAME" PRIMPOS="0001" DOMNAME="OJ_NAME" DATATYPE="CHAR" LENG="000010"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="ACREP" DDLANGUAGE="E" CHECKTABLE="TOAAR" FRKART="KEY" CARD="CN" NOINHERIT="N" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="ARDOC" DDLANGUAGE="E" CHECKTABLE="TOADD" FRKART="KEY" CARD="CN" NOINHERIT="N" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="AROBJ" DDLANGUAGE="E" CHECKTABLE="TOADV" FRKART="KEY" CARD="CN" NOINHERIT="N" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="MSGID" DDLANGUAGE="E" CHECKTABLE="T100A" FRKART="REF" CARD="CN" NOINHERIT="N" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_IFLD" FIELDNAME="SOBTY" DDLANGUAGE="E" CHECKTABLE="TOJTB" FRKART="REF" CARD="CN" NOINHERIT="N" CARDLEFT="1"/>
+ </TABL>
+ <TABL TABNAME="ZVNDMS_C000" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="DMS: DMS configuration (logical file, shared folder)" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNDMS_C000" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNDMS_C000" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" CHECKTABLE="T000" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_C000" FIELDNAME="LFILE" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="FILEINTERN" CHECKTABLE="FILENAMECI" ADMINFIELD="0" INTTYPE="C" INTLEN="000120" NOTNULL="X" DOMNAME="FILEINTERN" ROUTPUTLEN="000000" HEADLEN="55" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000060" OUTPUTLEN="000060" DECIMALS="000000" ENTITYTAB="FILENAMECI" MASK="  CHARE" MASKLEN="0000" DDTEXT="Logical file name" REPTEXT="Logical file" SCRTEXT_S="File" SCRTEXT_M="Log. File" SCRTEXT_L="Logical file" DOMMASTER="D" DOMNAME3L="FILEINTERN" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_C000" FIELDNAME="AROBJ" DDLANGUAGE="E" POSITION="0003" ROLLNAME="SAEOBJART" CHECKTABLE="TOADV" ADMINFIELD="0" INTTYPE="C" INTLEN="000020" DOMNAME="SADC10_DV" ROUTPUTLEN="000000" MEMORYID="DOK" HEADLEN="11" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOADV" MASK="  CHARE" MASKLEN="0000" DDTEXT="Document type" REPTEXT="Doc. Type" SCRTEXT_S="Doc. type" SCRTEXT_M="Document type" SCRTEXT_L="Document type" DOMNAME3L="SADC10_DV" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" DDLANGUAGE="E" POSITION="0004" ROLLNAME="SAEANWDID" CHECKTABLE="TOAOM" ADMINFIELD="0" INTTYPE="C" INTLEN="000020" DOMNAME="OJ_NAME" ROUTPUTLEN="000000" MEMORYID="OAO" HEADLEN="13" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000010" OUTPUTLEN="000010" DECIMALS="000000" ENTITYTAB="TOJTB" MASK="  CHARE" MASKLEN="0000" DDTEXT="SAP ArchiveLink: Object type of business object" REPTEXT="Object Type" SCRTEXT_S="Obj. Type" SCRTEXT_M="Object Type" SCRTEXT_L="Object Type" DOMMASTER="D" DOMNAME3L="OJ_NAME" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="SAP_OBJECT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="AROBJ" FORTABLE="ZVNDMS_C000" FORKEY="MANDT" CHECKTABLE="TOADV" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="AROBJ" FORTABLE="ZVNDMS_C000" FORKEY="AROBJ" CHECKTABLE="TOADV" CHECKFIELD="AR_OBJECT" PRIMPOS="0002" DOMNAME="SADC10_DV" DATATYPE="CHAR" LENG="000010"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="LFILE" FORTABLE="ZVNDMS_C000" FORKEY="LFILE" CHECKTABLE="FILENAMECI" CHECKFIELD="FILEINTERN" PRIMPOS="0001" DOMNAME="FILEINTERN" DATATYPE="CHAR" LENG="000060"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="MANDT" FORTABLE="ZVNDMS_C000" FORKEY="MANDT" CHECKTABLE="T000" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" FORTABLE="ZVNDMS_C000" FORKEY="MANDT" CHECKTABLE="TOAOM" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" FORTABLE="ZVNDMS_C000" FORKEY="SPOBJ" CHECKTABLE="TOAOM" CHECKFIELD="SAP_OBJECT" PRIMPOS="0002" DOMNAME="OJ_NAME" DATATYPE="CHAR" LENG="000010"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" FORTABLE="ZVNDMS_C000" FORKEY="AROBJ" CHECKTABLE="TOAOM" CHECKFIELD="AR_OBJECT" PRIMPOS="0003" DOMNAME="SADC10_DV" DATATYPE="CHAR" LENG="000010"/>
+  <dd05m TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" FORTABLE="&apos;X&apos;" CHECKTABLE="TOAOM" CHECKFIELD="AR_STATUS" PRIMPOS="0004" DOMNAME="SADARSTAT" DATATYPE="CHAR" LENG="000001"/>
+  <dd08v TABNAME="ZVNDMS_C000" FIELDNAME="AROBJ" DDLANGUAGE="E" CHECKTABLE="TOADV" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_C000" FIELDNAME="LFILE" DDLANGUAGE="E" CHECKTABLE="FILENAMECI" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_C000" FIELDNAME="MANDT" DDLANGUAGE="E" CHECKTABLE="T000" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNDMS_C000" FIELDNAME="SPOBJ" DDLANGUAGE="E" CHECKTABLE="TOAOM" FRKART="REF" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TRAN TCODE="Y_SDV_77000005" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+ <TRAN TCODE="ZVNDMS_CONF" DYPNO="0000" TCODE_CALL="SM34" TYPE="P" SKIP_SCREEN="X" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="DMS: Configuration">
+  <params FIELD="VCLDIR-VCLNAME" VALUE="ZVNDMS_CONF"/>
+  <params FIELD="SHOW" VALUE="X"/>
+ </TRAN>
+ <TRAN TCODE="ZVNDMS_IFLD" DYPNO="0000" TCODE_CALL="SM30" TYPE="P" SKIP_SCREEN="X" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="DMS: DMS interface log">
+  <params FIELD="VIEWNAME" VALUE="ZVNDMS_IFLD"/>
+  <params FIELD="SHOW_LTD" VALUE="X"/>
+ </TRAN>
+ <TRAN TCODE="ZVNDMS_IFMD" PGMNA="ZVNDMS_IFMD" DYPNO="1000" TYPE="R" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="DMS: DMS Document monitor"/>
+ <TRAN TCODE="ZVNDMS_IFPD" PGMNA="ZVNDMS_IFPD" DYPNO="1000" TYPE="R" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E" TTEXT="DMS: DMS Document processing"/>
+ <TTYP TYPENAME="ZVNDMS_EPSFILI_T" DDLANGUAGE="E" ROWTYPE="EPSFILI" ROWKIND="S" DATATYPE="STRU" LENG="000000" DECIMALS="000000" ACCESSMODE="T" KEYDEF="D" KEYKIND="N" KEYFDCOUNT="0000" DDTEXT="DMS: EPSFILI List of Files (tty)" TYPELEN="000092" CTLENG="000000" CTDECIMALS="000000" OCCURS="00000"/>
+ <TTYP TYPENAME="ZVNDMS_IFLD_KEY_T" DDLANGUAGE="E" ROWTYPE="ZVNDMS_IFLD_KEY" ROWKIND="S" DATATYPE="STRU" LENG="000000" DECIMALS="000000" ACCESSMODE="T" KEYDEF="D" KEYKIND="N" KEYFDCOUNT="0000" DDTEXT="DMS: DMS document log: key (tty)" TYPELEN="000172" CTLENG="000000" CTDECIMALS="000000" OCCURS="00000"/>
+ <TTYP TYPENAME="ZVNDMS_IFLD_T" DDLANGUAGE="E" ROWTYPE="ZVNDMS_IFLD" ROWKIND="S" DATATYPE="STRU" LENG="000000" DECIMALS="000000" ACCESSMODE="T" KEYDEF="D" KEYKIND="N" KEYFDCOUNT="0000" DDTEXT="DMS: DMS document log (tty)" TYPELEN="001192" CTLENG="000000" CTDECIMALS="000000" OCCURS="00000"/>
+</nugget>

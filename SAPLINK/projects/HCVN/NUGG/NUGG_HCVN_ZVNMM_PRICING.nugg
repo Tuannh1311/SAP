@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNMM_PRICING">
+ <CLAS CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" VERSION="1" LANGU="E" DESCRIPT="Class for BAdI Implementation ZVNMM_MEOUT_BAPI_CUST" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <implementing CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" REFCLSNAME="IF_EX_MEOUT_BAPI_CUST" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~DETERMINE_GROSS_COND_TYPE">
+   <source>METHOD if_ex_meout_bapi_cust~determine_gross_cond_type.
+
+    &quot;2020-09 HQ_TTA: multi gross-conds in OAgr, one has to be determined
+    FIELD-SYMBOLS: &lt;header&gt; TYPE bapimeoutheader.
+
+
+    ASSIGN (&apos;(SAPL2014)ZZVNMM_HEADER&apos;) TO &lt;header&gt;. &quot;set by impl-enha in BAPI_CONTRACT_CREATE
+    CHECK &lt;header&gt; IS ASSIGNED.
+
+    &quot;as per customizing: get default condition
+    SELECT SINGLE * FROM zvnmm_xcond_c000 INTO @DATA(ls_c000) WHERE bstyp = &apos;K&apos;
+                                                                AND bsart = @&lt;header&gt;-doc_type
+                                                                AND xdflt = &apos;X&apos;.                &quot;XDFLT= default
+    IF sy-subrc = 0.
+      cv_kschl = ls_c000-kschl.
+    ENDIF.
+
+
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~HANDLE_EXT_REF">
+   <source>method IF_EX_MEOUT_BAPI_CUST~HANDLE_EXT_REF.
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~INBOUND">
+   <source>method IF_EX_MEOUT_BAPI_CUST~INBOUND.
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~MAP2E_DATA">
+   <source>method IF_EX_MEOUT_BAPI_CUST~MAP2E_DATA.
+  endmethod.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~MAP2E_EXTENSIONOUT">
+   <source>METHOD if_ex_meout_bapi_cust~map2e_extensionout.
+
+    CASE im_name.
+      WHEN &apos;CI_EKKODB&apos;. MOVE: im_struc TO ch_container.
+
+      WHEN OTHERS.
+        &quot;MOVE: im_struc TO ch_container.
+    ENDCASE.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~MAP2I_DATA">
+   <source>METHOD if_ex_meout_bapi_cust~map2i_data.
+
+    &quot;this is weird, for CI_EKKO data it shouldn&apos;t be neccessary.. but it seems it is
+
+    LOOP AT it_parex ASSIGNING FIELD-SYMBOL(&lt;parex&gt;).
+      CASE &lt;parex&gt;-structure.
+        WHEN &apos;BAPI_TE_MEPOHEADER&apos;.
+          DATA: ls_mepoheader TYPE bapi_te_mepoheader.
+          MOVE: &lt;parex&gt;-valuepart1 TO ls_mepoheader.
+          MOVE-CORRESPONDING: ls_mepoheader TO cs_head.
+        WHEN &apos;BAPI_TE_MEPOHEADERX&apos;.
+          DATA: ls_mepoheaderx TYPE bapi_te_mepoheaderx.
+          MOVE: &lt;parex&gt;-valuepart1 TO ls_mepoheaderx.
+          MOVE-CORRESPONDING: ls_mepoheaderx TO cs_headx.
+
+      ENDCASE.
+
+    ENDLOOP.
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~MAP2I_EXTENSIONIN">
+   <source>METHOD if_ex_meout_bapi_cust~map2i_extensionin.
+
+    &quot;
+    CASE im_name.
+      WHEN &apos;CI_EKKODB&apos;. MOVE: im_container   TO ch_struc.
+
+      WHEN OTHERS.
+        &quot;MOVE: im_container   TO ch_struc.
+    ENDCASE.
+
+
+  ENDMETHOD.</source>
+  </interfaceMethod>
+  <interfaceMethod CLSNAME="ZCL_VNMM_MEOUT_BAPI_CUST" CPDNAME="IF_EX_MEOUT_BAPI_CUST~OUTBOUND">
+   <source>method IF_EX_MEOUT_BAPI_CUST~OUTBOUND.
+  endmethod.</source>
+  </interfaceMethod>
+ </CLAS>
+ <DEVC DEVCLASS="ZVNMM_PRICING" CTEXT="MM: Pricing &amp; Conditions" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="MM-PUR" COMPONENT="HLA0009512" NAMESPACE="/0CUST/" PARENTCL="ZVNMM" CREATED_BY="HQ_TTA" CREATED_ON="20200713" CHANGED_BY="HQ_TTA" CHANGED_ON="20200718" PROJECT_GUID="00000000000000000000000000000000"/>
+ <DTEL ROLLNAME="ZVNMM_XCOND_XCOND" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="MM: exclude Price Condition" REPTEXT="exclude Price Condition" SCRTEXT_S="exclude" SCRTEXT_M="exclude" SCRTEXT_L="exclude" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_XCOND_XCOND" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DDTEXT="MM: exclude Price Condition" REPTEXT="exclude Price Condition" SCRTEXT_S="exclude" SCRTEXT_M="exclude" SCRTEXT_L="exclude" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <DTEL ROLLNAME="ZVNMM_XCOND_XDFLT" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: default Price Condition (for SMR ifc)" REPTEXT="default Price Condition (for SMR ifc)" SCRTEXT_S="default" SCRTEXT_M="default" SCRTEXT_L="default Price Condition" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D" MultiLanguageSupport="X">
+  <tpara/>
+  <DDLANGUAGE LANGU="E">
+   <DD04V ROLLNAME="ZVNMM_XCOND_XDFLT" DDLANGUAGE="E" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DDTEXT="MM: default Price Condition (for SMR ifc)" REPTEXT="default Price Condition (for SMR ifc)" SCRTEXT_S="default" SCRTEXT_M="default" SCRTEXT_L="default Price Condition" AUTHCLASS="00" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" DECIMALS="000000" OUTPUTLEN="000001" VALEXI="X" REFKIND="D"/>
+  </DDLANGUAGE>
+ </DTEL>
+ <ENHO enhancement_id="ZVNMM_MEOUT_BAPI_CUST" shorttext="BAdI MEOUT_BAPI_CUST (multi cond-types in oagr, note 1925290)" tooltype_id="BADI_IMPL" spot_name="ES_BADI_ME_BAPI">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS>
+     <ENH_BADI_IMPL_DATA>
+      <SPOT_NAME>ES_BADI_ME_BAPI</SPOT_NAME>
+      <BADI_NAME>MEOUT_BAPI_CUST</BADI_NAME>
+      <IMPL_NAME>ZVNMM_MEOUT_BAPI_CUST</IMPL_NAME>
+      <IMPL_CLASS>ZCL_VNMM_MEOUT_BAPI_CUST</IMPL_CLASS>
+      <ACTIVE>X</ACTIVE>
+      <IS_DEFAULT/>
+      <FILTER_ROOT/>
+      <FILTER_TREE/>
+      <FILTER_VALUES/>
+      <FILTERS/>
+      <FCODE_EXTENSIONS/>
+      <SCREEN_EXTENSIONS/>
+      <IMPL_SHORTTEXT>BAdI MEOUT_BAPI_CUST multi price-conds in oagr (note 1925290)</IMPL_SHORTTEXT>
+      <IMPL_SHORTTEXT_ID>0050569B84631EEABDEF75CCA86A3602</IMPL_SHORTTEXT_ID>
+      <IMPL_LONGTEXT_ID/>
+      <MIG_BADI_IMPL/>
+      <SORTER_DATA/>
+      <IS_EXAMPLE_IMPLEMENTATION/>
+      <LOCKED_IN_CUSTOMIZING/>
+     </ENH_BADI_IMPL_DATA>
+    </IMPLS>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <ENHO enhancement_id="ZVNMM_MEOUT_BAPI_CUST_GDAT" shorttext="globals for BAPI_CONTRACT_CREATE" tooltype_id="HOOK_IMPL" orig_object="R3TR-2014-FUGR-SAPL2014">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS>
+     <ENH_HOOK_IMPL>
+      <SPOTNAME/>
+      <PROGRAMNAME>SAPL2014</PROGRAMNAME>
+      <EXTID>1</EXTID>
+      <ID>1</ID>
+      <OVERWRITE/>
+      <METHOD/>
+      <ENHMODE>S</ENHMODE>
+      <FULL_NAME>\PR:SAPL2014\IC:L2014TOP\SE:END\EI</FULL_NAME>
+      <SOURCE>
+       <item>*</item>
+       <item>data: zzvnmm_HEADER type BAPIMEOUTHEADER.</item>
+      </SOURCE>
+      <PARENT_FULL_NAME/>
+     </ENH_HOOK_IMPL>
+     <ENH_HOOK_IMPL>
+      <SPOTNAME/>
+      <PROGRAMNAME>SAPL2014</PROGRAMNAME>
+      <EXTID>2</EXTID>
+      <ID>2</ID>
+      <OVERWRITE/>
+      <METHOD/>
+      <ENHMODE>D</ENHMODE>
+      <FULL_NAME>\FU:BAPI_CONTRACT_CREATE\SE:BEGIN\EI</FULL_NAME>
+      <SOURCE>
+       <item>*</item>
+       <item>move: HEADER to zzvnmm_HEADER. &quot;(share to global, for access from BAdI MEOUT_BAPI_CUST)</item>
+      </SOURCE>
+      <PARENT_FULL_NAME/>
+     </ENH_HOOK_IMPL>
+     <ENH_HOOK_IMPL>
+      <SPOTNAME/>
+      <PROGRAMNAME>SAPL2014</PROGRAMNAME>
+      <EXTID>3</EXTID>
+      <ID>3</ID>
+      <OVERWRITE/>
+      <METHOD/>
+      <ENHMODE>D</ENHMODE>
+      <FULL_NAME>\FU:BAPI_CONTRACT_CHANGE\SE:BEGIN\EI</FULL_NAME>
+      <SOURCE>
+       <item>*</item>
+       <item>move: HEADER to zzvnmm_HEADER. &quot;(share to global, for access from BAdI MEOUT_BAPI_CUST)</item>
+      </SOURCE>
+      <PARENT_FULL_NAME/>
+     </ENH_HOOK_IMPL>
+    </IMPLS>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <ENHO enhancement_id="ZVNMM_VENDOR_EXTENTION_INIT" shorttext="BAdI MEOUT_BAPI_CUST (multi cond-types in oagr, note 1925290)" tooltype_id="BADI_IMPL" spot_name="ES_BADI_ME_BAPI">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS/>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <ENHO enhancement_id="ZVNMM_GET_GROSS_CONDITION" shorttext="VNMM: selection of Gross Condition" tooltype_id="HOOK_IMPL" orig_object="R3TR-MEKO-FUGR-SAPLMEKO">
+  <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+   <asx:values>
+    <IMPLS>
+     <ENH_HOOK_IMPL>
+      <SPOTNAME>ES_PRICING_RESULT</SPOTNAME>
+      <PROGRAMNAME>SAPLMEKO</PROGRAMNAME>
+      <EXTID>1</EXTID>
+      <ID>1</ID>
+      <OVERWRITE/>
+      <METHOD/>
+      <ENHMODE>D</ENHMODE>
+      <FULL_NAME>\PR:SAPLMEKO\EX:GET_GROSS_CONDITION\EI</FULL_NAME>
+      <SOURCE>
+       <item>*&amp; DEV_MM_92(HQ_TTA) &quot;Purchase Contract: Condition per Document Type&quot;</item>
+       <item>*&amp;   context:</item>
+       <item>*&amp;            two types of conditions are used in Outline Agreement..</item>
+       <item>*&amp;            ..standard PB00 &amp; custom ZPGB with gradual scaling;</item>
+       <item>*&amp;   feature:</item>
+       <item>*&amp;            select specific Condition Type per Document Type</item>
+       <item>*&amp;            (bypass pop-up window)</item>
+       <item/>
+       <item>&quot;get PurDoc header</item>
+       <item>FIELD-SYMBOLS: &lt;ekko&gt; type ekko.</item>
+       <item>ASSIGN (&apos;(SAPMM06E)EKKO&apos;) TO &lt;ekko&gt;. &quot;for dialog proicessing</item>
+       <item>IF sy-subrc ne 0.</item>
+       <item>ASSIGN (&apos;(SAPLMEKO)EKKO&apos;) TO &lt;ekko&gt;. &quot;for function/bapi</item>
+       <item>ENDIF.</item>
+       <item>IF &lt;ekko&gt; is ASSIGNED.</item>
+       <item/>
+       <item>&quot;get customizing per PurDoc Cat/Type</item>
+       <item>DATA: lt_c000 TYPE TABLE OF zvnmm_xcond_c000.</item>
+       <item>SELECT * FROM zvnmm_xcond_c000 INTO TABLE lt_c000 WHERE bstyp = &lt;ekko&gt;-bstyp</item>
+       <item>AND bsart = &lt;ekko&gt;-bsart</item>
+       <item>AND xexcl = &apos;X&apos;.          &quot;XEXCL= excluded</item>
+       <item/>
+       <item>&quot;per each selected condition..</item>
+       <item>LOOP AT i_t685 ASSIGNING FIELD-SYMBOL(&lt;t685&gt;).</item>
+       <item/>
+       <item>&quot;..check if exclusion is customized</item>
+       <item>READ TABLE lt_c000 WITH KEY bstyp = &lt;ekko&gt;-bstyp</item>
+       <item>bsart = &lt;ekko&gt;-bsart</item>
+       <item>kschl = &lt;t685&gt;-kschl</item>
+       <item>xexcl = &apos;X&apos;          TRANSPORTING NO FIELDS.</item>
+       <item>IF sy-subrc = 0.</item>
+       <item>&quot;..if so, remove record</item>
+       <item>CLEAR &lt;t685&gt;.</item>
+       <item>ENDIF.</item>
+       <item>ENDLOOP.</item>
+       <item>&quot;(delete deleted)</item>
+       <item>DELETE i_t685 WHERE kschl IS INITIAL.</item>
+       <item/>
+       <item>ENDIF.</item>
+       <item/>
+       <item/>
+       <item/>
+      </SOURCE>
+      <PARENT_FULL_NAME/>
+     </ENH_HOOK_IMPL>
+    </IMPLS>
+   </asx:values>
+  </asx:abap>
+ </ENHO>
+ <SOTR PACKET="ZVNMM_PRICING">
+  <SOTR_HEAD CONCEPT="0050569B84631EEAB19FF05DB7C92D1E" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEAB19FF05DB7C92D1E" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="051" TEXT="VNMM: selection of Gross Condition"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEF65E52CDE35D9" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEF65E52CDE35D9" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="092" TEXT="BAdI MEOUT_BAPI_CUST (multi cond-types in oagr, note 1925290)"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEF6ACFE768F5FD" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEF6ACFE768F5FD" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="092" TEXT="BAdI MEOUT_BAPI_CUST multi price-conds in oagr (note 1925290)"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEF70772D14F600" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEF70772D14F600" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="092" TEXT="BAdI MEOUT_BAPI_CUST (multi cond-types in oagr, note 1925290)"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEF712C4C919600" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEF712C4C919600" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="092" TEXT="BAdI MEOUT_BAPI_CUST multi price-conds in oagr (note 1925290)"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEF75CCA86A3602" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEF75CCA86A3602" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="092" TEXT="BAdI MEOUT_BAPI_CUST multi price-conds in oagr (note 1925290)"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEFB1097095B67E" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00008000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEFB1097095B67E" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="062" TEXT="BAdI MEOUT_BAPI_CUST, multi price in OAgr"/>
+  </SOTR_HEAD>
+  <SOTR_HEAD CONCEPT="0050569B84631EEABDEFB3311BF9F681" PAKET="ZVNMM_PRICING" CREA_LAN="E" TRALA_TYPE="1" LST_IMPORT="00000000" TRALA_VEC="00000000000000000000" CATGY_VEC="00000000000000000000" OBJID_VEC="00020000000000000000">
+   <SOTR_TEXT CONCEPT="0050569B84631EEABDEFB3311BF9F681" LANGU="E" LFD_NUM="0001" FLAG_CNTXT="X" STATUS="R" VERSION="0002" LENGTH="048" TEXT="globals for BAPI_CONTRACT_CREATE"/>
+  </SOTR_HEAD>
+ </SOTR>
+ <TABL TABNAME="ZVNMM_XCOND_C000" DDLANGUAGE="E" TABCLASS="TRANSP" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" CLIDEP="X" DDTEXT="HCVN: selection of Gross Price condition per Document Type" AUTHCLASS="00" MAINFLAG="X" CONTFLAG="C" PROZPUFF="000" EXCLASS="3">
+  <dd09l TABNAME="ZVNMM_XCOND_C000" AS4LOCAL="A" AS4VERS="0000" TABKAT="0" TABART="APPL2" PUFFERUNG="X" SCHFELDANZ="000" PROTOKOLL="X" BUFALLOW="X" ROWORCOLST="C"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="MANDT" DDLANGUAGE="E" POSITION="0001" KEYFLAG="X" ROLLNAME="MANDT" ADMINFIELD="0" INTTYPE="C" INTLEN="000006" NOTNULL="X" DOMNAME="MANDT" ROUTPUTLEN="000000" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CLNT" LENG="000003" OUTPUTLEN="000003" DECIMALS="000000" ENTITYTAB="T000" MASK="  CLNTE" MASKLEN="0000" DDTEXT="Client" REPTEXT="Cl." SCRTEXT_S="Client" SCRTEXT_M="Client" SCRTEXT_L="Client" DOMNAME3L="MANDT" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSTYP" DDLANGUAGE="E" POSITION="0002" KEYFLAG="X" ROLLNAME="BSTYP" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" NOTNULL="X" DOMNAME="BSTYP" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="03" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="Purchasing Document Category" REPTEXT="Cat" SCRTEXT_S="Doc. Cat." SCRTEXT_M="Doc. Category" SCRTEXT_L="Purch. Doc. Category" DOMMASTER="D" DOMNAME3L="BSTYP" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" DEFFDNAME="DOC_CAT" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSART" DDLANGUAGE="E" POSITION="0003" KEYFLAG="X" ROLLNAME="BSART" CHECKTABLE="T161" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="BSART" ROUTPUTLEN="000000" MEMORYID="BSA" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T161" MASK="  CHARE" MASKLEN="0000" DDTEXT="Order Type (Purchasing)" REPTEXT="OTyp" SCRTEXT_S="Order Type" SCRTEXT_M="Order Type" SCRTEXT_L="Order Type" DOMNAME3L="BSART" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="PO_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" DDLANGUAGE="E" POSITION="0004" KEYFLAG="X" ROLLNAME="KSCHL" CHECKTABLE="T685" ADMINFIELD="0" INTTYPE="C" INTLEN="000008" NOTNULL="X" DOMNAME="KSCHL" ROUTPUTLEN="000000" MEMORYID="VKS" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000004" OUTPUTLEN="000004" DECIMALS="000000" ENTITYTAB="T685" MASK="  CHARE" MASKLEN="0000" DDTEXT="Condition type" REPTEXT="CTyp" SCRTEXT_S="Cond.type" SCRTEXT_M="Condition type" SCRTEXT_L="Condition type" DOMNAME3L="KSCHL" SHLPORIGIN="P" DEPTH="00" COMPTYPE="E" DEFFDNAME="COND_TYPE" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="XEXCL" DDLANGUAGE="E" POSITION="0005" ROLLNAME="ZVNMM_XCOND_XCOND" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="10" SCRLEN3="10" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: exclude Price Condition" REPTEXT="exclude Price Condition" SCRTEXT_S="exclude" SCRTEXT_M="exclude" SCRTEXT_L="exclude" DOMNAME3L="XFELD" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZVNMM_XCOND_C000" FIELDNAME="XDFLT" DDLANGUAGE="E" POSITION="0006" ROLLNAME="ZVNMM_XCOND_XDFLT" ADMINFIELD="0" INTTYPE="C" INTLEN="000002" DOMNAME="XFELD" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="55" SCRLEN1="10" SCRLEN2="20" SCRLEN3="40" DTELMASTER="E" DATATYPE="CHAR" LENG="000001" OUTPUTLEN="000001" DECIMALS="000000" VALEXI="X" MASK="  CHARE" MASKLEN="0000" DDTEXT="MM: default Price Condition (for SMR ifc)" REPTEXT="default Price Condition (for SMR ifc)" SCRTEXT_S="default" SCRTEXT_M="default" SCRTEXT_L="default Price Condition" DOMNAME3L="XFELD" SHLPORIGIN="F" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSART" FORTABLE="ZVNMM_XCOND_C000" FORKEY="MANDT" CHECKTABLE="T161" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSART" FORTABLE="ZVNMM_XCOND_C000" FORKEY="BSTYP" CHECKTABLE="T161" CHECKFIELD="BSTYP" PRIMPOS="0002" DOMNAME="BSTYP" DATATYPE="CHAR" LENG="000001"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSART" FORTABLE="ZVNMM_XCOND_C000" FORKEY="BSART" CHECKTABLE="T161" CHECKFIELD="BSART" PRIMPOS="0003" DOMNAME="BSART" DATATYPE="CHAR" LENG="000004"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" FORTABLE="ZVNMM_XCOND_C000" FORKEY="MANDT" CHECKTABLE="T685" CHECKFIELD="MANDT" PRIMPOS="0001" DOMNAME="MANDT" DATATYPE="CLNT" LENG="000003"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" FORTABLE="&apos;A&apos;" CHECKTABLE="T685" CHECKFIELD="KVEWE" PRIMPOS="0002" DOMNAME="KVEWE" DATATYPE="CHAR" LENG="000001"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" FORTABLE="&apos;M&apos;" CHECKTABLE="T685" CHECKFIELD="KAPPL" PRIMPOS="0003" DOMNAME="KAPPL" DATATYPE="CHAR" LENG="000002"/>
+  <dd05m TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" FORTABLE="ZVNMM_XCOND_C000" FORKEY="KSCHL" CHECKTABLE="T685" CHECKFIELD="KSCHL" PRIMPOS="0004" DOMNAME="KSCHL" DATATYPE="CHAR" LENG="000004"/>
+  <dd08v TABNAME="ZVNMM_XCOND_C000" FIELDNAME="BSART" DDLANGUAGE="E" CHECKTABLE="T161" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+  <dd08v TABNAME="ZVNMM_XCOND_C000" FIELDNAME="KSCHL" DDLANGUAGE="E" CHECKTABLE="T685" FRKART="KEY" CARD="CN" CARDLEFT="1"/>
+ </TABL>
+ <TRAN TCODE="Y_SDV_77000001" PGMNA="SAPLS_CUS_IMG_ACTIVITY" DYPNO="0200" TYPE="D" S_WEBGUI="1" S_WIN32="X" S_PLATIN="X" MASTERLANG="E"/>
+</nugget>

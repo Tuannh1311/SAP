@@ -1,0 +1,1899 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZABAP_UTIL">
+ <CLAS CLSNAME="ZCL_ABAP_UTIL" VERSION="1" LANGU="E" DESCRIPT="ABAP Util Class" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <method CLSNAME="ZCL_ABAP_UTIL" CMPNAME="WEB_REPOS_TEMPL_DOWNLOAD" VERSION="1" LANGU="E" DESCRIPT="Download template from Web Repository" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_ABAP_UTIL" CMPNAME="WEB_REPOS_TEMPL_DOWNLOAD" SCONAME="IV_OBJID" VERSION="1" LANGU="E" DESCRIPT="SAP WWW Gateway Object Name" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="WWWDATA-OBJID"/>
+   <parameter CLSNAME="ZCL_ABAP_UTIL" CMPNAME="WEB_REPOS_TEMPL_DOWNLOAD" SCONAME="IV_FILE_NAME" VERSION="1" LANGU="E" DESCRIPT="Default File Name" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCL_ABAP_UTIL" CMPNAME="WEB_REPOS_TEMPL_DOWNLOAD" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method web_repos_templ_download.
+    DATA: l_filename    TYPE string,
+          l_path        TYPE string,
+          l_fullpath    TYPE string,
+          l_file        TYPE localfile,
+          l_destination TYPE rlgrap-filename,
+          l_rc          TYPE sy-subrc.
+
+    CALL METHOD cl_gui_frontend_services=&gt;file_save_dialog
+      EXPORTING
+        window_title      = &apos;Download template&apos;
+        default_extension = &apos;XLSX&apos;
+        default_file_name = iv_file_name
+*        file_filter       = &apos;XLS&apos;
+      CHANGING
+        filename          = l_filename
+        path              = l_path
+        fullpath          = l_fullpath
+      EXCEPTIONS
+        cntl_error        = 1
+        error_no_gui      = 2
+        OTHERS            = 3.
+    IF sy-subrc &lt;&gt; 0.
+      zcx_generic_exception=&gt;raise( i_message = &apos;Download Failed&apos; ).
+    ENDIF.
+
+    IF l_fullpath IS INITIAL.
+      RETURN.
+    ENDIF.
+
+    l_file = l_fullpath.
+    l_rc = cl_epic_cb_smpl_ui_utility=&gt;download_file( iv_objid = iv_objid iv_file_path = l_file ).
+
+    IF l_rc NE 0.
+      zcx_generic_exception=&gt;raise( i_message = &apos;Download Failed&apos; ).
+    ENDIF.
+  endmethod.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCL_LOG" VERSION="1" LANGU="E" DESCRIPT="Application Log Framework" CATEGORY="00" EXPOSURE="2" STATE="1" RELEASE="0" CLSFINAL="X" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk">
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <typeUsage CLSNAME="ZCL_LOG" TYPEGROUP="ABAP" VERSION="1" TPUTYPE="0" EXPLICIT="X" IMPLICIT="X"/>
+  <forwardDeclaration>ABAP</forwardDeclaration>
+  <attribute CLSNAME="ZCL_LOG" CMPNAME="MS_LOG" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BAL_S_LOG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_LOG" CMPNAME="MS_MSG" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BAL_S_MSG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_LOG" CMPNAME="MT_MSG" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="4 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BAL_T_MSG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCL_LOG" CMPNAME="M_LOG_HANDLE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BALLOGHNDL" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <method CLSNAME="ZCL_LOG" CMPNAME="ADD_STRING_MESSAGE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="9 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="ADD_STRING_MESSAGE" SCONAME="I_MESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="STRING"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="ADD_STRING_MESSAGE" SCONAME="I_TYPE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="SY-MSGTY"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="ADD_STRING_MESSAGE" SCONAME="I_CUMULATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLE_D" PARVALUE="ABAP_TRUE"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="ADD_STRING_MESSAGE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD add_string_message.
+  TYPES: BEGIN OF ty_message_variables,
+         message_v1 TYPE bapiret2-message_v1,
+         message_v2 TYPE bapiret2-message_v2,
+         message_v3 TYPE bapiret2-message_v3,
+         message_v4 TYPE bapiret2-message_v4,
+         END OF ty_message_variables.
+
+  DATA: ls_bapiret TYPE bapiret2,
+        ls_message_variables TYPE ty_message_variables.
+
+  ls_bapiret-type = i_type.
+  ls_bapiret-id = &apos;XT&apos;.
+  ls_bapiret-number = 000.
+  MOVE i_message TO ls_message_variables.
+  MOVE-CORRESPONDING ls_message_variables TO ls_bapiret.
+  ls_bapiret-message = i_message.
+
+  bapiret_add( is_bapiret2 =  ls_bapiret i_cumulate = i_cumulate ).
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="ADD_SYSTEM_MESSAGE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="11 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="ADD_SYSTEM_MESSAGE" SCONAME="I_CUMULATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="ABAP_BOOL" PARVALUE="ABAP_TRUE"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="ADD_SYSTEM_MESSAGE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD add_system_message.
+  ms_msg-msgty = sy-msgty.
+  ms_msg-msgid = sy-msgid.
+  ms_msg-msgno = sy-msgno.
+  ms_msg-msgv1 = sy-msgv1.
+  ms_msg-msgv2 = sy-msgv2.
+  ms_msg-msgv3 = sy-msgv3.
+  ms_msg-msgv4 = sy-msgv4.
+
+    message_add_simple(
+      EXPORTING
+        i_log_handle = m_log_handle
+        is_msg       = ms_msg
+        i_cumulate   = i_cumulate ).
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING FIELD-SYMBOL(&lt;ls_msg&gt;).
+  MOVE-CORRESPONDING ms_msg  TO &lt;ls_msg&gt;.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="BAPIRET_ADD" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="BAPIRET_ADD" SCONAME="IS_BAPIRET2" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BAPIRET2"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="BAPIRET_ADD" SCONAME="I_CUMULATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLE_D" PARVALUE="ABAP_TRUE"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="BAPIRET_ADD" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD BAPIRET_ADD.
+  ms_msg-msgty = is_bapiret2-type.
+  ms_msg-msgid = is_bapiret2-id.
+  ms_msg-msgno = is_bapiret2-number.
+  ms_msg-msgv1 = is_bapiret2-message_v1.
+  ms_msg-msgv2 = is_bapiret2-message_v2.
+  ms_msg-msgv3 = is_bapiret2-message_v3.
+  ms_msg-msgv4 = is_bapiret2-message_v4.
+
+  message_add_simple(
+    EXPORTING
+      i_log_handle = m_log_handle
+      is_msg       = ms_msg
+      i_cumulate   = i_cumulate ).
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING FIELD-SYMBOL(&lt;ls_msg&gt;).
+  MOVE-CORRESPONDING ms_msg  TO &lt;ls_msg&gt;.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="BDC_MESSAGE_ADD" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="BDC_MESSAGE_ADD" SCONAME="IS_BDCMESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BDCMSGCOLL"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="BDC_MESSAGE_ADD" SCONAME="I_CUMULATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLE_D" PARVALUE="ABAP_TRUE"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="BDC_MESSAGE_ADD" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD BDC_MESSAGE_ADD.
+  ms_msg-msgty = is_bdcmessage-msgtyp.
+  ms_msg-msgid = is_bdcmessage-msgid.
+  ms_msg-msgno = is_bdcmessage-msgnr.
+  ms_msg-msgv1 = is_bdcmessage-msgv1.
+  ms_msg-msgv2 = is_bdcmessage-msgv2.
+  ms_msg-msgv3 = is_bdcmessage-msgv3.
+  ms_msg-msgv4 = is_bdcmessage-msgv4.
+
+  message_add_simple(
+    EXPORTING
+      i_log_handle = m_log_handle
+      is_msg       = ms_msg
+      i_cumulate   = i_cumulate ).
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING FIELD-SYMBOL(&lt;ls_msg&gt;).
+  MOVE-CORRESPONDING ms_msg  TO &lt;ls_msg&gt;.
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="2" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_LOG_OBJECT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALOBJ_D" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_LOG_SUBOBJECT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALSUBOBJ" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_LOG_EXTNUMBER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALNREXT" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_LOG_NUMBER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALOGNR" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_DEL_NOT_BEFORE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="5 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="RECABOOL" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="I_DEL_DATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="2" EDITORDER="6 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="RECADATEFROM" PAROPTIONL="X"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="CONSTRUCTOR" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="2" EDITORDER="1 "/>
+   <source>METHOD constructor.
+  DATA: ls_header TYPE balhdr,
+        lt_logheader TYPE balhdr_t.
+
+  IF i_log_number IS INITIAL AND i_log_object IS INITIAL.
+    zcx_generic_exception=&gt;raise( &apos;Give either log number or log object&apos;).
+  ENDIF.
+  ms_log-object = i_log_object.
+  ms_log-subobject = i_log_subobject.
+  ms_log-extnumber = i_log_extnumber.
+
+  IF i_del_not_before is SUPPLIED.
+    ms_log-del_before = i_del_not_before.
+  ENDIF.
+  IF i_del_date is SUPPLIED.
+    IF i_del_date is not initial.
+      ms_log-aldate_del = i_del_date.
+    ELSE.
+      ms_log-aldate_del = sy-datum + 30.
+    ENDIF.
+  ENDIF.
+
+  IF i_log_number IS NOT INITIAL.
+    SELECT SINGLE * FROM balhdr INTO ls_header WHERE lognumber = i_log_number.
+
+    IF sy-subrc &lt;&gt; 0.
+      zcx_generic_exception=&gt;raise( &apos;Log not found.&apos;).
+    ENDIF.
+    ms_log-object = ls_header-object.
+    ms_log-subobject = ls_header-subobject.
+    m_log_handle = ls_header-log_handle.
+
+    APPEND ls_header TO lt_logheader.
+
+    CALL FUNCTION &apos;BAL_DB_LOAD&apos;
+      EXPORTING
+        i_t_log_header  = lt_logheader
+        i_lock_handling = 1
+      EXCEPTIONS
+        OTHERS          = 0.
+  ELSE.
+    m_log_handle = log_create( is_log = ms_log ).
+  ENDIF.
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="DISPLAY" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="8 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="DISPLAY" SCONAME="IS_DISPLAY_PROFILE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BAL_S_PROF" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="DISPLAY" SCONAME="I_POPUP" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLE_D" PAROPTIONL="X"/>
+   <source>METHOD display.
+  DATA: ls_display_profile  TYPE  bal_s_prof,
+        lt_log_handle TYPE  bal_t_logh.
+
+  APPEND m_log_handle TO lt_log_handle.
+  ls_display_profile = is_display_profile.
+
+  IF ls_display_profile IS INITIAL AND i_popup IS NOT INITIAL.
+    CALL FUNCTION &apos;BAL_DSP_PROFILE_POPUP_GET&apos;
+      IMPORTING
+        e_s_display_profile = ls_display_profile.
+  ENDIF.
+
+  CALL FUNCTION &apos;BAL_DSP_LOG_DISPLAY&apos;
+    EXPORTING
+      i_s_display_profile  = ls_display_profile
+      i_t_log_handle       = lt_log_handle
+    EXCEPTIONS
+      profile_inconsistent = 1
+      internal_error       = 2
+      no_data_available    = 3
+      no_authority         = 4
+      OTHERS               = 5.
+  IF sy-subrc &lt;&gt; 0.
+    RETURN.
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="GET_HEADER" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="12 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_HEADER" SCONAME="ES_LOG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="BAL_S_LOG"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_HEADER" SCONAME="E_EXISTS_ON_DB" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="BOOLEAN"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_HEADER" SCONAME="E_STATISTICS" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="BAL_S_SCNT"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_HEADER" SCONAME="E_LOGNUMBER" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="1" PARPASSTYP="1" TYPTYPE="1" TYPE="BALOGNR"/>
+   <source>METHOD get_header.
+  CALL FUNCTION &apos;BAL_LOG_HDR_READ&apos;
+    EXPORTING
+      i_log_handle   = m_log_handle
+    IMPORTING
+      e_s_log        = es_log
+      e_exists_on_db = e_exists_on_db
+      e_lognumber    = e_lognumber
+      e_statistics   = e_statistics
+    EXCEPTIONS
+      log_not_found  = 1
+      OTHERS         = 2.
+  IF sy-subrc &lt;&gt; 0.
+* Implement suitable error handling here
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="GET_LOG_FROM_HANDLE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="10 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_LOG_FROM_HANDLE" SCONAME="I_LOG_HANDLE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BALLOGHNDL"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="GET_LOG_FROM_HANDLE" SCONAME="RO_LOG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="3" TYPE="ZCL_LOG"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="GET_LOG_FROM_HANDLE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD get_log_from_handle.
+  DATA: lv_lognumber TYPE balognr.
+
+  SELECT SINGLE lognumber INTO lv_lognumber FROM balhdr WHERE log_handle = i_log_handle.
+  IF sy-subrc IS NOT INITIAL.
+    zcx_generic_exception=&gt;raise( &apos;Log not found.&apos; ).
+  ENDIF.
+
+  CREATE OBJECT ro_log
+    EXPORTING
+      i_log_number = lv_lognumber.
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="LOG_CREATE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="LOG_CREATE" SCONAME="IS_LOG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BAL_S_LOG"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="LOG_CREATE" SCONAME="R_LOG_HANDLE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BALLOGHNDL"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="LOG_CREATE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method LOG_CREATE.
+    CALL FUNCTION &apos;BAL_LOG_CREATE&apos;
+    EXPORTING
+      i_s_log              = is_log
+    IMPORTING
+      e_log_handle         = r_log_handle
+    EXCEPTIONS
+      log_header_inconsistent = 1
+      OTHERS                  = 2.
+  IF sy-subrc &lt;&gt; 0.
+    zcx_generic_exception=&gt;raise( &apos;Error of log creation&apos; ).
+  ENDIF.
+endmethod.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="LOG_SAVE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="1 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <exception CLSNAME="ZCL_LOG" CMPNAME="LOG_SAVE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method LOG_SAVE.
+  CALL FUNCTION &apos;BAL_DB_SAVE&apos;
+    EXPORTING
+      i_save_all       = &apos;X&apos;
+    EXCEPTIONS
+      log_not_found    = 1
+      save_not_allowed = 2
+      numbering_error  = 3
+      OTHERS           = 4.
+  IF sy-subrc &lt;&gt; 0.
+    zcx_generic_exception=&gt;raise( &apos;Error of log saving&apos; ).
+  ENDIF.
+endmethod.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGTY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGTY"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGID" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGID"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGNO" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGNO"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGV1" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGV2" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGV3" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="6 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_MSGV4" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="7 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="I_DETLEVEL" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="8 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="BALLEVEL"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method MESSAGE_ADD.
+  ms_msg-msgid = i_msgid.
+  ms_msg-msgno = i_msgno.
+  ms_msg-msgty = i_msgty.
+  ms_msg-msgv1 = i_msgv1.
+  ms_msg-msgv2 = i_msgv2.
+  ms_msg-msgv3 = i_msgv3.
+  ms_msg-msgv4 = i_msgv4.
+  ms_msg-detlevel = i_detlevel.
+
+  message_add_simple(
+    EXPORTING
+      i_log_handle   = m_log_handle
+      is_msg         = ms_msg ).
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING FIELD-SYMBOL(&lt;ls_msg&gt;).
+  MOVE-CORRESPONDING ms_msg  TO &lt;ls_msg&gt;.
+endmethod.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_EXT" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="13 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_EXT" SCONAME="IS_MSG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BAL_S_MSG"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_EXT" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method MESSAGE_ADD_EXT.
+  ms_msg = is_msg.
+
+  message_add_simple(
+  EXPORTING
+    i_log_handle = m_log_handle
+    is_msg       = ms_msg ).
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING FIELD-SYMBOL(&lt;ls_msg&gt;).
+  MOVE-CORRESPONDING ms_msg TO &lt;ls_msg&gt;.
+endmethod.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_SIMPLE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_SIMPLE" SCONAME="I_LOG_HANDLE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALLOGHNDL"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_SIMPLE" SCONAME="IS_MSG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BAL_S_MSG"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_SIMPLE" SCONAME="I_CUMULATE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BOOLE_D" PAROPTIONL="X"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_ADD_SIMPLE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD message_add_simple.
+  IF i_cumulate IS NOT INITIAL.
+    CALL FUNCTION &apos;BAL_LOG_MSG_CUMULATE&apos;
+      EXPORTING
+        i_log_handle       = i_log_handle
+        i_s_msg            = is_msg
+        i_compare_parameters = &apos;X&apos;
+      EXCEPTIONS
+        log_not_found        = 1
+        msg_inconsistent     = 2
+        log_is_full          = 3
+        OTHERS               = 4.
+  ELSE.
+    CALL FUNCTION &apos;BAL_LOG_MSG_ADD&apos;
+      EXPORTING
+        i_log_handle  = i_log_handle
+        i_s_msg       = is_msg
+      EXCEPTIONS
+        log_not_found = 0
+        OTHERS        = 1.
+  ENDIF.
+
+  IF sy-subrc &lt;&gt; 0.
+    zcx_generic_exception=&gt;raise( &apos;Error of log addition&apos; ).
+  ENDIF.
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_LOG_OBJECT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALOBJ_D"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGTY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGTY"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGID" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGID"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGNO" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGNO"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGV1" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="5 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGV2" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="6 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGV3" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="7 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="I_MSGV4" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="8 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGV" PAROPTIONL="X"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="MESSAGE_LOG_SIMPLE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method MESSAGE_LOG_SIMPLE.
+  DATA: l_log_handle TYPE balloghndl,
+        ls_log TYPE bal_s_log,
+        ls_msg TYPE bal_s_msg.
+
+  ls_log-object = i_log_object.
+
+  l_log_handle = log_create( is_log = ls_log ).
+
+  ls_msg-msgid = i_msgid.
+  ls_msg-msgno = i_msgno.
+  ls_msg-msgty = i_msgty.
+  ls_msg-msgv1 = i_msgv1.
+  ls_msg-msgv2 = i_msgv2.
+  ls_msg-msgv3 = i_msgv3.
+  ls_msg-msgv4 = i_msgv4.
+
+  message_add_simple(
+    EXPORTING
+      i_log_handle = l_log_handle
+      is_msg      = ls_msg ).
+
+  log_save( ).
+
+endmethod.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="SAVE" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="SAVE" SCONAME="RS_LOG" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BAL_S_LGNM"/>
+   <source>METHOD save.
+  DATA: lt_log_handle TYPE bal_t_logh,
+        lt_lognumbers TYPE bal_t_lgnm.
+
+  APPEND m_log_handle TO lt_log_handle.
+
+  CALL FUNCTION &apos;BAL_DB_SAVE&apos;
+    EXPORTING
+      i_t_log_handle   = lt_log_handle
+    IMPORTING
+      e_new_lognumbers = lt_lognumbers
+    EXCEPTIONS
+      log_not_found    = 1
+      save_not_allowed = 2
+      numbering_error  = 3
+      OTHERS           = 4.
+
+  IF sy-subrc &lt;&gt; 0.
+    RETURN.
+  ENDIF.
+
+  READ TABLE lt_lognumbers INTO rs_log INDEX 1.
+ENDMETHOD.</source>
+  </method>
+  <method CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" VERSION="1" LANGU="E" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" SCONAME="I_MSGTY" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSGTY"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" SCONAME="I_MESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="2 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="PTU_TEXT"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" SCONAME="I_DETLEVEL" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="3 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BALLEVEL"/>
+   <parameter CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" SCONAME="I_FREE_TEXT" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="4 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="XFELD" PAROPTIONL="X"/>
+   <exception CLSNAME="ZCL_LOG" CMPNAME="TEXT_ADD" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method TEXT_ADD.
+  DATA: l_mess TYPE string.
+
+  FIELD-SYMBOLS: &lt;ls_msg&gt; LIKE LINE OF mt_msg.
+
+  ms_msg-msgid = &apos;XT&apos;.
+  ms_msg-msgno = &apos;000&apos;.
+  ms_msg-msgty = i_msgty.
+  ms_msg-detlevel = i_detlevel.
+
+  ms_msg-msgv1 = i_message(50).
+  ms_msg-msgv2 = i_message+50(50).
+  ms_msg-msgv3 = i_message+100(50).
+  ms_msg-msgv4 = i_message+150(50).
+
+  IF i_free_text IS INITIAL.
+    message_add_simple(
+      EXPORTING
+        i_log_handle = m_log_handle
+        is_msg       = ms_msg ).
+
+  ELSE.
+    CALL FUNCTION &apos;BAL_LOG_MSG_ADD_FREE_TEXT&apos;
+      EXPORTING
+        i_log_handle     = m_log_handle
+        i_msgty          = i_msgty
+        i_text           = i_message
+        i_detlevel       = i_detlevel
+      EXCEPTIONS
+        log_not_found    = 1
+        msg_inconsistent = 2
+        log_is_full      = 3
+        others           = 4.
+  ENDIF.
+
+  APPEND INITIAL LINE TO mt_msg ASSIGNING &lt;ls_msg&gt;.
+  MOVE-CORRESPONDING ms_msg  TO &lt;ls_msg&gt;.
+
+endmethod.</source>
+  </method>
+ </CLAS>
+ <CLAS CLSNAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" CATEGORY="40" EXPOSURE="0" STATE="1" RELEASE="0" CLSCCINCL="X" FIXPT="X" UNICODE="X" CLSBCCAT="00" DURATION_TYPE="0 " RISK_LEVEL="0 " ZSAPLINK_PLUGIN_MAJOR_VERSION="0 " ZSAPLINK_PLUGIN_MINOR_VERSION="1 " ZSAPLINK_PLUGIN_BUILD_VERSION="0 " ZSAPLINK_PLUGIN_INFO1="ZSAPLINK_CLASS is part of the main ZSAPLINK project --&gt; This plugin found there instead of ZSAPLINK_PLUGINS projects" ZSAPLINK_PLUGIN_INFO2="SAPLINK homepage: https://www.assembla.com/spaces/saplink/wiki" ZSAPLINK_PLUGIN_INFO3="Download from https://www.assembla.com/code/saplink/subversion/nodes" ZSAPLINK_PLUGIN_INFO4="and navigate to:  trunk -&gt; core -&gt; ZSAPLINK -&gt; CLAS -&gt; ZSAPLINK_CLASS.slnk" REFCLSNAME="CX_STATIC_CHECK">
+  <implementing CLSNAME="ZCX_GENERIC_EXCEPTION" REFCLSNAME="IF_T100_DYN_MSG" VERSION="1" EXPOSURE="2" STATE="1" RELTYPE="1" EDITORDER="0 "/>
+  <localImplementation>*&quot;* use this source file for the definition and implementation of
+*&quot;* local helper classes, interface definitions and type
+*&quot;* declarations</localImplementation>
+  <localTypes>*&quot;* use this source file for any type of declarations (class
+*&quot;* definitions, interfaces or type declarations) you need for
+*&quot;* components in the private section</localTypes>
+  <localMacros>*&quot;* use this source file for any macro definitions you need
+*&quot;* in the implementation part of the class</localMacros>
+  <attribute CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="MS_BAPIRET2" VERSION="1" LANGU="E" DESCRIPT="Return Parameter" EXPOSURE="0" STATE="1" EDITORDER="2 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="BAPIRET2" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="MS_SYMSG" VERSION="1" LANGU="E" DESCRIPT="Return Parameter" EXPOSURE="0" STATE="1" EDITORDER="1 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="SYMSG" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <attribute CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="MV_MESSAGE" VERSION="1" LANGU="E" EXPOSURE="0" STATE="1" EDITORDER="3 " ATTDECLTYP="0" ATTEXPVIRT="0" TYPTYPE="1" TYPE="STRING" SRCROW1="0 " SRCCOLUMN1="0 " SRCROW2="0 " SRCCOLUMN2="0 " TYPESRC_LENG="0 "/>
+  <inheritance CLSNAME="ZCX_GENERIC_EXCEPTION" REFCLSNAME="CX_STATIC_CHECK" VERSION="1" STATE="1"/>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_BAPIRET2" VERSION="1" LANGU="E" DESCRIPT="Get Bapiret2 structure" EXPOSURE="2" STATE="1" EDITORDER="6 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_BAPIRET2" SCONAME="RS_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="Return Parameter" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="BAPIRET2"/>
+   <source>method GET_BAPIRET2.
+    rs_message = ms_bapiret2.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="Get Message text" EXPOSURE="2" STATE="1" EDITORDER="5 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_MESSAGE" SCONAME="RV_MESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <source>method GET_MESSAGE.
+    rv_message = mv_message.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_SYMSG" VERSION="1" LANGU="E" DESCRIPT="Get Symsg structure" EXPOSURE="2" STATE="1" EDITORDER="7 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="0" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="GET_SYMSG" SCONAME="RS_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="Structure of message variables" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="3" PARPASSTYP="0" TYPTYPE="1" TYPE="SYMSG"/>
+   <source>method GET_SYMSG.
+    rs_message = ms_symsg.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE" VERSION="1" LANGU="E" DESCRIPT="Exception with a message text" EXPOSURE="2" STATE="1" EDITORDER="4 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE" SCONAME="I_MESSAGE" VERSION="1" LANGU="E" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="STRING"/>
+   <exception CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method RAISE.
+    DATA lo_exception TYPE REF TO zcx_generic_exception.
+    CREATE OBJECT lo_exception.
+    lo_exception-&gt;mv_message = i_message.
+    RAISE EXCEPTION lo_exception.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_BAPIRET2" VERSION="1" LANGU="E" DESCRIPT="Exception with a message" EXPOSURE="2" STATE="1" EDITORDER="3 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_BAPIRET2" SCONAME="IS_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="Return Parameter" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="0" TYPTYPE="1" TYPE="BAPIRET2"/>
+   <exception CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_BAPIRET2" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>method RAISE_BAPIRET2.
+    DATA lo_exception TYPE REF TO zcx_generic_exception.
+    CREATE OBJECT lo_exception.
+    lo_exception-&gt;ms_bapiret2 = is_message.
+
+    MESSAGE ID is_message-id TYPE &apos;E&apos; NUMBER is_message-number
+    WITH is_message-message_v1 is_message-message_v2
+         is_message-message_v3 is_message-message_v4
+    INTO lo_exception-&gt;ms_bapiret2-message.
+
+    MESSAGE ID is_message-id TYPE &apos;E&apos; NUMBER is_message-number
+    WITH is_message-message_v1 is_message-message_v2
+         is_message-message_v3 is_message-message_v4
+    INTO lo_exception-&gt;mv_message.
+
+
+    lo_exception-&gt;ms_symsg-msgid = lo_exception-&gt;ms_bapiret2-id.
+    lo_exception-&gt;ms_symsg-msgno = lo_exception-&gt;ms_bapiret2-number.
+    lo_exception-&gt;ms_symsg-msgty = lo_exception-&gt;ms_bapiret2-type.
+    lo_exception-&gt;ms_symsg-msgv1 = lo_exception-&gt;ms_bapiret2-message_v1.
+    lo_exception-&gt;ms_symsg-msgv2 = lo_exception-&gt;ms_bapiret2-message_v2.
+    lo_exception-&gt;ms_symsg-msgv3 = lo_exception-&gt;ms_bapiret2-message_v3.
+    lo_exception-&gt;ms_symsg-msgv4 = lo_exception-&gt;ms_bapiret2-message_v4.
+
+
+    RAISE EXCEPTION lo_exception.
+  endmethod.</source>
+  </method>
+  <method CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_SYMSG" VERSION="1" LANGU="E" DESCRIPT="Exception with a SYMSG structure" EXPOSURE="2" STATE="1" EDITORDER="2 " DISPID="0 " MTDTYPE="0" MTDDECLTYP="1" MTDNEWEXC="X" BCMTDCAT="00" BCMTDSYN="0">
+   <parameter CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_SYMSG" SCONAME="IS_MESSAGE" VERSION="1" LANGU="E" DESCRIPT="Structure of message variables" CMPTYPE="1" MTDTYPE="0" EDITORDER="1 " DISPID="0 " PARDECLTYP="0" PARPASSTYP="1" TYPTYPE="1" TYPE="SYMSG" PAROPTIONL="X"/>
+   <exception CLSNAME="ZCX_GENERIC_EXCEPTION" CMPNAME="RAISE_SYMSG" SCONAME="ZCX_GENERIC_EXCEPTION" VERSION="1" LANGU="E" DESCRIPT="Generic Exception" MTDTYPE="0" EDITORDER="1 "/>
+   <source>METHOD raise_symsg.
+
+  IF is_message  IS SUPPLIED AND is_message IS NOT INITIAL.
+    raise_bapiret2( is_message = VALUE #( id = is_message-msgid number = is_message-msgno type = is_message-msgty message_v1 = is_message-msgv1 message_v2 = is_message-msgv2 message_v3 = is_message-msgv3 message_v4 = is_message-msgv4 ) ).
+  ELSE.
+    raise_bapiret2( is_message = VALUE #(
+                                          id         = sy-msgid
+                                          number     = sy-msgno
+                                          type       = sy-msgty
+                                          message_v1 = sy-msgv1
+                                          message_v2 = sy-msgv2
+                                          message_v3 = sy-msgv3
+                                          message_v4 = sy-msgv4
+                                        )
+    ).
+  ENDIF.
+
+ENDMETHOD.</source>
+  </method>
+ </CLAS>
+ <DEVC DEVCLASS="ZABAP_UTIL" CTEXT="ABAP Utilities" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" NAMESPACE="/0CUST/" CREATED_BY="HQ_AKA" CREATED_ON="20180710" CHANGED_BY="HQ_MFE" CHANGED_ON="20200909" PROJECT_GUID="00000000000000000000000000000000"/>
+ <PROG NAME="ZTOC" VARCL="X" SUBC="1" RSTAT="K" RMAND="100" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Transport of Copies" LENGTH="19 "/>
+    <textElement ID="S" KEY="S_AS4DAT" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_AS4TEX" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_AS4TIM" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_AS4USE" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_KORRDE" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_STRKOR" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_TARSYS" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_TRFUNC" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_TRKORR" ENTRY="D       ." LENGTH="9 "/>
+    <textElement ID="S" KEY="S_TRSTAT" ENTRY="D       ." LENGTH="9 "/>
+   </language>
+  </textPool>
+  <dynpros>
+   <dynpro PROG="ZTOC" DNUM="9000" FNUM="9000" BZMX="0 " BZBR="0 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="27 " NOCO="120 " VALP="0 " CUAN="G" SPRA="E" DTEXT="ALV Screen">
+    <dynprofield DIDX="0000" FLG1="80" FLG2="10" FLG3="00" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+    <dynproflowsource>PROCESS BEFORE OUTPUT.
+  MODULE STATUS_9000.
+
+PROCESS AFTER INPUT.
+  MODULE USER_COMMAND_9000.</dynproflowsource>
+   </dynpro>
+  </dynpros>
+  <pfstatus>
+   <pfstatus_sta CODE="MAIN_STATUS" MODAL="D" ACTCODE="000001" PFKCODE="000001" BUTCODE="0001" INT_NOTE="Standard for General List Output in Fullscreen Grid"/>
+   <pfstatus_fun CODE="%ML" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Folder" PATH="F"/>
+   <pfstatus_fun CODE="%PC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_EXPORT" ICON_ID="@49@" FUN_TEXT="Local file..." PATH="L"/>
+   <pfstatus_fun CODE="%SC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH" ICON_ID="@13@" FUN_TEXT="Find" PATH="N"/>
+   <pfstatus_fun CODE="%SC+" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH_NEXT" ICON_ID="@4E@" FUN_TEXT="Find next"/>
+   <pfstatus_fun CODE="%SL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_MAIL" ICON_ID="@1S@" FUN_TEXT="Mail Recipient" PATH="M"/>
+   <pfstatus_fun CODE="&amp;ABC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ABC" ICON_ID="@DL@" FUN_TEXT="ABC Analysis" PATH="A"/>
+   <pfstatus_fun CODE="&amp;ALL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_ALL" ICON_ID="@4B@" FUN_TEXT="Select all" PATH="S"/>
+   <pfstatus_fun CODE="&amp;AQW" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_WORD_PROCESSING" ICON_ID="@DK@" FUN_TEXT="Word processing..." PATH="W"/>
+   <pfstatus_fun CODE="&amp;AUF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Define totals drilldown..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Saving..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_SAVE" ICON_ID="@DN@" FUN_TEXT="Save layout..."/>
+   <pfstatus_fun CODE="&amp;AVR" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Mean value" PATH="M"/>
+   <pfstatus_fun CODE="&amp;CDF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Unfreeze" PATH="U"/>
+   <pfstatus_fun CODE="&amp;CFI" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Freeze to column" PATH="F"/>
+   <pfstatus_fun CODE="&amp;COUNT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Count" PATH="C"/>
+   <pfstatus_fun CODE="&amp;DATA_SAVE" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_SAVE" ICON_ID="@2L@" FUN_TEXT="Save"/>
+   <pfstatus_fun CODE="&amp;EB9" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TABLE_SETTINGS" ICON_ID="@36@" FUN_TEXT="Call Up Report" PATH="C"/>
+   <pfstatus_fun CODE="&amp;ELP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_HELP" ICON_ID="@35@" FUN_TEXT="Help"/>
+   <pfstatus_fun CODE="&amp;ERW" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Layout Management" PATH="L"/>
+   <pfstatus_fun CODE="&amp;ETA" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Details"/>
+   <pfstatus_fun CODE="&amp;F03" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back" PATH="B"/>
+   <pfstatus_fun CODE="&amp;F12" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@" FUN_TEXT="Cancel" PATH="A"/>
+   <pfstatus_fun CODE="&amp;F15" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Exit" PATH="X"/>
+   <pfstatus_fun CODE="&amp;F4" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Possible entries"/>
+   <pfstatus_fun CODE="&amp;GRAPH" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_GRAPHICS" ICON_ID="@0N@" FUN_TEXT="Graphic" PATH="G"/>
+   <pfstatus_fun CODE="&amp;IC1" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Choose"/>
+   <pfstatus_fun CODE="&amp;ILD" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_FILTER_UNDO" ICON_ID="@GD@" FUN_TEXT="Delete Filter" PATH="L"/>
+   <pfstatus_fun CODE="&amp;ILT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_FILTER" ICON_ID="@4G@" FUN_TEXT="Set filter" PATH="F"/>
+   <pfstatus_fun CODE="&amp;INFO" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INFORMATION" ICON_ID="@0S@" FUN_TEXT="Information"/>
+   <pfstatus_fun CODE="&amp;MAX" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Maximum" PATH="A"/>
+   <pfstatus_fun CODE="&amp;MIN" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Minimum" PATH="I"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Choose..." PATH="H"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_CHOOSE" ICON_ID="@DM@" FUN_TEXT="Select layout..."/>
+   <pfstatus_fun CODE="&amp;ODN" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_DOWN" ICON_ID="@3F@" FUN_TEXT="Sort in descending order" PATH="O"/>
+   <pfstatus_fun CODE="&amp;OL0" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANTS" ICON_ID="@LZ@" FUN_TEXT="Change layout..."/>
+   <pfstatus_fun CODE="&amp;OLX" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_VARIANTS" ICON_ID="@0R@" FUN_TEXT="Change..." PATH="C"/>
+   <pfstatus_fun CODE="&amp;OPT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Optimize width" PATH="P"/>
+   <pfstatus_fun CODE="&amp;OUP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_UP" ICON_ID="@3E@" FUN_TEXT="Sort in Ascending Order" PATH="I"/>
+   <pfstatus_fun CODE="&amp;REFRESH" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REFRESH" ICON_ID="@42@" FUN_TEXT="Refresh"/>
+   <pfstatus_fun CODE="&amp;RNT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_PRINT" ICON_ID="@0X@" FUN_TEXT="Print" PATH="P"/>
+   <pfstatus_fun CODE="&amp;RNT_PREV" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LAYOUT_CONTROL" ICON_ID="@3G@" FUN_TEXT="Print preview" PATH="R"/>
+   <pfstatus_fun CODE="&amp;SAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_DESELECT_ALL" ICON_ID="@4D@" FUN_TEXT="Deselect all" PATH="D"/>
+   <pfstatus_fun CODE="&amp;SUM" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INTERMEDIATE_SUM" ICON_ID="@5V@" FUN_TEXT="Subtotals..." PATH="U"/>
+   <pfstatus_fun CODE="&amp;UMC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SUM" ICON_ID="@3Z@" FUN_TEXT="Total" PATH="T"/>
+   <pfstatus_fun CODE="&amp;VCRYSTAL" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Crystal Reports" PATH="C"/>
+   <pfstatus_fun CODE="&amp;VEXCEL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XLS" ICON_ID="@J2@" FUN_TEXT="Microsoft Excel" PATH="M"/>
+   <pfstatus_fun CODE="&amp;VGRID" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="SAP List Viewer" PATH="S"/>
+   <pfstatus_fun CODE="&amp;VLOTUS" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Lotus 1-2-3" PATH="L"/>
+   <pfstatus_fun CODE="&amp;XXL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XXL" ICON_ID="@DJ@" FUN_TEXT="Spreadsheet..." PATH="A"/>
+   <pfstatus_fun CODE="BACK" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back"/>
+   <pfstatus_fun CODE="CANC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@" FUN_TEXT="Cancel"/>
+   <pfstatus_fun CODE="EXIT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Exit"/>
+   <pfstatus_fun CODE="ZTOC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_COPY" ICON_ID="@2U@" FUN_TEXT="Create TOC"/>
+   <pfstatus_men CODE="000001" NO="01" REF_TYPE="F" REF_CODE="&amp;RNT_PREV" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="02" REF_TYPE="F" REF_CODE="&amp;RNT" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="04" REF_TYPE="M" REF_CODE="000002"/>
+   <pfstatus_men CODE="000001" NO="05" REF_TYPE="M" REF_CODE="000003"/>
+   <pfstatus_men CODE="000001" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="07" REF_TYPE="F" REF_CODE="&amp;F15" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="01" REF_TYPE="F" REF_CODE="&amp;AQW" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="02" REF_TYPE="F" REF_CODE="&amp;XXL" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="03" REF_TYPE="F" REF_CODE="%PC" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="01" REF_TYPE="F" REF_CODE="%SL" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="02" REF_TYPE="F" REF_CODE="%ML" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="01" REF_TYPE="F" REF_CODE="&amp;ALL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="02" REF_TYPE="F" REF_CODE="&amp;SAL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="04" REF_TYPE="F" REF_CODE="&amp;ILT" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="05" REF_TYPE="F" REF_CODE="&amp;ILD" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="07" REF_TYPE="F" REF_CODE="&amp;OUP" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="08" REF_TYPE="F" REF_CODE="&amp;ODN" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="09" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="10" REF_TYPE="M" REF_CODE="000005"/>
+   <pfstatus_men CODE="000004" NO="11" REF_TYPE="F" REF_CODE="&amp;SUM" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="12" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="13" REF_TYPE="F" REF_CODE="%SC" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="14" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="15" REF_TYPE="F" REF_CODE="&amp;F12" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="01" REF_TYPE="F" REF_CODE="&amp;UMC" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="02" REF_TYPE="F" REF_CODE="&amp;AVR" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="03" REF_TYPE="F" REF_CODE="&amp;MIN" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="04" REF_TYPE="F" REF_CODE="&amp;MAX" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="05" REF_TYPE="F" REF_CODE="&amp;COUNT" REF_NO="001"/>
+   <pfstatus_men CODE="000006" NO="01" REF_TYPE="F" REF_CODE="&amp;ABC" REF_NO="001"/>
+   <pfstatus_men CODE="000006" NO="02" REF_TYPE="S"/>
+   <pfstatus_men CODE="000006" NO="03" REF_TYPE="F" REF_CODE="&amp;F03" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="01" REF_TYPE="F" REF_CODE="&amp;VGRID" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="02" REF_TYPE="F" REF_CODE="&amp;VEXCEL" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="03" REF_TYPE="F" REF_CODE="&amp;VLOTUS" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="04" REF_TYPE="F" REF_CODE="&amp;VCRYSTAL" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="05" REF_TYPE="S"/>
+   <pfstatus_men CODE="000007" NO="06" REF_TYPE="F" REF_CODE="&amp;GRAPH" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="01" REF_TYPE="M" REF_CODE="000009"/>
+   <pfstatus_men CODE="000008" NO="02" REF_TYPE="M" REF_CODE="000010"/>
+   <pfstatus_men CODE="000008" NO="03" REF_TYPE="F" REF_CODE="&amp;AUF" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="01" REF_TYPE="F" REF_CODE="&amp;OLX" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="02" REF_TYPE="F" REF_CODE="&amp;OAD" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000009" NO="04" REF_TYPE="F" REF_CODE="&amp;AVE" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="05" REF_TYPE="S"/>
+   <pfstatus_men CODE="000009" NO="06" REF_TYPE="F" REF_CODE="&amp;ERW" REF_NO="001"/>
+   <pfstatus_men CODE="000010" NO="01" REF_TYPE="F" REF_CODE="&amp;OPT" REF_NO="001"/>
+   <pfstatus_men CODE="000010" NO="02" REF_TYPE="S"/>
+   <pfstatus_men CODE="000010" NO="03" REF_TYPE="F" REF_CODE="&amp;CFI" REF_NO="001"/>
+   <pfstatus_men CODE="000010" NO="04" REF_TYPE="F" REF_CODE="&amp;CDF" REF_NO="001"/>
+   <pfstatus_mtx CODE="000001" TEXT_TYPE="S" TEXT="List" PATH="L" INT_NOTE="STANDARD_FULLSCREEN List"/>
+   <pfstatus_mtx CODE="000002" TEXT_TYPE="S" TEXT="Export" PATH="E" INT_NOTE="STANDARD Save"/>
+   <pfstatus_mtx CODE="000003" TEXT_TYPE="S" TEXT="Send to" PATH="S"/>
+   <pfstatus_mtx CODE="000004" TEXT_TYPE="S" TEXT="Edit" PATH="E" INT_NOTE="STANDARD"/>
+   <pfstatus_mtx CODE="000005" TEXT_TYPE="S" TEXT="Calculate" PATH="C"/>
+   <pfstatus_mtx CODE="000006" TEXT_TYPE="S" TEXT="Goto" PATH="G" INT_NOTE="STANDARD"/>
+   <pfstatus_mtx CODE="000007" TEXT_TYPE="S" TEXT="Views" PATH="I"/>
+   <pfstatus_mtx CODE="000008" TEXT_TYPE="S" TEXT="Settings" PATH="S" INT_NOTE="STANDARD_FULLSCREEN"/>
+   <pfstatus_mtx CODE="000009" TEXT_TYPE="S" TEXT="Layout" PATH="A" INT_NOTE="Sub STANDARD"/>
+   <pfstatus_mtx CODE="000010" TEXT_TYPE="S" TEXT="Columns" PATH="C"/>
+   <pfstatus_act CODE="000001" NO="01" MENUCODE="000001"/>
+   <pfstatus_act CODE="000001" NO="02" MENUCODE="000004"/>
+   <pfstatus_act CODE="000001" NO="03" MENUCODE="000006"/>
+   <pfstatus_act CODE="000001" NO="04" MENUCODE="000007"/>
+   <pfstatus_act CODE="000001" NO="05" MENUCODE="000008"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="04" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="07" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="12" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="15" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="17" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="24" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="28" PFNO="S"/>
+   <pfstatus_pfk CODE="000001" PFNO="01" FUNCODE="&amp;ELP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="02" FUNCODE="&amp;IC1" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="03" FUNCODE="BACK" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="04" FUNCODE="&amp;F4" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="05" FUNCODE="&amp;ALL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="06" FUNCODE="&amp;SAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="08" FUNCODE="&amp;REFRESH" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="11" FUNCODE="&amp;DATA_SAVE" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="12" FUNCODE="CANC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="15" FUNCODE="EXIT" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="20" FUNCODE="ZTOC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="25" FUNCODE="&amp;ABC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="28" FUNCODE="&amp;OUP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="29" FUNCODE="&amp;ILT" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="30" FUNCODE="&amp;UMC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="31" FUNCODE="%SL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="32" FUNCODE="&amp;OL0" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="33" FUNCODE="&amp;OAD" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="34" FUNCODE="&amp;AVE" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="36" FUNCODE="&amp;INFO" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="37" FUNCODE="&amp;EB9" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="38" FUNCODE="&amp;ILD" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="39" FUNCODE="&amp;ETA" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="40" FUNCODE="&amp;ODN" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="41" FUNCODE="&amp;VGRID" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="42" FUNCODE="&amp;SUM" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="43" FUNCODE="&amp;VEXCEL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="44" FUNCODE="&amp;AQW" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="45" FUNCODE="%PC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="46" FUNCODE="&amp;RNT_PREV" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="47" FUNCODE="&amp;GRAPH" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="48" FUNCODE="&amp;VCRYSTAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="71" FUNCODE="%SC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="84" FUNCODE="%SC+" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="86" FUNCODE="&amp;RNT" FUNNO="001"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%CH"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%ML"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%PC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%SC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%SC+"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="%SL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ABC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ALL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;AQW"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;AUF"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;AVE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;AVR"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;BS"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;BS+"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;BS-"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CDF"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CFI"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;COUNT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRB"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRBATCH"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRDESIG"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRR"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRTEMPL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;CRYSTAL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;DATA_SAVE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;DAU"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;DOF"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;DON"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;EB3"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;EB9"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ELP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ERW"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ETA"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;F03"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;F12"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;F15"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;F4"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;GRAPH"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;IC1"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ILD"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ILT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;INFO"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;KOM"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;LFO"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;LIS"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;MAX"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;MIN"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;NFO"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;NTE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OAD"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;ODN"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OL0"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OLX"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OMP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OPT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;OUP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;REFRESH"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;RNT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;RNT_PREV"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;SAL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;SAVE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;SUM"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;UMC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;URL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;VCRYSTAL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;VEXCEL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;VGRID"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;VLOTUS"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;XML"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;XPA"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="&amp;XXL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BAC1"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BACK"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BEB1"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BEB2"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BEB3"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BEB9"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="BEBN"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="CANC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="COL0"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="COLX"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="DETA"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="DRUK"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="DSAL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="ENTE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="EXIT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="EXPA"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="FILD"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="FILT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="GLIS"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="HELP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="INFO"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="KOMP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="P+"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="P++"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="P-"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="P--"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PF09"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PF13"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PIC1"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PICK"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PRI"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PRIN"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="PRNT"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="RW"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SALL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SAUF"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SAVE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SCRB"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SCRE"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SCRL"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SCRR"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SKOM"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SODN"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SOUP"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="SUMC"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="ZSUM"/>
+   <pfstatus_set STATUS="MAIN_STATUS" FUNCTION="ZTOC"/>
+   <pfstatus_doc OBJ_TYPE="A" OBJ_CODE="000001" MODAL="D" INT_NOTE="Standard Interface              STANDARD_FULLSCREEN"/>
+   <pfstatus_doc OBJ_TYPE="P" OBJ_CODE="000001" MODAL="D" NORM="X" INT_NOTE="Standard Maximum Interaction STANDARD_FULLSCREEN"/>
+   <pfstatus_doc OBJ_TYPE="B" OBJ_CODE="000001" SUB_CODE="0001" INT_NOTE="Standard Maximum Interaction STANDARD_FULLSCREEN"/>
+  </pfstatus>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZTOC
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT ztoc.
+
+DATA: e070 TYPE e070,
+      e07t TYPE e07t.
+
+INCLUDE ztoc_screen9000.
+
+SELECTION-SCREEN: BEGIN OF BLOCK blk1 WITH FRAME TITLE TEXT-001.
+SELECT-OPTIONS:
+  s_trkorr      FOR e070-trkorr,
+  s_trfunc      FOR e070-trfunction,
+  s_trstat      FOR e070-trstatus,
+  s_tarsys      FOR e070-tarsystem,
+  s_korrde      FOR e070-korrdev,
+  s_as4use      FOR e070-as4user DEFAULT sy-uname,
+  s_as4dat      FOR e070-as4date,
+  s_as4tim      FOR e070-as4time,
+  s_strkor      FOR e070-strkorr,
+  s_as4tex      FOR e07t-as4text.
+SELECTION-SCREEN: END OF BLOCK blk1.
+
+INCLUDE ztoc_classes.
+
+START-OF-SELECTION.
+  CALL FUNCTION &apos;TR_AUTHORITY_CHECK_DISPLAY&apos;
+    EXCEPTIONS
+      e_no_authority = 1
+      e_invalid_user = 2
+      OTHERS         = 3.
+  IF sy-subrc &lt;&gt; 0.
+    MESSAGE &apos;Insufficient authorization!&apos; TYPE &apos;E&apos;.
+  ENDIF.
+
+  TRY .
+      DATA(go_transports) = NEW lcl_transports( ).
+    CATCH zcx_generic_exception INTO DATA(go_exc).
+      MESSAGE go_exc-&gt;get_message( ) TYPE &apos;I&apos; DISPLAY LIKE &apos;W&apos;.
+      LEAVE LIST-PROCESSING.
+  ENDTRY.
+
+  DATA(go_view) = NEW lcl_view( i_ref_data = go_transports-&gt;get_data( ) ).
+  SET HANDLER go_transports-&gt;handle_process_toc go_transports-&gt;on_show_transport go_transports-&gt;on_delete_transport go_transports-&gt;on_refresh_data FOR go_view.
+  go_view-&gt;display_alv( ).</source>
+ </PROG>
+ <PROG NAME="ZTOC_CLASSES" VARCL="X" SUBC="I" RSTAT="K" RMAND="100" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZTOC_CLASSES" LENGTH="20 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp;  Include           ZTOC_CLASSES
+*&amp;---------------------------------------------------------------------*
+CLASS lcl_view DEFINITION.
+  PUBLIC SECTION.
+    EVENTS: process_toc EXPORTING VALUE(et_sel_rows) TYPE lvc_t_row VALUE(ev_choose_objects) TYPE boolean,
+            show_transport EXPORTING VALUE(e_index) TYPE lvc_index,
+            delete_transport EXPORTING VALUE(et_sel_rows) TYPE lvc_t_row,
+            refresh_data.
+
+    METHODS: constructor IMPORTING i_ref_data TYPE REF TO data
+                                   i_edit     TYPE xfeld OPTIONAL,
+      display_alv.
+
+  PRIVATE SECTION.
+    DATA:
+      mo_grid        TYPE REF TO cl_gui_alv_grid,
+      mt_outtab      TYPE REF TO data,
+      mt_fieldcat    TYPE lvc_t_fcat,
+      mt_toolbar_exc TYPE ui_functions,
+      ms_layout      TYPE lvc_s_layo.
+
+    METHODS:
+      create_grid,
+      create_layout IMPORTING i_edit TYPE xfeld OPTIONAL,
+      create_fieldcat,
+      change_fieldcat,
+      exclude_toolbar_fce,
+      refresh_alv,
+      set_data IMPORTING i_ref_data TYPE REF TO data.
+
+    METHODS:
+      handle_toolbar FOR EVENT toolbar OF cl_gui_alv_grid IMPORTING e_object e_interactive,
+      handle_user_command FOR EVENT user_command OF cl_gui_alv_grid IMPORTING e_ucomm,
+      on_hotspot_click FOR EVENT hotspot_click OF cl_gui_alv_grid IMPORTING e_column_id e_row_id,
+      on_double_click FOR EVENT double_click OF cl_gui_alv_grid IMPORTING e_row.
+ENDCLASS.
+
+CLASS lcl_transports DEFINITION.
+  PUBLIC SECTION.
+    TYPES BEGIN OF ty_transports_s.
+    INCLUDE STRUCTURE e070.
+    TYPES: as4text    LIKE e07t-as4text,
+           cell_color TYPE lvc_t_scol,
+           END OF ty_transports_s.
+
+    TYPES: ty_transports_t TYPE STANDARD TABLE OF ty_transports_s.
+
+    CONSTANTS: mc_sufix TYPE char5 VALUE &apos;(TOC)&apos;.
+
+    METHODS:
+      constructor RAISING zcx_generic_exception,
+      get_data RETURNING VALUE(rt_data) TYPE REF TO data,
+      process_toc IMPORTING it_sel_rows       TYPE lvc_t_row iv_choose_objects TYPE boolean
+                  RAISING   zcx_generic_exception.
+
+
+    METHODS:
+      handle_process_toc FOR EVENT process_toc OF lcl_view IMPORTING et_sel_rows ev_choose_objects,
+      on_show_transport FOR EVENT show_transport OF  lcl_view IMPORTING e_index,
+      on_delete_transport FOR EVENT delete_transport OF  lcl_view IMPORTING et_sel_rows,
+      on_refresh_data FOR EVENT refresh_data OF lcl_view.
+
+  PROTECTED SECTION.
+
+    METHODS:
+      create_toc IMPORTING is_transport      TYPE ty_transports_s
+                           iv_choose_objects TYPE boolean
+                 RETURNING VALUE(r_request)  TYPE e070-trkorr
+                 RAISING   zcx_generic_exception,
+      compress_toc IMPORTING i_request TYPE e070-trkorr OPTIONAL,
+      release_toc IMPORTING i_request TYPE e070-trkorr OPTIONAL
+                  RAISING   zcx_generic_exception,
+      stms_open,
+      copy_transport_file RAISING zcx_generic_exception,
+      import_transport RAISING zcx_generic_exception.
+
+  PRIVATE SECTION.
+    DATA: mt_transports TYPE ty_transports_t,
+          mt_toc        TYPE STANDARD TABLE OF trwbo_request_header,
+          mv_tarsys     TYPE tmssysnam.
+
+    METHODS: select_transport_data RAISING zcx_generic_exception.
+ENDCLASS.
+
+CLASS lcl_transports IMPLEMENTATION.
+  METHOD constructor.
+    select_transport_data( ).
+  ENDMETHOD.
+
+  METHOD get_data.
+    GET REFERENCE OF mt_transports INTO rt_data.
+  ENDMETHOD.
+
+  METHOD select_transport_data.
+    APPEND &apos;EEQR&apos; TO s_trstat.
+    APPEND &apos;EEQN&apos; TO s_trstat.
+    APPEND &apos;IEQ&apos; TO s_strkor.
+
+    SELECT * FROM e070
+      JOIN e07t
+      ON e070~trkorr = e07t~trkorr
+      INTO CORRESPONDING FIELDS OF TABLE mt_transports
+      WHERE e070~trkorr      IN s_trkorr AND
+            e070~trfunction  IN s_trfunc AND
+            e070~trstatus    IN s_trstat AND
+            e070~tarsystem   IN s_tarsys AND
+            e070~korrdev     IN s_korrde AND
+            e070~as4user     IN s_as4use AND
+            e070~as4date     IN s_as4dat AND
+            e070~as4time     IN s_as4tim AND
+            e070~strkorr     IN s_strkor AND
+            e07t~as4text     IN s_as4tex.
+
+    IF sy-subrc NE 0.
+      zcx_generic_exception=&gt;raise( i_message = &apos;No transport data!&apos; ).
+    ENDIF.
+
+    SORT mt_transports BY as4date DESCENDING
+                          as4time DESCENDING.
+
+*                                  0 = background color         *
+*                                  1 = blue                     *
+*                                  2 = gray                     *
+*                                  3 = yellow                   *
+*                                  4 = blue/gray                *
+*                                  5 = green                    *
+*                                  6 = red                      *
+*                                  7 = orange
+
+    LOOP AT mt_transports ASSIGNING FIELD-SYMBOL(&lt;ls_transport&gt;).
+      IF &lt;ls_transport&gt;-trfunction = &apos;W&apos;.
+        &lt;ls_transport&gt;-cell_color = VALUE #( ( fname = &apos;TRFUNCTION&apos; color = VALUE #( col = &apos;3&apos; int = &apos;1&apos; inv = &apos;0&apos; ) )
+                                             ( fname = &apos;TRSTATUS&apos;   color = VALUE #( col = &apos;3&apos; int = &apos;1&apos; inv = &apos;0&apos; ) )
+                                             ( fname = &apos;TARSYSTEM&apos;  color = VALUE #( col = &apos;3&apos; int = &apos;1&apos; inv = &apos;0&apos; ) )
+                                             ( fname = &apos;KORRDEV&apos;    color = VALUE #( col = &apos;3&apos; int = &apos;1&apos; inv = &apos;0&apos; ) )
+                                              ).
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD handle_process_toc.
+    TRY.
+        process_toc( it_sel_rows = et_sel_rows iv_choose_objects = ev_choose_objects ).
+      CATCH zcx_generic_exception INTO DATA(go_exc).
+        MESSAGE go_exc-&gt;get_message( ) TYPE &apos;I&apos; DISPLAY LIKE &apos;W&apos;.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD process_toc.
+    TRY .
+        LOOP AT it_sel_rows INTO DATA(ls_sel_rows).
+          READ TABLE mt_transports INTO DATA(ls_transport) INDEX ls_sel_rows-index.
+          IF sy-subrc = 0.
+            create_toc( is_transport = ls_transport iv_choose_objects = iv_choose_objects ).
+          ENDIF.
+        ENDLOOP.
+      CATCH zcx_generic_exception INTO DATA(lo_exception).
+        MESSAGE lo_exception-&gt;get_message( ) TYPE &apos;S&apos; DISPLAY LIKE &apos;W&apos;.
+    ENDTRY.
+
+    IF mt_toc IS NOT INITIAL AND mv_tarsys IS NOT INITIAL.
+      compress_toc( ).
+      release_toc( ).
+      stms_open( ).
+*      copy_transport_file( ).
+*      import_transport( ).
+    ENDIF.
+    CLEAR: mt_toc, mv_tarsys.
+
+  ENDMETHOD.
+
+  METHOD create_toc.
+    DATA: l_as4text TYPE e07t-as4text,
+          ls_toc    TYPE trwbo_request_header.
+
+    IF strlen( is_transport-as4text ) &lt;= 55.
+      l_as4text = is_transport-as4text &amp;&amp; mc_sufix.
+    ELSE.
+      l_as4text = is_transport-as4text.
+      l_as4text+55(5) = mc_sufix.
+    ENDIF.
+
+    CALL FUNCTION &apos;TR_REQUEST_MODIFY&apos;
+      EXPORTING
+        iv_action           = &apos;CREA&apos;
+        iv_new_request_type = &apos;T&apos;
+        iv_new_tarsystem    = is_transport-tarsystem
+        iv_new_as4text      = l_as4text
+      IMPORTING
+        es_new_request      = ls_toc
+      EXCEPTIONS
+        OTHERS              = 1.
+    IF sy-subrc &lt;&gt; 0.
+      zcx_generic_exception=&gt;raise(&apos;Problem with creating TOC!&apos;).
+    ENDIF.
+
+    IF ls_toc IS INITIAL.
+      zcx_generic_exception=&gt;raise(&apos;TOC not created!&apos;).
+    ENDIF.
+
+
+
+    SELECT trkorr
+      FROM e070
+      INTO TABLE @DATA(lt_transports)
+      WHERE strkorr = @is_transport-trkorr.
+
+      &quot; to include objects in main transport task
+      APPEND is_transport-trkorr TO lt_transports.
+
+
+    IF iv_choose_objects = abap_true .
+
+      TYPES: BEGIN OF ty_e071_sel.
+               INCLUDE TYPE e071.
+               TYPES: sel(1) TYPE c,
+             END OF ty_e071_sel.
+
+      DATA: lt_e071_sel TYPE TABLE OF ty_e071_sel,
+            ls_e071_sel TYPE ty_e071_sel,
+            lt_e071     TYPE TABLE OF e071,
+            ls_e071     TYPE e071,
+            ls_e070     TYPE e070,
+            ls_e07t     TYPE e07t,
+            lt_e071k    TYPE TABLE OF e071k.
+
+
+      LOOP AT lt_transports ASSIGNING FIELD-SYMBOL(&lt;lfs_transport&gt;).
+        CALL FUNCTION &apos;TR_READ_COMM&apos;
+          EXPORTING
+            wi_trkorr        = &lt;lfs_transport&gt;
+            wi_sel_e071      = &apos;X&apos;
+          TABLES
+            wt_e071          = lt_e071
+          EXCEPTIONS
+            not_exist_e070   = 1
+            no_authorization = 2
+            OTHERS           = 3.
+
+
+        MOVE-CORRESPONDING lt_e071 TO lt_e071_sel KEEPING TARGET LINES.
+
+      ENDLOOP.
+
+      IF lt_e071_sel IS NOT INITIAL.
+        SORT lt_e071_sel.
+        DELETE ADJACENT DUPLICATES FROM lt_e071_sel.
+        CALL FUNCTION &apos;REUSE_ALV_POPUP_TO_SELECT&apos;
+          EXPORTING
+            i_title               = &apos;Select the objects to be included in TOC&apos;
+            i_zebra               = &apos;X&apos;
+            i_checkbox_fieldname  = &apos;SEL&apos;
+            i_tabname             = &apos;LT_E071_SEL&apos;
+            i_structure_name      = &apos;E071&apos;
+            i_screen_start_column = 5
+            i_screen_start_line   = 5
+            i_screen_end_column   = 130
+            i_screen_end_line     = 40
+          TABLES
+            t_outtab              = lt_e071_sel
+          EXCEPTIONS
+            program_error         = 1
+            OTHERS                = 2.
+
+        DELETE lt_e071_sel WHERE sel IS INITIAL.
+        IF lt_e071_sel IS INITIAL.
+          ROLLBACK WORK.
+          MESSAGE &apos;No objects selected&apos; TYPE &apos;S&apos; DISPLAY LIKE &apos;E&apos;.
+          RETURN.
+        ENDIF.
+
+
+        MOVE-CORRESPONDING lt_e071_sel TO lt_e071.
+
+        CALL FUNCTION &apos;TRINT_INSERT_COMM&apos;
+          EXPORTING
+            wi_trkorr          = ls_toc-trkorr
+            wi_e070            = ls_e070
+            wi_e07t            = ls_e07t
+            wi_sel_e071        = &apos;X&apos;
+          TABLES
+            wt_e071            = lt_e071
+            wt_e071k           = lt_e071k
+          EXCEPTIONS
+            e070_insert_error  = 1
+            e071k_insert_error = 2
+            e071_insert_error  = 3
+            e07t_insert_error  = 4
+            e070c_insert_error = 5
+            e070m_insert_error = 6
+            OTHERS             = 7.
+        IF sy-subrc &lt;&gt; 0.
+          MESSAGE ID sy-msgid TYPE &apos;S&apos; NUMBER sy-msgno WITH  sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4 DISPLAY LIKE &apos;E&apos; .
+          EXIT.
+        ENDIF.
+
+        APPEND ls_toc TO mt_toc.
+        r_request = ls_toc-trkorr.
+        mv_tarsys = ls_toc-tarsystem.
+      ENDIF.
+
+    ELSE.
+
+      LOOP AT lt_transports ASSIGNING FIELD-SYMBOL(&lt;ls_transport&gt;).
+        CALL FUNCTION &apos;TR_COPY_COMM&apos;
+          EXPORTING
+            wi_dialog                = &apos;X&apos;
+            wi_trkorr_from           = &lt;ls_transport&gt;
+            wi_trkorr_to             = ls_toc-trkorr
+            wi_without_documentation = &apos;X&apos;
+          EXCEPTIONS
+            OTHERS                   = 1.
+        IF sy-subrc &lt;&gt; 0.
+          zcx_generic_exception=&gt;raise(&apos;Problem with including objects!&apos;).
+        ENDIF.
+      ENDLOOP.
+
+      IF sy-subrc &lt;&gt; 0.
+        zcx_generic_exception=&gt;raise(&apos;Problem with including objects!&apos;).
+      ENDIF.
+
+
+      r_request = ls_toc-trkorr.
+      APPEND ls_toc TO mt_toc.
+      mv_tarsys = ls_toc-tarsystem.
+
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD compress_toc.
+    IF i_request IS SUPPLIED AND i_request IS NOT INITIAL.
+      CALL FUNCTION &apos;TR_SORT_AND_COMPRESS_COMM&apos;
+        EXPORTING
+          iv_trkorr                      = i_request
+*         IV_DIALOG                      = &apos; &apos;
+*   IMPORTING
+*         ES_REQUEST                     =
+        EXCEPTIONS
+          trkorr_not_found               = 1
+          order_released                 = 2
+          error_while_modifying_obj_list = 3
+          tr_enqueue_failed              = 4
+          no_authorization               = 5
+          OTHERS                         = 6.
+    ELSE.
+      LOOP AT mt_toc INTO DATA(ls_toc).
+        CALL FUNCTION &apos;TR_SORT_AND_COMPRESS_COMM&apos;
+          EXPORTING
+            iv_trkorr                      = ls_toc-trkorr
+*           IV_DIALOG                      = &apos; &apos;
+*   IMPORTING
+*           ES_REQUEST                     =
+          EXCEPTIONS
+            trkorr_not_found               = 1
+            order_released                 = 2
+            error_while_modifying_obj_list = 3
+            tr_enqueue_failed              = 4
+            no_authorization               = 5
+            OTHERS                         = 6.
+      ENDLOOP.
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD release_toc.
+    IF i_request IS SUPPLIED AND i_request IS NOT INITIAL.
+      CALL FUNCTION &apos;TR_RELEASE_REQUEST&apos;
+        EXPORTING
+          iv_trkorr                  = i_request
+          iv_dialog                  = &apos;&apos;
+*         IV_AS_BACKGROUND_JOB       = &apos; &apos;
+*         IV_SUCCESS_MESSAGE         = &apos;X&apos;
+          iv_display_export_log      = &apos;&apos;
+          iv_without_locking         = &apos;X&apos;
+*  IMPORTING
+*         ES_REQUEST                 =
+*         ET_DELETED_TASKS           =
+        EXCEPTIONS
+          cts_initialization_failure = 1
+          enqueue_failed             = 2
+          no_authorization           = 3
+          invalid_request            = 4
+          request_already_released   = 5
+          repeat_too_early           = 6
+          error_in_export_methods    = 7
+          object_check_error         = 8
+          docu_missing               = 9
+          db_access_error            = 10
+          action_aborted_by_user     = 11
+          export_failed              = 12
+          OTHERS                     = 13.
+      IF sy-subrc &lt;&gt; 0 AND sy-subrc &lt;&gt; 11.
+        zcx_generic_exception=&gt;raise( &apos;Problem with releasing TOC!&apos; ).
+      ENDIF.
+    ELSE.
+      LOOP AT mt_toc INTO DATA(ls_toc).
+        CALL FUNCTION &apos;TR_RELEASE_REQUEST&apos;
+          EXPORTING
+            iv_trkorr                  = ls_toc-trkorr
+            iv_dialog                  = &apos;&apos;
+*           IV_AS_BACKGROUND_JOB       = &apos; &apos;
+*           IV_SUCCESS_MESSAGE         = &apos;X&apos;
+            iv_display_export_log      = &apos;&apos;
+            iv_without_locking         = &apos;X&apos;
+*  IMPORTING
+*           ES_REQUEST                 =
+*           ET_DELETED_TASKS           =
+          EXCEPTIONS
+            cts_initialization_failure = 1
+            enqueue_failed             = 2
+            no_authorization           = 3
+            invalid_request            = 4
+            request_already_released   = 5
+            repeat_too_early           = 6
+            error_in_export_methods    = 7
+            object_check_error         = 8
+            docu_missing               = 9
+            db_access_error            = 10
+            action_aborted_by_user     = 11
+            export_failed              = 12
+            OTHERS                     = 13.
+        IF sy-subrc &lt;&gt; 0 AND sy-subrc &lt;&gt; 11.
+          zcx_generic_exception=&gt;raise( &apos;Problem with releasing TOC!&apos; ).
+        ENDIF.
+      ENDLOOP.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD stms_open.
+    DATA: l_tarsys TYPE tmssysnam.
+
+*    LOOP AT mt_toc ASSIGNING FIELD-SYMBOL(&lt;ls_toc&gt;).
+*      WAIT UP TO 1 SECONDS.
+*
+*      DO 5 TIMES.
+*        SELECT SINGLE *
+*          FROM tmsbuftxt
+*          INTO @DATA(ls_tmsbuftxt)
+*          WHERE trkorr = @&lt;ls_toc&gt;-trkorr.
+*        IF sy-subrc = 0.
+*          EXIT.
+*        ELSE.
+*          WAIT UP TO 1 SECONDS.
+*        ENDIF.
+*      ENDDO.
+*
+*      l_tarsys = &lt;ls_toc&gt;-tarsystem.
+*    ENDLOOP.
+
+*    CALL FUNCTION &apos;TMS_MGR_REFRESH_IMPORT_QUEUES&apos;
+*      EXPORTING
+*        iv_system = mv_tarsys.
+
+    CALL FUNCTION &apos;TMS_UIQ_IMPORT_QUEUE_DISPLAY&apos; DESTINATION &apos;NONE&apos;
+      EXPORTING
+        iv_system = mv_tarsys
+      EXCEPTIONS
+        OTHERS    = 1.
+  ENDMETHOD.
+
+  METHOD copy_transport_file.
+
+    DATA: ls_tp_trque TYPE stms_tp_trque.
+
+    CALL FUNCTION &apos;TMS_MGR_TRANSMIT_TR_QUEUE&apos;
+      EXPORTING
+        iv_tar_sys     = mv_tarsys
+*       iv_tar_dom     =
+        iv_read_only   = space
+        iv_use_list    = space
+        iv_without_ftp = space
+        iv_monitor     = &apos;X&apos;
+        iv_verbose     = space
+        it_requests    = VALUE stms_tr_requests( FOR ls_toc IN mt_toc ( trkorr = ls_toc-trkorr tarcli = sy-mandt ) )
+      CHANGING
+        cs_tp_trque    = ls_tp_trque
+      EXCEPTIONS
+        OTHERS         = 99.
+
+  ENDMETHOD.
+
+  METHOD import_transport.
+
+
+
+    DATA: lv_tp_ret_code TYPE  stpa-retcode,
+          lv_tp_alog     TYPE  stpa-file,
+          lv_tp_slog     TYPE  stpa-file,
+          lv_tp_pid      TYPE  stpa-pid,
+          lv_tpstat_key  TYPE  tmstpkey,
+          ls_exception   TYPE  stmscalert,
+          lt_tp_imports  TYPE  stms_tp_imports,
+          tt_logptr      TYPE TABLE OF  tplogptr,
+          tt_stdout      TYPE TABLE OF  tpstdout.
+
+
+    CALL FUNCTION &apos;TMS_MGR_IMPORT_TR_REQUEST&apos;
+      EXPORTING
+        iv_system                  = mv_tarsys
+*       iv_domain                  =
+        iv_request                 = &apos;SOME&apos;
+        iv_client                  = sy-mandt
+*       iv_ctc_active              =
+*       iv_overtake                =
+        iv_import_again            = abap_true
+*       iv_ignore_originality      =
+*       iv_ignore_repairs          =
+*       iv_ignore_transtype        =
+*       iv_ignore_tabletype        =
+*       iv_ignore_qaflag           =
+*       iv_ignore_predec           =
+*       iv_ignore_cvers            =
+*       iv_ignore_spam             =
+*       iv_test_import             =
+*       iv_cmd_import              =
+*       iv_no_delivery             =
+*       iv_subset                  =
+*       iv_offline                 =
+*       iv_feedback                =                  &quot; ID for feedback job (Workflow, UserExit,...)
+*       iv_monitor                 = &apos;X&apos;
+*       iv_force                   =
+*       iv_verbose                 =
+*       is_batch                   =
+        it_requests                = VALUE stms_tr_requests( FOR ls_toc IN mt_toc ( trkorr = ls_toc-trkorr tarcli = sy-mandt ) )
+*       it_clients                 =
+      IMPORTING
+        ev_tp_ret_code             = lv_tp_ret_code
+        ev_tp_alog                 = lv_tp_alog
+        ev_tp_slog                 = lv_tp_slog
+        ev_tp_pid                  = lv_tp_pid
+        ev_tpstat_key              = lv_tpstat_key                 &quot; TMS: tp Key in TPSTAT and ALOG
+        es_exception               = ls_exception
+        et_tp_imports              = lt_tp_imports
+      TABLES
+        tt_logptr                  = tt_logptr
+        tt_stdout                  = tt_stdout
+      EXCEPTIONS
+        read_config_failed         = 1
+        table_of_requests_is_empty = 2
+        OTHERS                     = 3.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+        WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    IF ls_exception IS NOT INITIAL AND lv_tp_ret_code NE &apos;0000&apos;.
+
+      MESSAGE ID ls_exception-msgid TYPE &apos;I&apos; NUMBER ls_exception-msgno
+          WITH ls_exception-msgv1 ls_exception-msgv2 ls_exception-msgv3 ls_exception-msgv4.
+      MESSAGE ID &apos;XT&apos; TYPE &apos;I&apos; NUMBER &apos;000&apos;
+          WITH ls_exception-msgv1 ls_exception-msgv2 ls_exception-msgv3 ls_exception-msgv4.
+      MESSAGE &apos;Check STMS for more details&apos; TYPE &apos;I&apos;.
+      stms_open( ).
+    ELSE.
+      MESSAGE &apos;All Transport successfully imported&apos; TYPE &apos;S&apos;.
+    ENDIF.
+
+  ENDMETHOD.
+
+  METHOD on_show_transport.
+
+    READ TABLE mt_transports INTO DATA(ls_transport) INDEX e_index.
+    IF sy-subrc = 0.
+      CALL FUNCTION &apos;TR_PRESENT_REQUEST&apos;
+        EXPORTING
+          iv_trkorr    = ls_transport-trkorr
+          iv_highlight = &apos;X&apos;.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD on_delete_transport.
+
+*    DATA(lt_transports) = mt_transports.
+
+    LOOP AT et_sel_rows INTO DATA(ls_sel_rows).
+      READ TABLE mt_transports INTO DATA(ls_transport) INDEX ls_sel_rows-index.
+      IF sy-subrc = 0.
+
+        CALL FUNCTION &apos;TR_DELETE_COMM&apos;
+          EXPORTING
+*           WI_DIALOG                     = &apos;X&apos;
+            wi_trkorr                     = ls_transport-trkorr
+*          IMPORTING
+*           et_deleted_tasks              = lt_deleted_tasks
+          EXCEPTIONS
+            file_access_error             = 1
+            order_already_released        = 2
+            order_contains_c_member       = 3
+            order_contains_locked_entries = 4
+            order_is_refered              = 5
+            repair_order                  = 6
+            user_not_owner                = 7
+            delete_was_cancelled          = 8
+            ordernumber_empty             = 9
+            tr_enqueue_failed             = 10
+            objects_free_but_still_locks  = 11
+            order_lock_failed             = 12
+            no_authorization              = 13
+            wrong_client                  = 14
+            project_still_referenced      = 15
+            successors_already_released   = 16
+            OTHERS                        = 17.
+        IF sy-subrc &lt;&gt; 0.
+          MESSAGE ID sy-msgid TYPE &apos;I&apos; NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4
+            DISPLAY LIKE &apos;E&apos;.
+*        ELSE.
+*          DELETE mt_transports WHERE trkorr = ls_transport-trkorr.
+        ENDIF.
+      ENDIF.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD on_refresh_data.
+    TRY .
+        select_transport_data( ).
+      CATCH zcx_generic_exception INTO DATA(lo_exception).
+        MESSAGE lo_exception-&gt;get_message( ) TYPE &apos;I&apos; DISPLAY LIKE &apos;W&apos;.
+        LEAVE TO SCREEN 0.
+    ENDTRY.
+  ENDMETHOD.
+
+ENDCLASS.
+
+CLASS lcl_view IMPLEMENTATION.
+  METHOD constructor.
+    set_data( i_ref_data = i_ref_data ).
+    create_grid( ).
+    create_layout( i_edit = i_edit ).
+  ENDMETHOD.
+
+  METHOD create_grid.
+    CHECK mo_grid IS NOT BOUND.
+
+    CREATE OBJECT mo_grid
+      EXPORTING
+        i_parent          = cl_gui_custom_container=&gt;default_screen
+*       I_APPL_EVENTS     = SPACE    &quot; Register Events as Application Events
+*       I_PARENTDBG       =     &quot; Internal, Do not Use
+*       I_APPLOGPARENT    =     &quot; Container for Application Log
+*       I_GRAPHICSPARENT  =     &quot; Container for Graphics
+*       I_NAME            =     &quot; Name
+*       I_FCAT_COMPLETE   = SPACE    &quot; Boolean Variable (X=True, Space=False)
+      EXCEPTIONS
+        error_cntl_create = 1
+        error_cntl_init   = 2
+        error_cntl_link   = 3
+        error_dp_create   = 4
+        OTHERS            = 5.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                 WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD create_layout.
+    ms_layout-sel_mode = &apos;A&apos;.
+    ms_layout-col_opt = &apos;X&apos;.
+    ms_layout-cwidth_opt = &apos;X&apos;.
+    ms_layout-zebra = &apos;X&apos;.
+    IF i_edit = &apos;X&apos;.
+      ms_layout-edit = &apos;X&apos;.
+    ENDIF.
+    ms_layout-ctab_fname = &apos;CELL_COLOR&apos;.
+  ENDMETHOD.
+
+  METHOD create_fieldcat.
+    DATA: lo_tabdescr TYPE REF TO cl_abap_structdescr,
+
+          lr_data     TYPE REF TO data.
+
+    FIELD-SYMBOLS: &lt;lt_data&gt; TYPE ANY TABLE.
+
+    ASSIGN mt_outtab-&gt;* TO &lt;lt_data&gt;.
+    CREATE DATA lr_data LIKE LINE OF &lt;lt_data&gt;.
+
+    lo_tabdescr ?= cl_abap_structdescr=&gt;describe_by_data_ref( lr_data ).
+    DATA(lt_descr) = cl_salv_data_descr=&gt;read_structdescr( lo_tabdescr ).
+
+
+    LOOP AT lt_descr ASSIGNING FIELD-SYMBOL(&lt;ls_descr&gt;).
+      APPEND INITIAL LINE TO mt_fieldcat ASSIGNING FIELD-SYMBOL(&lt;ls_fieldcat&gt;).
+      MOVE-CORRESPONDING &lt;ls_descr&gt; TO &lt;ls_fieldcat&gt;.
+    ENDLOOP.
+
+    change_fieldcat( ).
+  ENDMETHOD.
+
+  METHOD change_fieldcat.
+
+    TRY .
+        ASSIGN mt_fieldcat[ fieldname = &apos;TRKORR&apos; ] TO FIELD-SYMBOL(&lt;ls_fieldcat&gt;).
+        &lt;ls_fieldcat&gt;-hotspot = abap_true.
+
+
+
+      CATCH cx_sy_itab_line_not_found.
+
+    ENDTRY.
+
+
+  ENDMETHOD.
+
+  METHOD exclude_toolbar_fce.
+  ENDMETHOD.
+
+  METHOD display_alv.
+    CHECK mo_grid IS BOUND.
+
+    create_fieldcat( ).
+    exclude_toolbar_fce( ).
+
+    ASSIGN mt_outtab-&gt;* TO FIELD-SYMBOL(&lt;data&gt;).
+
+    CALL METHOD mo_grid-&gt;set_table_for_first_display
+      EXPORTING
+*       I_BUFFER_ACTIVE               =     &quot; Buffering Active
+*       I_BYPASSING_BUFFER            =     &quot; Switch Off Buffer
+*       I_CONSISTENCY_CHECK           =     &quot; Starting Consistency Check for Interface Error Recognition
+*       I_STRUCTURE_NAME              = &apos;SFLIGHT&apos; &quot; Internal Output Table Structure Name
+*       IS_VARIANT                    =     &quot; Layout
+        i_save                        = &apos;X&apos; &quot; Save Layout
+        i_default                     = &apos;X&apos; &quot; Default Display Variant
+        is_layout                     = ms_layout &quot; Layout
+*       IS_PRINT                      =     &quot; Print Control
+*       IT_SPECIAL_GROUPS             =     &quot; Field Groups
+        it_toolbar_excluding          = mt_toolbar_exc &quot; Excluded Toolbar Standard Functions
+*       IT_HYPERLINK                  =     &quot; Hyperlinks
+*       IT_ALV_GRAPHICS               =     &quot; Table of Structure DTC_S_TC
+*       IT_EXCEPT_QINFO               =     &quot; Table for Exception Quickinfo
+*       IR_SALV_ADAPTER               =     &quot; Interface ALV Adapter
+      CHANGING
+        it_outtab                     = &lt;data&gt;     &quot; Output Table
+        it_fieldcatalog               = mt_fieldcat &quot; Field Catalog
+*       IT_SORT                       =     &quot; Sort Criteria
+*       IT_FILTER                     =     &quot; Filter Criteria
+      EXCEPTIONS
+        invalid_parameter_combination = 1
+        program_error                 = 2
+        too_many_lines                = 3
+        OTHERS                        = 4.
+    IF sy-subrc &lt;&gt; 0.
+      MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+                 WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+    ENDIF.
+
+    SET HANDLER handle_toolbar
+                handle_user_command
+                on_hotspot_click
+                on_double_click FOR mo_grid.
+
+    mo_grid-&gt;set_toolbar_interactive( ).
+
+    CALL SCREEN 9000.
+  ENDMETHOD.
+
+  METHOD refresh_alv.
+    CHECK mo_grid IS BOUND.
+    mo_grid-&gt;refresh_table_display( ).
+  ENDMETHOD.
+
+  METHOD set_data.
+    mt_outtab = i_ref_data.
+  ENDMETHOD.
+
+  METHOD handle_toolbar.
+    FIELD-SYMBOLS: &lt;ls_toolbar&gt; LIKE LINE OF e_object-&gt;mt_toolbar.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-function = &apos;SEPARATOR&apos;.
+    &lt;ls_toolbar&gt;-butn_type = &apos;3&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-icon      = icon_refresh.
+    &lt;ls_toolbar&gt;-butn_type = 0.
+    &lt;ls_toolbar&gt;-text      = &apos;Reload&apos;.
+    &lt;ls_toolbar&gt;-quickinfo = &apos;Reload&apos;.
+    &lt;ls_toolbar&gt;-function  = &apos;RELOAD&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-function = &apos;SEPARATOR&apos;.
+    &lt;ls_toolbar&gt;-butn_type = &apos;3&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-icon      = icon_create.
+    &lt;ls_toolbar&gt;-butn_type = 0.
+    &lt;ls_toolbar&gt;-text      = &apos;Create TOC&apos;.
+    &lt;ls_toolbar&gt;-quickinfo = &apos;Create TOC&apos;.
+    &lt;ls_toolbar&gt;-function  = &apos;TOC&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-function = &apos;SEPARATOR&apos;.
+    &lt;ls_toolbar&gt;-butn_type = &apos;3&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-icon      = icon_delete.
+    &lt;ls_toolbar&gt;-butn_type = 0.
+    &lt;ls_toolbar&gt;-text      = &apos;Delete TRANSPORT&apos;.
+    &lt;ls_toolbar&gt;-quickinfo = &apos;Delete TRANSPORT&apos;.
+    &lt;ls_toolbar&gt;-function  = &apos;DELETE&apos;.
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-function = &apos;SEPARATOR&apos;.
+    &lt;ls_toolbar&gt;-butn_type = &apos;3&apos;.
+
+
+    APPEND INITIAL LINE TO e_object-&gt;mt_toolbar ASSIGNING &lt;ls_toolbar&gt;.
+    &lt;ls_toolbar&gt;-icon      = icon_create.
+    &lt;ls_toolbar&gt;-butn_type = 0.
+    &lt;ls_toolbar&gt;-text      = &apos;Create TOC and choose objects&apos;.
+    &lt;ls_toolbar&gt;-quickinfo = &apos;Create TOC and choose objects&apos;.
+    &lt;ls_toolbar&gt;-function  = &apos;TOC_WO&apos;.
+
+
+
+
+
+
+
+  ENDMETHOD.
+
+  METHOD handle_user_command.
+
+    IF e_ucomm = &apos;TOC&apos; OR e_ucomm = &apos;TOC_WO&apos; OR e_ucomm = &apos;DELETE&apos;.
+      mo_grid-&gt;get_selected_rows( IMPORTING et_index_rows = DATA(lt_rows) ).
+      IF lt_rows IS INITIAL.
+        MESSAGE &apos;Choose at least one row&apos; TYPE &apos;S&apos;.
+        RETURN.
+      ENDIF.
+    ENDIF.
+
+
+    CASE e_ucomm.
+      WHEN &apos;TOC&apos;.
+        RAISE EVENT process_toc EXPORTING et_sel_rows = lt_rows ev_choose_objects = abap_false.
+      WHEN &apos;TOC_WO&apos;.
+        RAISE EVENT process_toc EXPORTING et_sel_rows = lt_rows ev_choose_objects = abap_true.
+      WHEN &apos;DELETE&apos;.
+        RAISE EVENT delete_transport EXPORTING et_sel_rows = lt_rows.
+      WHEN &apos;RELOAD&apos;.
+        &quot; do nothing - refresh is there anyway...
+    ENDCASE.
+
+    RAISE EVENT refresh_data.
+    refresh_alv( ).
+
+  ENDMETHOD.
+
+  METHOD on_hotspot_click.
+    CASE e_column_id.
+      WHEN &apos;TRKORR&apos;.
+        mo_grid-&gt;set_visible(
+          EXPORTING
+            visible           = abap_false                 &quot; Visible
+          EXCEPTIONS
+            cntl_error        = 1                &quot; CNTL_ERROR
+            cntl_system_error = 2                &quot; CNTL_SYSTEM_ERROR
+            OTHERS            = 3
+        ).
+        IF sy-subrc &lt;&gt; 0.
+          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+
+        RAISE EVENT show_transport EXPORTING e_index = e_row_id-index.
+
+        mo_grid-&gt;set_visible(
+          EXPORTING
+            visible           = abap_true                 &quot; Visible
+          EXCEPTIONS
+            cntl_error        = 1                &quot; CNTL_ERROR
+            cntl_system_error = 2                &quot; CNTL_SYSTEM_ERROR
+            OTHERS            = 3
+        ).
+        IF sy-subrc &lt;&gt; 0.
+          MESSAGE ID sy-msgid TYPE sy-msgty NUMBER sy-msgno
+            WITH sy-msgv1 sy-msgv2 sy-msgv3 sy-msgv4.
+        ENDIF.
+
+
+      WHEN OTHERS.
+    ENDCASE.
+
+
+  ENDMETHOD.
+
+  METHOD on_double_click.
+    RAISE EVENT process_toc EXPORTING et_sel_rows = VALUE #( ( e_row ) )  ev_choose_objects = abap_false.
+    RAISE EVENT refresh_data.
+    refresh_alv( ).
+  ENDMETHOD.
+
+ENDCLASS.</source>
+ </PROG>
+ <PROG NAME="ZTOC_SCREEN9000" VARCL="X" SUBC="I" RSTAT="K" RMAND="100" RLOAD="E" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Include ZTOC_SCREEN9000" LENGTH="23 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp;  Include           ZTOC_SCREEN9000
+*&amp;---------------------------------------------------------------------*
+MODULE STATUS_9000 OUTPUT.
+   SET PF-STATUS &apos;MAIN_STATUS&apos;.
+*  SET TITLEBAR &apos;xxx&apos;.
+ENDMODULE.                 &quot; STATUS_9000  OUTPUT
+MODULE USER_COMMAND_9000 INPUT.
+  CASE sy-ucomm.
+    WHEN &apos;EXIT&apos; OR &apos;BACK&apos; OR &apos;CANC&apos;.
+      LEAVE TO SCREEN 0.
+    WHEN OTHERS.
+  ENDCASE.
+ENDMODULE.                 &quot; USER_COMMAND_9000  INPUT</source>
+ </PROG>
+ <TRAN TCODE="ZSEARCH" PGMNA="RPR_ABAP_SOURCE_SCAN" DYPNO="1000" TYPE="R" MASTERLANG="E" TTEXT="Scan ABAP Report Sources"/>
+ <TRAN TCODE="ZTOC" PGMNA="ZTOC" DYPNO="1000" TYPE="R" MASTERLANG="E" TTEXT="Transport of copies creation"/>
+</nugget>

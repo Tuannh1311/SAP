@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZBC_GENERAL">
+ <DEVC DEVCLASS="ZBC_GENERAL" CTEXT="General package for Basis objects" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="BC-ABA" COMPONENT="HLB0009083" NAMESPACE="/0CUST/" CREATED_BY="HQ_MFE" CREATED_ON="20201016" CHANGED_BY="HQ_MFE" CHANGED_ON="20201016" PROJECT_GUID="00000000000000000000000000000000"/>
+ <PROG NAME="ZBC_USER_ADD_ALIAS" VARCL="X" DBAPL="S" DBNA="D$" SUBC="1" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="R" ENTRY="Add alias to users" LENGTH="20 "/>
+   </language>
+  </textPool>
+  <pfstatus>
+   <pfstatus_sta CODE="SALV_STANDARD" MODAL="D" ACTCODE="000001" PFKCODE="000001" BUTCODE="0001" INT_NOTE="Standard for General List Output in Fullscreen Grid"/>
+   <pfstatus_fun CODE="%ML" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Folder" PATH="F"/>
+   <pfstatus_fun CODE="%PC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_EXPORT" ICON_ID="@49@" FUN_TEXT="Local File..." PATH="L"/>
+   <pfstatus_fun CODE="%SC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH" ICON_ID="@13@" FUN_TEXT="Search" PATH="E"/>
+   <pfstatus_fun CODE="%SC+" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SEARCH_NEXT" ICON_ID="@4E@" FUN_TEXT="Find Next"/>
+   <pfstatus_fun CODE="%SL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_MAIL" ICON_ID="@1S@" FUN_TEXT="Mail Recipient" PATH="M"/>
+   <pfstatus_fun CODE="&amp;ABC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ABC" ICON_ID="@DL@" FUN_TEXT="ABC Analysis" PATH="A"/>
+   <pfstatus_fun CODE="&amp;ALL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_ALL" ICON_ID="@4B@" FUN_TEXT="Select All" ICON_TEXT="Select All" PATH="S"/>
+   <pfstatus_fun CODE="&amp;AQW" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_WORD_PROCESSING" ICON_ID="@DK@" FUN_TEXT="Word Processing..." PATH="W"/>
+   <pfstatus_fun CODE="&amp;AUF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Define Totals Drilldown..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Saving..." PATH="S"/>
+   <pfstatus_fun CODE="&amp;AVE" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_SAVE" ICON_ID="@DN@" FUN_TEXT="Save Layout..."/>
+   <pfstatus_fun CODE="&amp;AVR" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Mean Value" PATH="M"/>
+   <pfstatus_fun CODE="&amp;CDF" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Unfreeze Columns" PATH="U"/>
+   <pfstatus_fun CODE="&amp;CFI" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Freeze to Column" PATH="F"/>
+   <pfstatus_fun CODE="&amp;COUNT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Count" PATH="C"/>
+   <pfstatus_fun CODE="&amp;CRB" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TOTAL_LEFT" ICON_ID="@0B@" FUN_TEXT="First Column"/>
+   <pfstatus_fun CODE="&amp;CRDESIG" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Crystal Reports Designer" PATH="C"/>
+   <pfstatus_fun CODE="&amp;CRE" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TOTAL_RIGHT" ICON_ID="@0C@" FUN_TEXT="Last Column"/>
+   <pfstatus_fun CODE="&amp;CRL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_COLUMN_LEFT" ICON_ID="@0D@" FUN_TEXT="Column Left"/>
+   <pfstatus_fun CODE="&amp;CRR" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_COLUMN_RIGHT" ICON_ID="@0E@" FUN_TEXT="Column Right"/>
+   <pfstatus_fun CODE="&amp;CRTEMPL" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Crystal Reports File" PATH="C"/>
+   <pfstatus_fun CODE="&amp;EB9" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_TABLE_SETTINGS" ICON_ID="@36@" FUN_TEXT="Call Up Report..." PATH="B"/>
+   <pfstatus_fun CODE="&amp;ELP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SYSTEM_HELP" ICON_ID="@35@" FUN_TEXT="Help"/>
+   <pfstatus_fun CODE="&amp;ERW" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Administration..." PATH="A"/>
+   <pfstatus_fun CODE="&amp;ETA" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Details"/>
+   <pfstatus_fun CODE="&amp;F03" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back" PATH="B"/>
+   <pfstatus_fun CODE="&amp;F12" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_CANCEL" ICON_ID="@0W@" FUN_TEXT="Cancel" PATH="A"/>
+   <pfstatus_fun CODE="&amp;F15" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Exit" PATH="X"/>
+   <pfstatus_fun CODE="&amp;F4" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Possible Entries"/>
+   <pfstatus_fun CODE="&amp;GRAPH" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_GRAPHICS" ICON_ID="@0N@" FUN_TEXT="Graphic" PATH="G"/>
+   <pfstatus_fun CODE="&amp;IC1" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SELECT_DETAIL" ICON_ID="@16@" FUN_TEXT="Choose"/>
+   <pfstatus_fun CODE="&amp;ILD" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Delete Filter" PATH="L"/>
+   <pfstatus_fun CODE="&amp;ILT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_FILTER" ICON_ID="@4G@" FUN_TEXT="Set Filter" PATH="F"/>
+   <pfstatus_fun CODE="&amp;INFO" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INFORMATION" ICON_ID="@0S@" FUN_TEXT="Information"/>
+   <pfstatus_fun CODE="&amp;MAX" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Maximum" PATH="A"/>
+   <pfstatus_fun CODE="&amp;MIN" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Minimum" PATH="I"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Choose..." PATH="H"/>
+   <pfstatus_fun CODE="&amp;OAD" TEXTNO="002" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANT_CHOOSE" ICON_ID="@DM@" FUN_TEXT="Select Layout..."/>
+   <pfstatus_fun CODE="&amp;ODN" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_DOWN" ICON_ID="@3F@" FUN_TEXT="Sort in Descending Order" PATH="O"/>
+   <pfstatus_fun CODE="&amp;OL0" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_ALV_VARIANTS" ICON_ID="@LZ@" FUN_TEXT="Change Layout..."/>
+   <pfstatus_fun CODE="&amp;OLX" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_VARIANTS" ICON_ID="@0R@" FUN_TEXT="Change..." PATH="C"/>
+   <pfstatus_fun CODE="&amp;OPT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Optimize Width" PATH="P"/>
+   <pfstatus_fun CODE="&amp;OUP" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SORT_UP" ICON_ID="@3E@" FUN_TEXT="Sort in Ascending Order" PATH="I"/>
+   <pfstatus_fun CODE="&amp;RNT" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_PRINT" ICON_ID="@0X@" FUN_TEXT="Print" PATH="P"/>
+   <pfstatus_fun CODE="&amp;RNT_PREV" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LAYOUT_CONTROL" ICON_ID="@3G@" FUN_TEXT="Print Preview" PATH="R"/>
+   <pfstatus_fun CODE="&amp;SAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_DESELECT_ALL" ICON_ID="@4D@" FUN_TEXT="Deselect All" ICON_TEXT="De-select all" PATH="D"/>
+   <pfstatus_fun CODE="&amp;SUM" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_INTERMEDIATE_SUM" ICON_ID="@5V@" FUN_TEXT="Subtotals..." PATH="T"/>
+   <pfstatus_fun CODE="&amp;UMC" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_SUM" ICON_ID="@3Z@" FUN_TEXT="Total" PATH="T"/>
+   <pfstatus_fun CODE="&amp;URL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_URL" ICON_ID="@8S@" FUN_TEXT="Copy URL to Clipboard" PATH="U"/>
+   <pfstatus_fun CODE="&amp;VCRYSTAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REPORT_TEMPLATE" ICON_ID="@QH@" FUN_TEXT="Crystal Reports" PATH="C"/>
+   <pfstatus_fun CODE="&amp;VCRYSTRAL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_REPORT_TEMPLATE" ICON_ID="@QH@" FUN_TEXT="Crystal Reports Designer"/>
+   <pfstatus_fun CODE="&amp;VEXCEL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XLS" ICON_ID="@J2@" FUN_TEXT="Microsoft Excel" PATH="M"/>
+   <pfstatus_fun CODE="&amp;VGRID" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LIST" ICON_ID="@3W@" FUN_TEXT="SAP List Viewer" PATH="S"/>
+   <pfstatus_fun CODE="&amp;VLOTUS" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_LOTUS" ICON_ID="@JD@" FUN_TEXT="Lotus 1-2-3" PATH="L"/>
+   <pfstatus_fun CODE="&amp;XINT" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Extended Repository of SAP Query" PATH="E"/>
+   <pfstatus_fun CODE="&amp;XML" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="XML Export" PATH="X"/>
+   <pfstatus_fun CODE="&amp;XXL" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_XXL" ICON_ID="@DJ@" FUN_TEXT="Spreadsheet..." PATH="A"/>
+   <pfstatus_fun CODE="BACK" TEXTNO="001" TEXT_TYPE="S" FUN_TEXT="Back" PATH="B"/>
+   <pfstatus_fun CODE="LOAD" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_IMPORT" ICON_ID="@48@" FUN_TEXT="Load Excel" ICON_TEXT="Load Excel File"/>
+   <pfstatus_fun CODE="MYFUNCTION" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_COMPLETE" ICON_ID="@DF@" FUN_TEXT="My Own Function" ICON_TEXT="My Function" INFO_TEXT="My Own Function"/>
+   <pfstatus_fun CODE="PROCESS" TEXTNO="001" TEXT_TYPE="S" TEXT_NAME="ICON_OPERATION" ICON_ID="@9X@" FUN_TEXT="Process selected" ICON_TEXT="Process selected"/>
+   <pfstatus_men CODE="000001" NO="01" REF_TYPE="F" REF_CODE="&amp;RNT_PREV" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="02" REF_TYPE="F" REF_CODE="&amp;RNT" REF_NO="001"/>
+   <pfstatus_men CODE="000001" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="04" REF_TYPE="M" REF_CODE="000002"/>
+   <pfstatus_men CODE="000001" NO="05" REF_TYPE="M" REF_CODE="000003"/>
+   <pfstatus_men CODE="000001" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000001" NO="07" REF_TYPE="F" REF_CODE="&amp;F15" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="01" REF_TYPE="F" REF_CODE="&amp;AQW" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="02" REF_TYPE="F" REF_CODE="&amp;XXL" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="03" REF_TYPE="F" REF_CODE="%PC" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="04" REF_TYPE="F" REF_CODE="&amp;XINT" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="05" REF_TYPE="F" REF_CODE="&amp;CRTEMPL" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="06" REF_TYPE="F" REF_CODE="&amp;URL" REF_NO="001"/>
+   <pfstatus_men CODE="000002" NO="07" REF_TYPE="F" REF_CODE="&amp;XML" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="01" REF_TYPE="F" REF_CODE="%SL" REF_NO="001"/>
+   <pfstatus_men CODE="000003" NO="02" REF_TYPE="F" REF_CODE="%ML" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="01" REF_TYPE="F" REF_CODE="&amp;ALL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="02" REF_TYPE="F" REF_CODE="&amp;SAL" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="04" REF_TYPE="F" REF_CODE="&amp;ILT" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="05" REF_TYPE="F" REF_CODE="&amp;ILD" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="06" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="07" REF_TYPE="F" REF_CODE="&amp;OUP" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="08" REF_TYPE="F" REF_CODE="&amp;ODN" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="09" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="10" REF_TYPE="M" REF_CODE="000005"/>
+   <pfstatus_men CODE="000004" NO="11" REF_TYPE="F" REF_CODE="&amp;SUM" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="12" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="13" REF_TYPE="F" REF_CODE="%SC" REF_NO="001"/>
+   <pfstatus_men CODE="000004" NO="14" REF_TYPE="S"/>
+   <pfstatus_men CODE="000004" NO="15" REF_TYPE="F" REF_CODE="&amp;F12" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="01" REF_TYPE="F" REF_CODE="&amp;UMC" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="02" REF_TYPE="F" REF_CODE="&amp;AVR" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="03" REF_TYPE="F" REF_CODE="&amp;MIN" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="04" REF_TYPE="F" REF_CODE="&amp;MAX" REF_NO="001"/>
+   <pfstatus_men CODE="000005" NO="05" REF_TYPE="F" REF_CODE="&amp;COUNT" REF_NO="001"/>
+   <pfstatus_men CODE="000006" NO="01" REF_TYPE="F" REF_CODE="BACK" REF_NO="001"/>
+   <pfstatus_men CODE="000007" NO="01" REF_TYPE="M" REF_CODE="000008"/>
+   <pfstatus_men CODE="000007" NO="02" REF_TYPE="M" REF_CODE="000009"/>
+   <pfstatus_men CODE="000007" NO="03" REF_TYPE="F" REF_CODE="&amp;AUF" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="01" REF_TYPE="F" REF_CODE="&amp;OLX" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="02" REF_TYPE="F" REF_CODE="&amp;OAD" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="03" REF_TYPE="S"/>
+   <pfstatus_men CODE="000008" NO="04" REF_TYPE="F" REF_CODE="&amp;AVE" REF_NO="001"/>
+   <pfstatus_men CODE="000008" NO="05" REF_TYPE="S"/>
+   <pfstatus_men CODE="000008" NO="06" REF_TYPE="F" REF_CODE="&amp;ERW" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="01" REF_TYPE="F" REF_CODE="&amp;OPT" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="02" REF_TYPE="S"/>
+   <pfstatus_men CODE="000009" NO="03" REF_TYPE="F" REF_CODE="&amp;CFI" REF_NO="001"/>
+   <pfstatus_men CODE="000009" NO="04" REF_TYPE="F" REF_CODE="&amp;CDF" REF_NO="001"/>
+   <pfstatus_mtx CODE="000001" TEXT_TYPE="S" TEXT="List" PATH="L" INT_NOTE="SALV_TABLE_STATUS List"/>
+   <pfstatus_mtx CODE="000002" TEXT_TYPE="S" TEXT="Export" PATH="E" INT_NOTE="STANDARD Save"/>
+   <pfstatus_mtx CODE="000003" TEXT_TYPE="S" TEXT="Send To" PATH="S"/>
+   <pfstatus_mtx CODE="000004" TEXT_TYPE="S" TEXT="Edit" PATH="E" INT_NOTE="STANDARD"/>
+   <pfstatus_mtx CODE="000005" TEXT_TYPE="S" TEXT="Calculate" PATH="C"/>
+   <pfstatus_mtx CODE="000006" TEXT_TYPE="S" TEXT="Goto" PATH="G" INT_NOTE="Standard Supplement"/>
+   <pfstatus_mtx CODE="000007" TEXT_TYPE="S" TEXT="Settings" PATH="S" INT_NOTE="SALV_TABLE_STATUS"/>
+   <pfstatus_mtx CODE="000008" TEXT_TYPE="S" TEXT="Layout" PATH="A" INT_NOTE="Sub STANDARD"/>
+   <pfstatus_mtx CODE="000009" TEXT_TYPE="S" TEXT="Columns" PATH="C"/>
+   <pfstatus_act CODE="000001" NO="01" MENUCODE="000001"/>
+   <pfstatus_act CODE="000001" NO="02" MENUCODE="000004"/>
+   <pfstatus_act CODE="000001" NO="03" MENUCODE="000006"/>
+   <pfstatus_act CODE="000001" NO="04" MENUCODE="000007"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="01" PFNO="39"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="02" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="03" PFNO="05"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="04" PFNO="06"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="05" PFNO="S"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="06" PFNO="07"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="07" PFNO="08"/>
+   <pfstatus_but PFK_CODE="000001" CODE="0001" NO="09" PFNO="S"/>
+   <pfstatus_pfk CODE="000001" PFNO="01" FUNCODE="&amp;ELP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="02" FUNCODE="&amp;IC1" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="03" FUNCODE="&amp;F03" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="04" FUNCODE="&amp;F4" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="05" FUNCODE="&amp;ALL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="06" FUNCODE="&amp;SAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="07" FUNCODE="LOAD" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="08" FUNCODE="PROCESS" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="12" FUNCODE="&amp;F12" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="13" FUNCODE="&amp;URL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="15" FUNCODE="&amp;F15" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="18" FUNCODE="&amp;CRB" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="19" FUNCODE="&amp;CRE" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="20" FUNCODE="&amp;XML" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="21" FUNCODE="&amp;XXL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="23" FUNCODE="&amp;VCRYSTRAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="24" FUNCODE="&amp;VCRYSTAL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="25" FUNCODE="&amp;ABC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="26" FUNCODE="&amp;CRL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="27" FUNCODE="&amp;CRR" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="28" FUNCODE="&amp;OUP" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="29" FUNCODE="&amp;ILT" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="30" FUNCODE="&amp;UMC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="31" FUNCODE="%SL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="32" FUNCODE="&amp;OL0" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="33" FUNCODE="&amp;OAD" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="34" FUNCODE="&amp;AVE" FUNNO="002"/>
+   <pfstatus_pfk CODE="000001" PFNO="36" FUNCODE="&amp;INFO" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="37" FUNCODE="&amp;EB9" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="38" FUNCODE="&amp;VLOTUS" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="39" FUNCODE="&amp;ETA" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="40" FUNCODE="&amp;ODN" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="41" FUNCODE="&amp;VGRID" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="42" FUNCODE="&amp;SUM" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="43" FUNCODE="&amp;VEXCEL" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="44" FUNCODE="&amp;AQW" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="45" FUNCODE="%PC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="46" FUNCODE="&amp;RNT_PREV" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="47" FUNCODE="&amp;GRAPH" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="48" FUNCODE="&amp;CRDESIG" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="71" FUNCODE="%SC" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="84" FUNCODE="%SC+" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="86" FUNCODE="&amp;RNT" FUNNO="001"/>
+   <pfstatus_pfk CODE="000001" PFNO="94" FUNCODE="MYFUNCTION" FUNNO="001"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%CH"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%ML"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%PC"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%SC"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%SC+"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="%SL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ABC"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ALL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;AQW"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;AUF"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;AVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;AVR"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;BS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;BS+"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;BS-"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CDF"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CFI"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;COUNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRB"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRBATCH"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRDESIG"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRR"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRTEMPL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;CRYSTAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;DATA_SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;DAU"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;DOF"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;DON"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;EB3"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;EB9"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ELP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ERW"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ETA"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;F03"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;F12"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;F15"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;F4"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;GRAPH"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;IC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ILD"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ILT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;INFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;KOM"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;LFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;LIS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;MAX"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;MIN"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;NFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;NTE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OAD"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;ODN"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OL0"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OLX"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OMP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OPT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;OUP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;REFRESH"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;RNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;RNT_PREV"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;SAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;SUM"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;UMC"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;URL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;VCRYSTAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;VCRYSTRAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;VEXCEL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;VGRID"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;VLOTUS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;XINT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;XML"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;XPA"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="&amp;XXL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BAC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BACK"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BEB1"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BEB2"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BEB3"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BEB9"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="BEBN"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="COL0"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="COLX"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="DETA"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="DRUK"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="DSAL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="ENTE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="EXIT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="EXPA"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="FILD"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="FILT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="GET_SEL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="GLIS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="HELP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="INFO"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="KOMP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="LOAD"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="MYFUNCTION"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="P+"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="P++"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="P-"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="P--"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PF09"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PF13"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PIC1"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PICK"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PRI"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PRIN"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PRNT"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="PROCESS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="RW"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SALL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SAUF"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SAVE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SCRB"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SCRE"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SCRL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SCRR"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SET_CELL"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SET_COLS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SET_ROWS"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SKOM"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SODN"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SOUP"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="SUMC"/>
+   <pfstatus_set STATUS="SALV_STANDARD" FUNCTION="ZSUM"/>
+   <pfstatus_doc OBJ_TYPE="A" OBJ_CODE="000001" MODAL="D" INT_NOTE="Standard Interface              SALV_TABLE_STANDARD"/>
+   <pfstatus_doc OBJ_TYPE="P" OBJ_CODE="000001" MODAL="D" NORM="X" INT_NOTE="Standard Maximum Interaction SALV_TABLE_STANDARD"/>
+   <pfstatus_doc OBJ_TYPE="B" OBJ_CODE="000001" SUB_CODE="0001" INT_NOTE="SALV_TABLE_STANDARD"/>
+  </pfstatus>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report zbc_user_add_alias
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zbc_user_add_alias.
+
+
+
+CLASS lcl_model DEFINITION.
+  PUBLIC SECTION.
+    METHODS:
+      constructor RAISING zcx_generic_exception,
+      display RAISING zcx_generic_exception.
+
+  PRIVATE SECTION.
+
+    DATA:
+      mt_data TYPE TABLE OF zbc_user_alias_s,
+      mo_salv TYPE REF TO cl_salv_table.
+
+    METHODS:
+      modify_fieldcat,
+      on_user_command FOR EVENT added_function OF cl_salv_events_table IMPORTING e_salv_function,
+      load_data RAISING zcx_generic_exception,
+      process_row
+        CHANGING
+                 cs_data TYPE zbc_user_alias_s
+        RAISING  zcx_generic_exception.
+ENDCLASS.
+
+CLASS lcl_model IMPLEMENTATION.
+  METHOD constructor.
+
+
+  ENDMETHOD.
+
+  METHOD on_user_command.
+
+
+    CASE e_salv_function.
+      WHEN &apos;LOAD&apos;.
+        TRY.
+            load_data( ).
+
+          CATCH zcx_generic_exception INTO DATA(lo_gen_exception).
+            MESSAGE lo_gen_exception-&gt;get_message( ) TYPE &apos;S&apos; DISPLAY LIKE &apos;E&apos;.
+        ENDTRY.
+      WHEN OTHERS.
+
+
+        DATA(lt_sel_rows) = mo_salv-&gt;get_selections( )-&gt;get_selected_rows( ).
+        IF lt_sel_rows IS INITIAL.
+          MESSAGE &apos;Select at least one row&apos; TYPE &apos;S&apos; DISPLAY LIKE &apos;E&apos;.
+          RETURN.
+        ENDIF.
+
+        LOOP AT lt_sel_rows INTO DATA(ls_row).
+          ASSIGN mt_data[ ls_row ] TO FIELD-SYMBOL(&lt;ls_data&gt;).
+          TRY.
+              CASE e_salv_function.
+                WHEN &apos;PROCESS&apos;.
+                  process_row( CHANGING cs_data = &lt;ls_data&gt; ).
+                WHEN OTHERS.
+              ENDCASE.
+            CATCH zcx_generic_exception INTO DATA(lo_exception).
+              &lt;ls_data&gt;-note = lo_exception-&gt;get_message( ).
+              MESSAGE lo_exception-&gt;get_message( ) TYPE &apos;S&apos; DISPLAY LIKE &apos;E&apos;.
+          ENDTRY.
+        ENDLOOP.
+
+    ENDCASE.
+    mo_salv-&gt;refresh(
+      EXPORTING
+        s_stable     = VALUE #( col = &apos;X&apos; row = &apos;X&apos; )                        &quot; ALV Control: Refresh Stability
+        refresh_mode = if_salv_c_refresh=&gt;soft &quot; ALV: Data Element for Constants
+    ).
+
+
+
+  ENDMETHOD.
+
+
+  METHOD modify_fieldcat.
+
+    DATA(lo_columns) = mo_salv-&gt;get_columns( ).
+*    lo_columns-&gt;set_optimize( abap_true ).
+
+    DATA(lo_aggregations) = mo_salv-&gt;get_aggregations( ).
+
+    DATA(lt_fieldcat) = cl_salv_controller_metadata=&gt;get_lvc_fieldcatalog(
+                    r_columns      = lo_columns
+                    r_aggregations = lo_aggregations
+                  ).
+
+
+    LOOP AT lt_fieldcat INTO DATA(ls_fieldcat).
+      TRY .
+          DATA(lo_column) = CAST cl_salv_column_table( lo_columns-&gt;get_column( columnname = ls_fieldcat-fieldname ) ).
+        CATCH cx_salv_not_found. &quot; ALV: General Error Class (Checked During Syntax Check)
+          CONTINUE.
+      ENDTRY.
+
+      CASE ls_fieldcat-fieldname.
+        WHEN &apos;NOTE&apos;.
+          lo_column-&gt;set_output_length( 100 ).
+**        WHEN &apos;MANDT&apos; OR &apos;ID&apos; OR &apos;REPORT_DATA&apos; OR &apos;ADD_DATA1&apos; OR &apos;ADD_DATA2&apos; OR &apos;CLASS&apos;.
+**          lo_column-&gt;set_technical( ).
+      ENDCASE.
+    ENDLOOP.
+
+  ENDMETHOD.
+
+  METHOD display.
+    DATA:
+      lo_functions TYPE REF TO cl_salv_functions_list,
+      lo_layout    TYPE REF TO cl_salv_layout,
+      lv_report    TYPE syrepid,
+      lv_message   TYPE string.
+
+    TRY .
+
+        cl_salv_table=&gt;factory(
+          IMPORTING
+            r_salv_table = mo_salv
+          CHANGING
+            t_table      = mt_data ).
+
+
+        modify_fieldcat( ).
+
+
+        mo_salv-&gt;get_functions( )-&gt;set_all(  ).
+        mo_salv-&gt;get_display_settings( )-&gt;set_striped_pattern( abap_true ).
+
+        lo_layout = mo_salv-&gt;get_layout( ).
+
+        lo_layout-&gt;set_save_restriction(
+            value = if_salv_c_layout=&gt;restrict_none
+        ).
+
+*        ls_key-report = sy-repid.
+        lo_layout-&gt;set_key( VALUE #( report = sy-repid )  ).
+        lo_layout-&gt;set_default( abap_true ).
+
+        mo_salv-&gt;get_selections( )-&gt;set_selection_mode(
+          value = if_salv_c_selection_mode=&gt;multiple
+        ).
+
+
+*  lo_display_settings-&gt;set_list_header( iv_title ).
+*
+        mo_salv-&gt;set_screen_status(
+                EXPORTING
+                  report        = sy-repid                 &quot; ABAP Program: Current Master Program
+                  pfstatus      = &apos;SALV_STANDARD&apos;          &quot; Screens, Current GUI Status
+                  set_functions = mo_salv-&gt;c_functions_all &quot; ALV: Data Element for Constants
+              ).
+
+
+        SET HANDLER on_user_command FOR mo_salv-&gt;get_event( ).&quot;lo_events.
+
+
+        mo_salv-&gt;display( ).
+
+      CATCH cx_salv_msg INTO DATA(lo_salv_msg).
+        DATA(ls_message) =  lo_salv_msg-&gt;get_message( ).
+        MESSAGE ID ls_message-msgid TYPE &apos;S&apos; NUMBER ls_message-msgno WITH ls_message-msgv1 ls_message-msgv2 ls_message-msgv3 ls_message-msgv4 INTO lv_message.
+        zcx_generic_exception=&gt;raise( lv_message ).
+    ENDTRY.
+  ENDMETHOD.
+
+
+  METHOD load_data.
+    DATA: lt_file_table TYPE filetable,
+          lv_rc         TYPE i,
+          lv_dummy      TYPE truxs_t_text_data.
+
+    cl_gui_frontend_services=&gt;file_open_dialog(
+      EXPORTING
+        window_title            = &apos;Choose file to upload&apos;
+        default_extension       = &apos;*.xlsx&apos;
+*        default_filename        =
+        file_filter             = &apos;*.xlsx&apos;
+*        with_encoding           =
+*        initial_directory       =
+        multiselection          = abap_false
+      CHANGING
+        file_table              = lt_file_table
+        rc                      = lv_rc
+*        user_action             =
+*        file_encoding           =
+      EXCEPTIONS
+        file_open_dialog_failed = 1
+        cntl_error              = 2
+        error_no_gui            = 3
+        not_supported_by_gui    = 4
+        OTHERS                  = 5
+    ).
+    IF sy-subrc &lt;&gt; 0.
+      zcx_generic_exception=&gt;raise_symsg( ).
+    ENDIF.
+
+    TRY.
+        DATA(lv_file) = lt_file_table[ 1 ]-filename.
+
+        CALL FUNCTION &apos;TEXT_CONVERT_XLS_TO_SAP&apos;
+          EXPORTING
+            i_tab_raw_data       = lv_dummy
+            i_filename           = CONV localfile( lv_file )
+          TABLES
+            i_tab_converted_data = mt_data
+          EXCEPTIONS
+            conversion_failed    = 1
+            OTHERS               = 2.
+        IF sy-subrc &lt;&gt; 0.
+          zcx_generic_exception=&gt;raise_symsg( ).
+        ENDIF.
+
+      CATCH cx_sy_itab_line_not_found.
+        zcx_generic_exception=&gt;raise( &apos;No file&apos; ).
+    ENDTRY.
+
+  ENDMETHOD.
+
+
+  METHOD process_row.
+    DATA: lt_return TYPE STANDARD TABLE OF bapiret2,
+          ls_alias  TYPE bapialias,
+          ls_aliasx TYPE bapialiasx.
+
+    ls_alias-useralias = cs_data-alias.
+    ls_aliasx-bapialias = abap_true.
+
+    CALL FUNCTION &apos;BAPI_USER_CHANGE&apos;
+      EXPORTING
+        username = cs_data-userid
+*       logondata          =
+*       logondatax         =
+*       defaults =
+*       defaultsx          =
+*       address  =
+*       addressx =
+*       parameterx         =
+*       company  =
+*       companyx =
+*       snc      =
+*       sncx     =
+*       back_distribution  = space
+*       password =
+*       passwordx          =
+*       addcomx  =
+*       ref_user =
+*       ref_userx          =
+        alias    = ls_alias
+        aliasx   = ls_aliasx
+*       groupsx  =
+*       uclass   =
+*       uclassx  =
+*       extidsx  =
+*       productive_pwd     = space
+*       generate_pwd       = space
+*       description        =
+*       descriptionx       =
+*      IMPORTING
+*       generated_password =
+      TABLES
+*       parameter          =
+        return   = lt_return
+*       addtel   =
+*       addfax   =
+*       addttx   =
+*       addtlx   =
+*       addsmtp  =
+*       addrml   =
+*       addx400  =
+*       addrfc   =
+*       addprt   =
+*       addssf   =
+*       adduri   =
+*       addpag   =
+*       addcomrem          =
+*       groups   =
+*       parameter1         =
+*       uclasssys          =
+*       extidhead          =
+*       extidpart          =
+      .
+
+    CLEAR: cs_data-note.
+    LOOP AT lt_return REFERENCE INTO DATA(ls_return).
+      IF cs_data-note IS INITIAL.
+        cs_data-note = ls_return-&gt;message.
+      ELSE.
+        CONCATENATE cs_data-note ls_return-&gt;message INTO cs_data-note SEPARATED BY space.
+      ENDIF.
+    ENDLOOP.
+
+
+  ENDMETHOD.
+
+ENDCLASS.
+
+
+
+START-OF-SELECTION.
+  TRY .
+      DATA(go_model) = NEW lcl_model( ).
+      go_model-&gt;display( ).
+    CATCH zcx_generic_exception INTO DATA(lo_exception).
+      MESSAGE lo_exception-&gt;get_message( ) TYPE &apos;S&apos; DISPLAY LIKE &apos;E&apos;.
+  ENDTRY.</source>
+ </PROG>
+ <TABL TABNAME="ZBC_USER_ALIAS_S" DDLANGUAGE="E" TABCLASS="INTTAB" DATMIN="0000000000" DATMAX="0000000000" DATAVG="0000000000" DDTEXT="BC User add Alias structure" AUTHCLASS="00" MASTERLANG="E" PROZPUFF="000" EXCLASS="1">
+  <dd09l AS4VERS="0000" SCHFELDANZ="000"/>
+  <dd03p TABNAME="ZBC_USER_ALIAS_S" FIELDNAME="USERID" DDLANGUAGE="E" POSITION="0001" ROLLNAME="XUBNAME" ADMINFIELD="0" INTTYPE="C" INTLEN="000024" DOMNAME="XUBNAME" ROUTPUTLEN="000000" MEMORYID="XUS" HEADLEN="12" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="D" DATATYPE="CHAR" LENG="000012" OUTPUTLEN="000012" DECIMALS="000000" ENTITYTAB="USR02" MASK="  CHARE" MASKLEN="0000" DDTEXT="User Name in User Master Record" REPTEXT="User Name" SCRTEXT_S="User" SCRTEXT_M="User" SCRTEXT_L="User" DOMMASTER="D" DOMNAME3L="XUBNAME" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_USER_ALIAS_S" FIELDNAME="ALIAS" DDLANGUAGE="E" POSITION="0002" ROLLNAME="USALIAS" ADMINFIELD="0" INTTYPE="C" INTLEN="000080" DOMNAME="USALIAS" ROUTPUTLEN="000000" LOGFLAG="X" HEADLEN="25" SCRLEN1="05" SCRLEN2="05" SCRLEN3="25" DTELMASTER="D" DATATYPE="CHAR" LENG="000040" OUTPUTLEN="000040" DECIMALS="000000" MASK="  CHARE" MASKLEN="0000" DDTEXT="Internet user alias" REPTEXT="User ID alias" SCRTEXT_S="Alias" SCRTEXT_M="Alias" SCRTEXT_L="User ID alias" DOMNAME3L="USALIAS" SHLPORIGIN="D" SHLPNAME="USALIAS" SHLPFIELD="USERALIAS" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+  <dd03p TABNAME="ZBC_USER_ALIAS_S" FIELDNAME="NOTE" DDLANGUAGE="E" POSITION="0003" ROLLNAME="NOTETXT" ADMINFIELD="0" INTTYPE="g" INTLEN="000008" DOMNAME="STRING" ROUTPUTLEN="000000" HEADLEN="04" SCRLEN1="10" SCRLEN2="15" SCRLEN3="20" DTELMASTER="E" DATATYPE="STRG" LENG="000000" OUTPUTLEN="000000" DECIMALS="000000" MASK="  STRGE" MASKLEN="0000" DDTEXT="Note" REPTEXT="Note" SCRTEXT_S="Note" SCRTEXT_M="Note" SCRTEXT_L="Note" DOMNAME3L="STRING" DEPTH="00" COMPTYPE="E" EXCLASS="0" DBPOSITION="0000" OUTPUTSTYLE="00" STRORLOCPOS="00" SRS_ID="0000000000"/>
+ </TABL>
+</nugget>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNMM_SSPR">
+ <DEVC DEVCLASS="ZVNMM_SSPR" CTEXT="VNMM: SSPR Self-Service Procurement Purchase Requisition" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="MM-PUR-REQ" COMPONENT="HLA0006039" NAMESPACE="/0CUST/" PARENTCL="ZVNMM" CREATED_BY="HQ_TTA" CREATED_ON="20210127" CHANGED_BY="HQ_TTA" CHANGED_ON="20210127" PROJECT_GUID="00000000000000000000000000000000"/>
+ <PROG NAME="ZVNMM_SSPR_DRAFT_DELETE" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="S00" ENTRY="selection: uuid" LENGTH="25 "/>
+    <textElement ID="I" KEY="S01" ENTRY="processing: detele from tables" LENGTH="54 "/>
+    <textElement ID="I" KEY="S02" ENTRY="processing: commit" LENGTH="28 "/>
+    <textElement ID="R" ENTRY="MM: Delete SSP-PReq draft (!!admin only)" LENGTH="40 "/>
+    <textElement ID="S" KEY="PA_PROD" ENTRY="        commit (be carefull!!)" LENGTH="30 "/>
+    <textElement ID="S" KEY="PA_UUID" ENTRY="        UUID" LENGTH="12 "/>
+    <textElement ID="S" KEY="PA_XACC" ENTRY="        SSPREQ_ITM_ACC_D" LENGTH="24 "/>
+    <textElement ID="S" KEY="PA_XDRF" ENTRY="        SDRAFT_ADMIN" LENGTH="20 "/>
+    <textElement ID="S" KEY="PA_XHDR" ENTRY="        SSPREQ_HDR_D" LENGTH="20 "/>
+    <textElement ID="S" KEY="PA_XITM" ENTRY="        SSPREQ_ITM_D" LENGTH="20 "/>
+    <textElement ID="S" KEY="PA_XTXT" ENTRY="        SSPREQ_ITM_TXT_D" LENGTH="24 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNMM_SSPR_DRAFT_DELETE
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnmm_sspr_draft_delete.
+
+*&amp; SAP-3050(HQ_TTa): direct table delete SSP(Fiori) PReq draft
+*&amp; context:
+*&amp;          when user tries to create SSP-PReq in app F1643 &apos;Create Purchase Requisition&apos;..
+*&amp;          ..with huge amounts (milions in price, milions in quantity)
+*&amp;          ..result is preq draft which cannot be opened
+*&amp;          every time user tries to open app F1643, short dump overflow occurs..
+*&amp;          ..preventing user continuing with any other/new preq creation; user is stuck
+*&amp; feature:
+*&amp;          temporary workaround: direct table deletion
+*&amp;                                to allow user continue with other preq
+*&amp;          sap-incident to be opened for proper solution
+
+**********************************************************************
+*&amp; selection screen
+SELECTION-SCREEN: BEGIN OF BLOCK s00 WITH FRAME TITLE TEXT-s00. &quot;block: selection
+  PARAMETERS: pa_uuid TYPE sspreq_hdr_d-draftuuid.
+
+SELECTION-SCREEN: END   OF BLOCK s00.
+
+SELECTION-SCREEN: BEGIN OF BLOCK s01 WITH FRAME TITLE TEXT-s01. &quot;block: processing: tables
+  PARAMETERS: pa_xhdr TYPE xfeld DEFAULT &apos;X&apos;,
+              pa_xitm TYPE xfeld DEFAULT &apos;X&apos;,
+              pa_xacc TYPE xfeld DEFAULT &apos;X&apos;,
+              pa_xtxt TYPE xfeld DEFAULT &apos;X&apos;,
+              pa_xdrf TYPE xfeld DEFAULT &apos;X&apos;.
+SELECTION-SCREEN: END   OF BLOCK s01.
+SELECTION-SCREEN: BEGIN OF BLOCK s02 WITH FRAME TITLE TEXT-s02. &quot;block: processing: commit
+  PARAMETERS:   pa_prod TYPE xfeld DEFAULT &apos; &apos;.
+SELECTION-SCREEN: END   OF BLOCK s02.
+
+**********************************************************************
+*&amp; processing
+*BREAK hq_tta.
+
+CHECK pa_uuid IS NOT INITIAL.
+WRITE: / &apos;uuid= &apos;, pa_uuid.
+
+&quot;table: SSPREQ_HDR_D
+IF pa_xhdr = &apos;X&apos;.
+  DELETE FROM sspreq_hdr_d WHERE draftuuid          = pa_uuid.
+  WRITE: / &apos;delete SSPREQ_HDR_D     (by DRAFTUUID)        sy-subrc=&apos;, sy-subrc.
+ENDIF.
+
+&quot;table: SSPREQ_ITM_D
+IF pa_xitm = &apos;X&apos;.
+  DELETE FROM sspreq_itm_d WHERE parentdraftuuid    = pa_uuid.
+  WRITE: / &apos;delete SSPREQ_ITM_D     (by PARENTDRAFTUUID)  sy-subrc=&apos;, sy-subrc.
+ENDIF.
+
+&quot;table: SSPREQ_ITM_ACC_D
+IF pa_xacc = &apos;X&apos;.
+  DELETE FROM sspreq_itm_acc_d WHERE rootdraftuuid  = pa_uuid.
+  WRITE: / &apos;delete SSPREQ_ITM_ACC_D (by ROOTDRAFTUUID)    sy-subrc=&apos;, sy-subrc.
+ENDIF.
+
+&quot;table: SSPREQ_ITM_TXT_D
+IF pa_xtxt = &apos;X&apos;.
+  DELETE FROM sspreq_itm_txt_d WHERE rootdraftuuid   = pa_uuid.
+  WRITE: / &apos;delete SSPREQ_ITM_TXT_D (by ROOTDRAFTUUID)    sy-subrc=&apos;, sy-subrc.
+ENDIF.
+
+&quot;table: SDRAFT_ADMIN
+IF pa_xdrf = &apos;X&apos;.
+  DELETE FROM sdraft_admin    WHERE draft_key         = pa_uuid.
+  WRITE: / &apos;delete SDRAFT_ADMIN     (by DRAFT_KEY)        sy-subrc=&apos;, sy-subrc.
+ENDIF.
+
+
+
+&quot;commit/rollback
+CASE pa_prod.
+  WHEN &apos;X&apos;. COMMIT WORK AND WAIT. WRITE: / &apos;commit&apos;.
+  WHEN &apos; &apos;. ROLLBACK WORK       . WRITE: / &apos;rollback&apos;.
+ENDCASE.</source>
+ </PROG>
+</nugget>
