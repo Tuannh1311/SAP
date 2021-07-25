@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNBC">
+ <DEVC DEVCLASS="ZVNBC" CTEXT="HCVN: Basis" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="BC-CCM-BTC" COMPONENT="HLB0100092" NAMESPACE="/0CUST/" PARENTCL="ZVN" CREATED_BY="HQ_TTA" CREATED_ON="20210331" CHANGED_BY="HQ_TTA" CHANGED_ON="20210331" PROJECT_GUID="00000000000000000000000000000000"/>
+ <PROG NAME="ZVNBC_BACKGROUND_EVENT" VARCL="X" SUBC="1" RMAND="700" RLOAD="E" FIXPT="X" UCCHECK="X">
+  <textPool>
+   <language SPRAS="E">
+    <textElement ID="I" KEY="S01" ENTRY="End of Month -X days" LENGTH="29 "/>
+    <textElement ID="R" ENTRY="VN-BC: raise background event" LENGTH="29 "/>
+    <textElement ID="S" KEY="PA_EEOMN" ENTRY="D       ." LENGTH="35 "/>
+    <textElement ID="S" KEY="PA_NEOMN" ENTRY="        EoMonth +(-) days" LENGTH="26 "/>
+    <textElement ID="S" KEY="PA_PEOMN" ENTRY="D       ." LENGTH="30 "/>
+    <textElement ID="S" KEY="PA_XEOMN" ENTRY="        trigger event" LENGTH="21 "/>
+   </language>
+  </textPool>
+  <source>*&amp;---------------------------------------------------------------------*
+*&amp; Report ZVNBC_BACKGROUND_EVENT
+*&amp;---------------------------------------------------------------------*
+*&amp;
+*&amp;---------------------------------------------------------------------*
+REPORT zvnbc_background_event.
+*&amp; SAP-3617(2021-03)HQ_TTa: SAP FI Period control Background program
+*&amp; context:
+*&amp;          need to trigger jobs on specific date in month
+*&amp; feature:
+*&amp;          raise custom event, when today = EoMonth +/- N-days
+
+
+**********************************************************************
+SELECTION-SCREEN: BEGIN OF BLOCK s01 WITH FRAME TITLE TEXT-s01. &quot;block: End-of-Month +/- N-days
+  PARAMETERS: pa_xeomn TYPE xfeld,
+              pa_neomn TYPE i,
+              pa_eeomn TYPE btceventid,
+              pa_peomn TYPE btcevtparm.
+SELECTION-SCREEN: END   OF BLOCK s01.
+
+
+**********************************************************************
+START-OF-SELECTION.
+
+  IF pa_xeomn = &apos;X&apos;.
+
+    &quot;calculate: end-of-month -N days
+    DATA(lv_eomnd) = sy-datum .
+    lv_eomnd+6(02) = &apos;01&apos;.                &quot;first day of month
+    CALL FUNCTION &apos;MONTH_PLUS_DETERMINE&apos;  &quot;next month
+      EXPORTING
+        months  = 1
+        olddate = lv_eomnd
+      IMPORTING
+        newdate = lv_eomnd.
+    SUBTRACT 1        FROM lv_eomnd.      &quot;e-o-month current
+    ADD      pa_neomn TO   lv_eomnd.      &quot;e-o-month +/-Ndays
+
+    &quot;compare: today = end-of-month -3days
+    IF sy-datum = lv_eomnd.
+
+      &quot;raise background event
+      CALL FUNCTION &apos;BP_EVENT_RAISE&apos;
+        EXPORTING
+          eventid                = pa_eeomn
+          eventparm              = pa_peomn
+        EXCEPTIONS
+          bad_eventid            = 1
+          eventid_does_not_exist = 2
+          eventid_missing        = 3
+          raise_failed           = 4
+          OTHERS                 = 5.
+      ASSERT sy-subrc = 0.
+
+      WRITE: / &apos;event raised: &apos;, pa_eeomn, &apos; parameter:&apos;, pa_peomn.
+
+
+    ENDIF.
+
+  ENDIF.</source>
+ </PROG>
+</nugget>

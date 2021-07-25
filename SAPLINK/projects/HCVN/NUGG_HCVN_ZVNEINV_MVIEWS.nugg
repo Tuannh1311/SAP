@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nugget name="HCVN_ZVNEINV_MVIEWS">
+ <DEVC DEVCLASS="ZVNEINV_MVIEWS" CTEXT="eInv: e-Invoice maitenance views" LANGUAGE="E" MASTERLANG="E" KORRFLAG="X" PDEVCLASS="ZDEV" DLVUNIT="HOME" COMP_POSID="FI-AR" COMPONENT="HLA0009203" NAMESPACE="/0CUST/" PARENTCL="ZVNEINV" CREATED_BY="HQ_TTA" CREATED_ON="20201107" CHANGED_BY="HQ_TTA" CHANGED_ON="20201107" PROJECT_GUID="00000000000000000000000000000000"/>
+ <FUGR AREA="ZVNEINV_C000" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNEINV_C000" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNEINV_C000" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNEINV_C000">
+     <dynprofield FNAM="TCTRL_ZVNEINV_C000" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNEINV_C000-BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C000-TAXID" DIDX="000E" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Tax Identification Number" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNEINV_C000-BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C000-TAXID" DIDX="000E" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="0E" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="1C" ADEZ="00" STXT="______________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNEINV_C000 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNEINV_C000-BUKRS .
+    FIELD ZVNEINV_C000-TAXID .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNEINV_C000-BUKRS .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-11-10 01:41:21
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNEINV_C000TOP.                  &quot; Global Declarations
+  INCLUDE LZVNEINV_C000UXX.                  &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNEINV_C000F...                  &quot; Subroutines
+* INCLUDE LZVNEINV_C000O...                  &quot; PBO-Modules
+* INCLUDE LZVNEINV_C000I...                  &quot; PAI-Modules
+* INCLUDE LZVNEINV_C000E...                  &quot; Events
+* INCLUDE LZVNEINV_C000P...                  &quot; Local class implement.
+* INCLUDE LZVNEINV_C000T99.                  &quot; ABAP Unit tests
+  INCLUDE LZVNEINV_C000F00                        . &quot; subprograms
+  INCLUDE LZVNEINV_C000I00                        . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNEINV_C000F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-11-10 at 01:41:21
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNEINV_C000I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-10 at 01:41:21
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C000I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-10 at 01:41:21
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C000TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-11-10 01:41:21
+FUNCTION-POOL ZVNEINV_C000               MESSAGE-ID SV.
+
+* INCLUDE LZVNEINV_C000D...                  &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNEINV_C000T00                        . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNEINV_C000" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNEINV_C000
+*   generation date: 2020-11-10 at 01:41:20
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNEINV_C000" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNEINV_C000
+*   generation date: 2020-11-10 at 01:41:20
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNEINV_C001" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNEINV_C001" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNEINV_C001" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNEINV_C001">
+     <dynprofield FNAM="TCTRL_ZVNEINV_C001" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNEINV_C001-BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C001-LAND1" DIDX="0003" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Ctr" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C001-ZLSCH" DIDX="0002" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="PM" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C001-PTYPE" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="pmntType" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_C001-PTYPE_TX" DIDX="0028" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Payment Type text" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNEINV_C001-BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C001-LAND1" DIDX="0003" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="03" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="LND" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="06" ADEZ="00" STXT="___" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C001-ZLSCH" DIDX="0002" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="01" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C001-PTYPE" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="00" FMB2="00" LENG="03" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="06" ADEZ="00" STXT="___" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_C001-PTYPE_TX" DIDX="0028" FLG1="A0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="50" ADEZ="00" STXT="________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNEINV_C001 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNEINV_C001-BUKRS .
+    FIELD ZVNEINV_C001-LAND1 .
+    FIELD ZVNEINV_C001-ZLSCH .
+    FIELD ZVNEINV_C001-PTYPE .
+    FIELD ZVNEINV_C001-PTYPE_TX .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNEINV_C001-BUKRS .
+    FIELD ZVNEINV_C001-LAND1 .
+    FIELD ZVNEINV_C001-ZLSCH .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-11-10 01:40:35
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNEINV_C001TOP.                  &quot; Global Declarations
+  INCLUDE LZVNEINV_C001UXX.                  &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNEINV_C001F...                  &quot; Subroutines
+* INCLUDE LZVNEINV_C001O...                  &quot; PBO-Modules
+* INCLUDE LZVNEINV_C001I...                  &quot; PAI-Modules
+* INCLUDE LZVNEINV_C001E...                  &quot; Events
+* INCLUDE LZVNEINV_C001P...                  &quot; Local class implement.
+* INCLUDE LZVNEINV_C001T99.                  &quot; ABAP Unit tests
+  INCLUDE LZVNEINV_C001F00                        . &quot; subprograms
+  INCLUDE LZVNEINV_C001I00                        . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNEINV_C001F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-12-04 at 19:47:19
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNEINV_C001I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-04 at 19:47:19
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C001I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-04 at 19:47:19
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C001TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-11-10 01:40:35
+FUNCTION-POOL ZVNEINV_C001               MESSAGE-ID SV.
+
+* INCLUDE LZVNEINV_C001D...                  &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNEINV_C001T00                        . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNEINV_C001" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNEINV_C001
+*   generation date: 2020-11-10 at 01:40:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNEINV_C001" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNEINV_C001
+*   generation date: 2020-11-10 at 01:40:34
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNEINV_C002" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNEINV_C002" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNEINV_C002" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNEINV_C002">
+     <dynprofield FNAM="TCTRL_ZVNEINV_C002" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNEINV_C002-BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C002-MWSKZ" DIDX="0002" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A0" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Tx" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_C002-ACVAT" DIDX="0014" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="VAT code (mathue)" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_C002-XGROS" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="gross-tax" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNEINV_C002-BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C002-MWSKZ" DIDX="0002" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="02" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="04" ADEZ="00" STXT="__" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_C002-ACVAT" DIDX="0014" FLG1="B1" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="32" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="64" ADEZ="00" STXT="__________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_C002-XGROS" DIDX="000A" FLG1="B0" FLG2="00" FLG3="81" FILL="C" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="103" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="X                                      00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="104" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNEINV_C002 CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNEINV_C002-BUKRS .
+    FIELD ZVNEINV_C002-MWSKZ .
+    FIELD ZVNEINV_C002-ACVAT .
+    FIELD ZVNEINV_C002-XGROS .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNEINV_C002-BUKRS .
+    FIELD ZVNEINV_C002-MWSKZ .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-11-10 06:13:36
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNEINV_C002TOP.                  &quot; Global Declarations
+  INCLUDE LZVNEINV_C002UXX.                  &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNEINV_C002F...                  &quot; Subroutines
+* INCLUDE LZVNEINV_C002O...                  &quot; PBO-Modules
+* INCLUDE LZVNEINV_C002I...                  &quot; PAI-Modules
+* INCLUDE LZVNEINV_C002E...                  &quot; Events
+* INCLUDE LZVNEINV_C002P...                  &quot; Local class implement.
+* INCLUDE LZVNEINV_C002T99.                  &quot; ABAP Unit tests
+  INCLUDE LZVNEINV_C002F00                        . &quot; subprograms
+  INCLUDE LZVNEINV_C002I00                        . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNEINV_C002F00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-12-16 at 13:17:01
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNEINV_C002I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-16 at 13:17:01
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C002I00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-12-16 at 13:17:01
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_C002TOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-11-10 06:13:36
+FUNCTION-POOL ZVNEINV_C002               MESSAGE-ID SV.
+
+* INCLUDE LZVNEINV_C002D...                  &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNEINV_C002T00                        . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNEINV_C002" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNEINV_C002
+*   generation date: 2020-11-10 at 06:13:35
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNEINV_C002" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNEINV_C002
+*   generation date: 2020-11-10 at 06:13:35
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+ <FUGR AREA="ZVNEINV_IFLE_V" SPRAS="E" AREAT="Extended Table Maintenance (Generated)">
+  <functionGroupDocumentation/>
+  <mainprogram NAME="SAPLZVNEINV_IFLE_V" SQLX="X" DBAPL="S" DBNA="D$" SUBC="F" APPL="S" RMAND="700" RLOAD="E" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+   <textPool/>
+   <dynpros>
+    <dynpro PROG="SAPLZVNEINV_IFLE_V" DNUM="9001" FNUM="9001" BZMX="61 " BZBR="255 " MILI="192 " MICO="37 " MALI="0 " MACO="0 " NOLI="61 " NOCO="255 " VALP="0 " CUAN="G" SPRA="E" DTEXT="View Maintenance: Overview Screen ZVNEINV_IFLE">
+     <dynprofield FNAM="TCTRL_ZVNEINV_IFLE" DIDX="003B" FLG1="F8" FLG2="FC" FLG3="00" FILL="T" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="02" LTYP="E" LANF="65" LBLK="01" LREP="01" AUTH="101" AGLT="00" ADEZ="00"/>
+     <dynprofield FNAM="VIM_FRAME_FIELD" DIDX="003C" FLG1="80" FLG2="02" FLG3="88" FMB1="30" FMB2="40" LENG="3C" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________________________________________________"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-RDATE" DIDX="000A" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Date" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-RTIME" DIDX="0008" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Time" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-BUKRS" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="CoCd" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-BELNR" DIDX="000F" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="2" AGLT="00" ADEZ="00" STXT="Document Number" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-GJAHR" DIDX="0004" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="A8" LENG="28" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="4" AGLT="00" ADEZ="00" STXT="Year" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-WSTYP" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wsTypeIC" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-WSSTA" DIDX="001E" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="88" LENG="28" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="wsStatus" RES1="X                                      00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-WSMSG" DIDX="00FE" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="web-service message" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-ISPRS" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Invoice Issuing Person" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-TRRES" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0A" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="trSuccFail" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-DESCR" DIDX="0032" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0B" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="motaketqua: description" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-TCODR" DIDX="0032" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0C" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="magiaodich: Transaction code of the reco" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-INVTC" DIDX="000B" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0D" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="mauso: invoice template code" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-INVCD" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0E" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="invCode" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-INVNO" DIDX="0032" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="0F" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="Invoice Number RI" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-SIGND" DIDX="0014" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="10" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="ngayky: signed date " RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-ISLNK" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="11" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="link_tracuu: invoice search link   " RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-TARGET_URL" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="12" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="rsp TARGET_URL" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-SUCCESS" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="13" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="rsp SUCCESS" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-ERROR_CODE" DIDX="000A" FLG1="30" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="14" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="1" AGLT="00" ADEZ="00" STXT="ERROR_CODE" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-ERROR_MESSAGE" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="15" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="rsp ERROR_MESSAGE" RES1="                                       00"/>
+     <dynprofield FNAM="*ZVNEINV_IFLE-ERROR_DETAILS" DIDX="00FF" FLG1="20" FLG2="00" FLG3="00" FMB1="30" FMB2="80" LENG="28" LINE="01" COLN="16" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="3" AGLT="00" ADEZ="00" STXT="rsp ERROR_DETAILS" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_MARKED" DIDX="0001" FLG1="80" FLG2="00" FLG3="88" FILL="C" FMB1="00" FMB2="20" LENG="01" LINE="01" COLN="00" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" AUTH="102" AGLT="00" ADEZ="00" STXT="_"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-RDATE" DIDX="000A" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="01" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="DATS" GRP1="KEY" ITYP="D" AGLT="10" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-RTIME" DIDX="0008" FLG1="B0" FLG2="00" FLG3="80" FMB1="30" FMB2="28" LENG="08" LINE="01" COLN="02" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="TIMS" GRP1="KEY" ITYP="T" AGLT="0C" ADEZ="00" STXT="________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-BUKRS" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="03" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BUK" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-BELNR" DIDX="000F" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="0A" LINE="01" COLN="04" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="BLN" UCNV="ALPHA" TYPE="CHAR" GRP1="KEY" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-GJAHR" DIDX="0004" FLG1="B0" FLG2="00" FLG3="84" FMB1="30" FMB2="28" LENG="04" LINE="01" COLN="05" LTYP="T" LANF="65" LBLK="01" LREP="01" PAID="GJR" UCNV="GJAHR" TYPE="NUMC" GRP1="KEY" ITYP="N" AGLT="08" ADEZ="00" STXT="____" RES1="X                                      00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-WSTYP" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="06" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-WSSTA" DIDX="001E" FLG1="B0" FLG2="00" FLG3="81" FMB1="00" FMB2="08" LENG="01" LINE="01" COLN="07" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="02" ADEZ="00" STXT="_" RES1="XDL                                    00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-WSMSG" DIDX="00FE" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FE" LINE="01" COLN="08" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-ISPRS" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="09" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-TRRES" DIDX="000A" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="0A" LINE="01" COLN="0A" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="14" ADEZ="00" STXT="__________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-DESCR" DIDX="0032" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="32" LINE="01" COLN="0B" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="64" ADEZ="00" STXT="__________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-TCODR" DIDX="0032" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="32" LINE="01" COLN="0C" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="64" ADEZ="00" STXT="__________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-INVTC" DIDX="000B" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="0B" LINE="01" COLN="0D" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="16" ADEZ="00" STXT="___________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-INVCD" DIDX="000A" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="06" LINE="01" COLN="0E" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="0C" ADEZ="00" STXT="______" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-INVNO" DIDX="0032" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="32" LINE="01" COLN="0F" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="64" ADEZ="00" STXT="__________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-SIGND" DIDX="0014" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="14" LINE="01" COLN="10" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="28" ADEZ="00" STXT="____________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-ISLNK" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="11" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-TARGET_URL" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="12" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-SUCCESS" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="13" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-ERROR_CODE" DIDX="000A" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="05" LINE="01" COLN="14" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="0A" ADEZ="00" STXT="_____" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-ERROR_MESSAGE" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="15" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="ZVNEINV_IFLE-ERROR_DETAILS" DIDX="00FF" FLG1="B0" FLG2="02" FLG3="80" FMB1="00" FMB2="00" LENG="FF" LINE="01" COLN="16" LTYP="T" LANF="65" LBLK="01" LREP="01" TYPE="CHAR" ITYP="C" AGLT="FF" ADEZ="00" STXT="____________________________________________________________________________________________________________________________________" RES1="                                       00"/>
+     <dynprofield FNAM="VIM_POSI_PUSH" DIDX="0014" FLG1="80" FLG2="00" FLG3="88" FILL="P" FMB1="30" FMB2="00" LENG="14" LINE="3D" COLN="14" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AUTH="103" AGLT="00" ADEZ="00" STXT="____________________" RES1="                                                                                                                                                                        POSI"/>
+     <dynprofield FNAM="VIM_POSITION_INFO" DIDX="001E" FLG1="80" FLG2="02" FLG3="88" FMB1="33" FMB2="00" LENG="1E" LINE="3D" COLN="29" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="______________________________"/>
+     <dynprofield FNAM="OK_CODE" DIDX="0014" FLG1="80" FLG2="10" FLG3="08" FMB1="00" FMB2="00" LENG="14" LINE="FF" COLN="01" LTYP="O" LANF="00" LBLK="00" LREP="00" TYPE="CHAR" AGLT="00" ADEZ="00" STXT="____________________"/>
+     <dynproflowsource>PROCESS BEFORE OUTPUT.
+ MODULE LISTE_INITIALISIEREN.
+ LOOP AT EXTRACT WITH CONTROL
+  TCTRL_ZVNEINV_IFLE CURSOR NEXTLINE.
+   MODULE LISTE_SHOW_LISTE.
+ ENDLOOP.
+*
+PROCESS AFTER INPUT.
+ MODULE LISTE_EXIT_COMMAND AT EXIT-COMMAND.
+ MODULE LISTE_BEFORE_LOOP.
+ LOOP AT EXTRACT.
+   MODULE LISTE_INIT_WORKAREA.
+   CHAIN.
+    FIELD ZVNEINV_IFLE-RDATE .
+    FIELD ZVNEINV_IFLE-RTIME .
+    FIELD ZVNEINV_IFLE-BUKRS .
+    FIELD ZVNEINV_IFLE-BELNR .
+    FIELD ZVNEINV_IFLE-GJAHR .
+    FIELD ZVNEINV_IFLE-WSTYP .
+    FIELD ZVNEINV_IFLE-WSSTA .
+    FIELD ZVNEINV_IFLE-WSMSG .
+    FIELD ZVNEINV_IFLE-ISPRS .
+    FIELD ZVNEINV_IFLE-TRRES .
+    FIELD ZVNEINV_IFLE-DESCR .
+    FIELD ZVNEINV_IFLE-TCODR .
+    FIELD ZVNEINV_IFLE-INVTC .
+    FIELD ZVNEINV_IFLE-INVCD .
+    FIELD ZVNEINV_IFLE-INVNO .
+    FIELD ZVNEINV_IFLE-SIGND .
+    FIELD ZVNEINV_IFLE-ISLNK .
+    FIELD ZVNEINV_IFLE-TARGET_URL .
+    FIELD ZVNEINV_IFLE-SUCCESS .
+    FIELD ZVNEINV_IFLE-ERROR_CODE .
+    FIELD ZVNEINV_IFLE-ERROR_MESSAGE .
+    FIELD ZVNEINV_IFLE-ERROR_DETAILS .
+    MODULE SET_UPDATE_FLAG ON CHAIN-REQUEST.
+   ENDCHAIN.
+   FIELD VIM_MARKED MODULE LISTE_MARK_CHECKBOX.
+   CHAIN.
+    FIELD ZVNEINV_IFLE-RDATE .
+    FIELD ZVNEINV_IFLE-RTIME .
+    FIELD ZVNEINV_IFLE-BUKRS .
+    FIELD ZVNEINV_IFLE-BELNR .
+    FIELD ZVNEINV_IFLE-GJAHR .
+    MODULE LISTE_UPDATE_LISTE.
+   ENDCHAIN.
+ ENDLOOP.
+ MODULE LISTE_AFTER_LOOP.</dynproflowsource>
+    </dynpro>
+   </dynpros>
+   <source>* regenerated at 2020-11-07 12:32:30
+*******************************************************************
+*   System-defined Include-files.                                 *
+*******************************************************************
+  INCLUDE LZVNEINV_IFLE_VTOP.                &quot; Global Declarations
+  INCLUDE LZVNEINV_IFLE_VUXX.                &quot; Function Modules
+
+*******************************************************************
+*   User-defined Include-files (if necessary).                    *
+*******************************************************************
+* INCLUDE LZVNEINV_IFLE_VF...                &quot; Subroutines
+* INCLUDE LZVNEINV_IFLE_VO...                &quot; PBO-Modules
+* INCLUDE LZVNEINV_IFLE_VI...                &quot; PAI-Modules
+* INCLUDE LZVNEINV_IFLE_VE...                &quot; Events
+* INCLUDE LZVNEINV_IFLE_VP...                &quot; Local class implement.
+* INCLUDE LZVNEINV_IFLE_VT99.                &quot; ABAP Unit tests
+  INCLUDE LZVNEINV_IFLE_VF00                      . &quot; subprograms
+  INCLUDE LZVNEINV_IFLE_VI00                      . &quot; PAI modules
+  INCLUDE LSVIMFXX                                . &quot; subprograms
+  INCLUDE LSVIMOXX                                . &quot; PBO modules
+  INCLUDE LSVIMIXX                                . &quot; PAI modules</source>
+  </mainprogram>
+  <includeprograms>
+   <include NAME="LZVNEINV_IFLE_VF00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related FORM routines
+*   generation date: 2020-11-27 at 11:14:46
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+* base table related FORM-routines.............
+INCLUDE LSVIMFTX .</include_source>
+   </include>
+   <include NAME="LZVNEINV_IFLE_VI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-27 at 11:14:46
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_IFLE_VI00" SQLX="X" EDTX="X" SUBC="I" LEVL="754" RLOAD="E">
+    <include_source>*---------------------------------------------------------------------*
+*    view related PAI modules
+*   generation date: 2020-11-27 at 11:14:46
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+INCLUDE LSVIMITX . &quot;base table related PAI modules</include_source>
+   </include>
+   <include NAME="LZVNEINV_IFLE_VTOP" DBAPL="S" DBNA="D$" SUBC="I" APPL="S" RMAND="700" FIXPT="X" LDBNAME="D$S" UCCHECK="X">
+    <include_source>* regenerated at 2020-11-07 12:32:30
+FUNCTION-POOL ZVNEINV_IFLE_V             MESSAGE-ID SV.
+
+* INCLUDE LZVNEINV_IFLE_VD...                &quot; Local class definition
+  INCLUDE LSVIMDAT                                . &quot;general data decl.
+  INCLUDE LZVNEINV_IFLE_VT00                      . &quot;view rel. data dcl.</include_source>
+   </include>
+  </includeprograms>
+  <functionmodules>
+   <functionmodule NAME="TABLEFRAME_ZVNEINV_IFLE_V" STEXT="Extended Table Maintenance: Upper Level">
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 002"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 003"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 004"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 005"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tabelle mit dynam. zu deaktivierenden CUA-Funkt." INDEX=" 006"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 007"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 008"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 009"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEFRAME_ZVNEINV_IFLE_V
+*   generation date: 2020-11-07 at 14:55:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEFRAME TABLES X_HEADER X_NAMTAB DBA_SELLIST DPL_SELLIST
+                            EXCL_CUA_FUNCT
+                     USING  CORR_NUMBER VIEW_ACTION VIEW_NAME.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+   <functionmodule NAME="TABLEPROC_ZVNEINV_IFLE_V" GLOBAL="X" STEXT="Lower-level extended table maintenance">
+    <importing PARAMETER="FCODE" DEFAULT="&apos;RDED&apos;"/>
+    <importing PARAMETER="VIEW_ACTION" DEFAULT="&apos;S&apos;"/>
+    <importing PARAMETER="VIEW_NAME" DBFIELD="DD02V-TABNAME"/>
+    <importing PARAMETER="CORR_NUMBER" DBFIELD="E070-TRKORR" DEFAULT="&apos; &apos;"/>
+    <exporting PARAMETER="LAST_ACT_ENTRY"/>
+    <exporting PARAMETER="UCOMM"/>
+    <exporting PARAMETER="UPDATE_REQUIRED"/>
+    <tables PARAMETER="CORR_KEYTAB" DBSTRUCT="E071K"/>
+    <tables PARAMETER="DBA_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="DPL_SELLIST" DBSTRUCT="VIMSELLIST"/>
+    <tables PARAMETER="EXCL_CUA_FUNCT" DBSTRUCT="VIMEXCLFUN"/>
+    <tables PARAMETER="EXTRACT"/>
+    <tables PARAMETER="TOTAL"/>
+    <tables PARAMETER="X_HEADER" DBSTRUCT="VIMDESC"/>
+    <tables PARAMETER="X_NAMTAB" DBSTRUCT="VIMNAMTAB"/>
+    <exceptions EXCEPTION="MISSING_CORR_NUMBER"/>
+    <exceptions EXCEPTION="SAVING_CORRECTION_FAILED"/>
+    <documentation PARAMETER="FCODE" KIND="P" STEXT="gewünschte Funktion des Bausteins" INDEX=" 001"/>
+    <documentation PARAMETER="VIEW_ACTION" KIND="P" STEXT="Aktion mit Tabelle: anz./änd./transp. (S/U/T)" INDEX=" 002"/>
+    <documentation PARAMETER="VIEW_NAME" KIND="P" STEXT="Name der Tabelle" INDEX=" 003"/>
+    <documentation PARAMETER="CORR_NUMBER" KIND="P" STEXT="Korrekturnummer für durchgeführte Änderungen" INDEX=" 004"/>
+    <documentation PARAMETER="LAST_ACT_ENTRY" KIND="P" STEXT="Index der Cursorposition in der Anzeigetabelle" INDEX=" 005"/>
+    <documentation PARAMETER="UCOMM" KIND="P" STEXT="letztes User-command innerhalb der Viewpflege" INDEX=" 006"/>
+    <documentation PARAMETER="UPDATE_REQUIRED" KIND="P" STEXT="Flag: Einträge verändert, Sichern erforderlich" INDEX=" 007"/>
+    <documentation PARAMETER="CORR_KEYTAB" KIND="P" STEXT="Tabelle mit den Keys der zu transport. Einträge" INDEX=" 008"/>
+    <documentation PARAMETER="DBA_SELLIST" KIND="P" STEXT="Selektionsbedingungen für den DB-Zugriff" INDEX=" 009"/>
+    <documentation PARAMETER="DPL_SELLIST" KIND="P" STEXT="Selektionsbedingungen für die Anzeige" INDEX=" 010"/>
+    <documentation PARAMETER="EXCL_CUA_FUNCT" KIND="P" STEXT="Tab. der nicht zu aktivierenden CUA-Funktionen" INDEX=" 011"/>
+    <documentation PARAMETER="EXTRACT" KIND="P" STEXT="Tab. der gerade sichtbaren Daten (Anzeigetabelle" INDEX=" 012"/>
+    <documentation PARAMETER="TOTAL" KIND="P" STEXT="Tabelle, mit allen von der DB gelesenen Daten" INDEX=" 013"/>
+    <documentation PARAMETER="X_HEADER" KIND="P" STEXT="Kontrollblocktabelle für die Tabelle" INDEX=" 014"/>
+    <documentation PARAMETER="X_NAMTAB" KIND="P" STEXT="Kontrollblocktabelle für die Tabellen-Felder" INDEX=" 015"/>
+    <documentation PARAMETER="MISSING_CORR_NUMBER" KIND="X" STEXT="Korrekturnummer fehlt" INDEX=" 016"/>
+    <documentation PARAMETER="SAVING_CORRECTION_FAILED" KIND="X" STEXT="Fehler beim Sichern der Korrektureinträge" INDEX=" 017"/>
+    <fm_source>*---------------------------------------------------------------------*
+*    program for:   TABLEPROC_ZVNEINV_IFLE_V
+*   generation date: 2020-11-07 at 14:55:33
+*   view maintenance generator version: #001407#
+*---------------------------------------------------------------------*
+
+  PERFORM TABLEPROC.</fm_source>
+    <functionModuleDocumentation/>
+   </functionmodule>
+  </functionmodules>
+ </FUGR>
+</nugget>
